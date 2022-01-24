@@ -1,0 +1,24 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: myhearty_development
+  username: <%= ENV["MYHEARTY_DB_USER"] %>
+  password: <%= ENV["MYHEARTY_DB_PASSWORD"] %>
+  host: <%= ENV["MYHEARTY_DB_HOST"] || "localhost" %>
+  port: <%= ENV['MYHEARTY_DB_PORT'] || "5432" %>
+
+test:
+  <<: *default
+  database: myhearty_test
+
+production:
+  <<: *default
+  database: myhearty_production
+  username: <%= ENV["MYHEARTY_DB_USER"] %>
+  password: <<%= ENV["MYHEARTY_DB_PASSWORD"] %>
+  host: <%= ENV["MYHEARTY_DB_HOST"] || "localhost" %>
+  port: <%= ENV['MYHEARTY_DB_PORT'] || "5432" %>
