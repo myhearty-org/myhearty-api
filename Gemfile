@@ -13,7 +13,7 @@ gem "bootsnap", require: false
 gem "rack-cors"
 
 group :development, :test do
-  gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem "debug", platforms: %i[mri mingw x64_mingw]
   gem "debase"
   gem "ruby-debug-ide"
   gem "rubocop", require: false
