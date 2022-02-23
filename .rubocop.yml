@@ -1,0 +1,26 @@
+AllCops:
+  TargetRubyVersion: 3.0
+  Exclude:
+    - "bin/**/*"
+    - "config/**/*"
+    - "db/**/*"
+    - "docker/**/*"
+    - "log/**/*"
+    - "public/**/*"
+    - "storage/**/*"
+    - "tmp/**/*"
+    - "vendor/**/*"
+    - "config.ru"
+    - "Rakefile"
+
+Bundler/OrderedGems:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/PercentLiteralDelimiters:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
