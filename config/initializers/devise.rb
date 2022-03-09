@@ -7,15 +7,13 @@ Devise.setup do |config|
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
 
-  config.parent_controller = 'DeviseController'
-
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
   config.mailer_sender = { host: "localhost", port: 3000 }
 
-  config.mailer = 'Devise::Mailer'
+  config.mailer = "Devise::Mailer"
 
   require "devise/orm/active_record"
 
@@ -243,7 +241,7 @@ Devise.setup do |config|
   # should add them to the navigational formats lists.
   #
   # The "*/*" below is required to match Internet Explorer requests.
-  config.navigational_formats = ['*/*', :json]
+  config.navigational_formats = ["*/*", :json]
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :post
