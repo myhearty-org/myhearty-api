@@ -14,12 +14,15 @@ gem "redis", "~> 4.0"
 
 gem "bootsnap", require: false
 
-gem "rack-cors", "~> 1.1"
 
-gem "responders", "~> 3.0"
 
 # Authentication libraries
 gem "devise", "~> 4.8.1"
+
+# API
+gem "jbuilder", "~> 2.11"
+gem "rack-cors", "~> 1.1"
+gem "responders", "~> 3.0"
 
 group :development, :test do
   gem "debug", platforms: %i[mri mingw x64_mingw]
