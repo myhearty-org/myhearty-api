@@ -10,7 +10,7 @@ gem "puma", "~> 5.0"
 gem "redis", "~> 4.0"
 
 gem "bootsnap", require: false
-gem "rack-cors"
+gem "rack-cors", "~> 1.1"
 
 # Authentication libraries
 gem "devise", "~> 4.8.1"
