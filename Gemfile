@@ -5,12 +5,18 @@ source "https://rubygems.org"
 ruby "3.0.3"
 
 gem "rails", "~> 7.0.1"
+
 gem "pg", "~> 1.1"
+
 gem "puma", "~> 5.0"
+
 gem "redis", "~> 4.0"
 
 gem "bootsnap", require: false
+
 gem "rack-cors", "~> 1.1"
+
+gem "responders", "~> 3.0"
 
 # Authentication libraries
 gem "devise", "~> 4.8.1"
