@@ -16,6 +16,10 @@ gem "bootsnap", require: false
 
 # Authentication libraries
 gem "devise", "~> 4.8.1"
+gem "omniauth", "~> 2.0"
+gem "omniauth-rails_csrf_protection", "~> 1.0"
+gem "omniauth-facebook", "~> 9.0"
+gem "omniauth-google-oauth2", "~> 1.0"
 
 # API
 gem "jbuilder", "~> 2.11"
