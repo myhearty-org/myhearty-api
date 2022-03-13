@@ -8,7 +8,7 @@ Rails.application.routes.draw do
              controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
 
   devise_scope :user do
-    scope :users do
+    scope :users, as: :user do
       post "/sign_in", to: "devise/sessions#create"
       post "/sign_out", to: "devise/sessions#destroy"
 
