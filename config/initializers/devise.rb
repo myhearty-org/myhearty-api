@@ -1,5 +1,17 @@
 # frozen_string_literal: true
 
+FACEBOOK_OMNIAUTH_SETUP = lambda do |env|
+  env["omniauth.strategy"].options[:client_id] = Rails.application.credentials.facebook.app_id
+  env["omniauth.strategy"].options[:client_secret] = Rails.application.credentials.facebook.app_secret
+  env["omniauth.strategy"].options[:token_params][:params] = :json
+end
+
+GOOGLE_OAUTH2_OMNIAUTH_SETUP = lambda do |env|
+  env["omniauth.strategy"].options[:client_id] = Rails.application.credentials.google_oauth2.client_id
+  env["omniauth.strategy"].options[:client_secret] = Rails.application.credentials.google_oauth2.client_secret
+  env["omniauth.strategy"].options[:provider_ignores_state] = true
+end
+
 Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
@@ -250,6 +262,9 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
+
+  config.omniauth :facebook, setup: FACEBOOK_OMNIAUTH_SETUP
+  config.omniauth :google_oauth2, setup: GOOGLE_OAUTH2_OMNIAUTH_SETUP
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
