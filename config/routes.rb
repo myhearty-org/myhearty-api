@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  devise_for :users, skip: :all
+  # for unknown reason, omniauth_callbacks_controller must be declared
+  # in devise_for block, otherwise passthru method will not work
+  devise_for :users,
+             only: :omniauth_callbacks,
+             controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
 
   devise_scope :user do
     scope :users do
