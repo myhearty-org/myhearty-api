@@ -23,4 +23,23 @@ Rails.application.routes.draw do
       get "/unlock", to: "devise/unlocks#show"
     end
   end
+
+  devise_for :members, skip: :all
+
+  devise_scope :member do
+    scope :members, as: :member do
+      post "/sign_in", to: "members/sessions#create"
+      post "/sign_out", to: "members/sessions#destroy"
+
+      post "/sign_up", to: "members/registrations#create"
+
+      post "/password", to: "members/passwords#create"
+      patch "/password", to: "members/passwords#update"
+
+      get "/confirmation", to: "members/confirmations#show"
+
+      post "/unlock", to: "members/unlocks#create"
+      get "/unlock", to: "members/unlocks#show"
+    end
+  end
 end
