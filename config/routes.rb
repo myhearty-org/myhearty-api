@@ -9,18 +9,37 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     scope :users, as: :user do
-      post "/sign_in", to: "devise/sessions#create"
-      post "/sign_out", to: "devise/sessions#destroy"
+      post "/sign_in", to: "users/sessions#create"
+      post "/sign_out", to: "users/sessions#destroy"
 
-      post "/sign_up", to: "devise/registrations#create"
+      post "/sign_up", to: "users/registrations#create"
 
-      post "/password", to: "devise/passwords#create"
-      patch "/password", to: "devise/passwords#update"
+      post "/password", to: "users/passwords#create"
+      patch "/password", to: "users/passwords#update"
 
       get "/confirmation", to: "users/confirmations#show"
 
-      post "/unlock", to: "devise/unlocks#create"
-      get "/unlock", to: "devise/unlocks#show"
+      post "/unlock", to: "users/unlocks#create"
+      get "/unlock", to: "users/unlocks#show"
+    end
+  end
+
+  devise_for :members, skip: :all
+
+  devise_scope :member do
+    scope :members, as: :member do
+      post "/sign_in", to: "members/sessions#create"
+      post "/sign_out", to: "members/sessions#destroy"
+
+      post "/sign_up", to: "members/registrations#create"
+
+      post "/password", to: "members/passwords#create"
+      patch "/password", to: "members/passwords#update"
+
+      get "/confirmation", to: "members/confirmations#show"
+
+      post "/unlock", to: "members/unlocks#create"
+      get "/unlock", to: "members/unlocks#show"
     end
   end
 end
