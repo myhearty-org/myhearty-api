@@ -6,4 +6,8 @@ class Member < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable,
          :rememberable, :validatable, :confirmable, :lockable,
          :timeoutable, :trackable
+
+  attribute :admin, :boolean, default: false
+
+  scope :admin, -> { where(admin: true) }
 end
