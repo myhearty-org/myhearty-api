@@ -3,6 +3,8 @@
 class Organization < ApplicationRecord
   has_many :members, dependent: :delete_all
 
+  attribute :charity, :boolean, default: false
+
   validates :name, presence: true, length: { maximum: 63 }
   validates :location, presence: true, length: { maximum: 255 }
   validates :email, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 63 }, if: :email_changed?
@@ -13,6 +15,6 @@ class Organization < ApplicationRecord
   validates :person_in_charge_name, presence: true, length: { maximum: 63 }
   validates :video_url, allow_blank: true, url: true, if: :video_url_changed?
   validates :about_us, presence: true
-  validates :is_charity, inclusion: [true, false]
-  validates :is_charity, exclusion: [nil]
+  validates :charity, inclusion: [true, false]
+  validates :charity, exclusion: [nil]
 end
