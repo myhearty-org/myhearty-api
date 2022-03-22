@@ -31,6 +31,8 @@ group :development, :test do
   gem "debase"
   gem "ruby-debug-ide"
   gem "rubocop", require: false
+  gem "active_record_doctor", require: false
+  gem "database_consistency", require: false
 end
 
 group :development do

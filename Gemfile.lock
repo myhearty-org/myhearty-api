@@ -46,6 +46,8 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
+    active_record_doctor (1.9.0)
+      activerecord (>= 4.2.0)
     activejob (7.0.1)
       activesupport (= 7.0.1)
       globalid (>= 0.3.6)
@@ -73,6 +75,8 @@ GEM
     builder (3.2.4)
     concurrent-ruby (1.1.9)
     crass (1.0.6)
+    database_consistency (1.1.12)
+      activerecord (>= 3.2)
     debase (0.2.4.1)
       debase-ruby_core_source (>= 0.10.2)
     debase-ruby_core_source (0.10.14)
@@ -240,7 +244,9 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  active_record_doctor
   bootsnap
+  database_consistency
   debase
   debug
   devise (~> 4.8.1)
