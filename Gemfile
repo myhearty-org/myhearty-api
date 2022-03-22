@@ -26,6 +26,9 @@ gem "jbuilder", "~> 2.11"
 gem "rack-cors", "~> 1.1"
 gem "responders", "~> 3.0"
 
+# URL
+gem "public_suffix", "~> 4.0"
+
 group :development, :test do
   gem "debug", platforms: %i[mri mingw x64_mingw]
   gem "debase"
