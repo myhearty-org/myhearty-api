@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Organization < ApplicationRecord
+  has_many :members, dependent: :delete_all
+
   validates :name, presence: true, length: { maximum: 63 }
   validates :location, presence: true, length: { maximum: 255 }
   validates :email, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 63 }, if: :email_changed?
