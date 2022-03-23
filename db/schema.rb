@@ -10,10 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_14_212201) do
+ActiveRecord::Schema.define(version: 2022_03_22_203114) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "charitable_categories", id: false, force: :cascade do |t|
+    t.bigint "charitable_id", null: false
+    t.string "charitable_type", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "charity_cause_id", null: false
+    t.index ["charitable_id", "charitable_type", "charity_cause_id"], name: "index_charitable_categories", unique: true
+    t.index ["charity_cause_id"], name: "index_charitable_categories_on_charity_cause_id"
+  end
+
+  create_table "charity_causes", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "display_name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "identities", force: :cascade do |t|
     t.string "provider"
@@ -46,10 +63,35 @@ ActiveRecord::Schema.define(version: 2022_03_14_212201) do
     t.datetime "locked_at", precision: 6
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "organization_id", null: false
+    t.boolean "admin", default: false, null: false
     t.index ["confirmation_token"], name: "index_members_on_confirmation_token", unique: true
     t.index ["email"], name: "index_members_on_email", unique: true
+    t.index ["organization_id"], name: "index_members_on_organization_id"
     t.index ["reset_password_token"], name: "index_members_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_members_on_unlock_token", unique: true
+  end
+
+  create_table "organizations", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "location", null: false
+    t.string "email", null: false
+    t.string "contact_no", null: false
+    t.string "website_url"
+    t.string "facebook_url"
+    t.string "youtube_url"
+    t.string "person_in_charge_name", null: false
+    t.string "avatar_url"
+    t.string "video_url"
+    t.string "images", default: [], array: true
+    t.text "about_us", null: false
+    t.text "programmes_summary"
+    t.boolean "charity", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_organizations_on_email", unique: true
+    t.index ["name"], name: "index_organizations_on_name"
+    t.index ["website_url"], name: "index_organizations_on_website_url", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -84,5 +126,7 @@ ActiveRecord::Schema.define(version: 2022_03_14_212201) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  add_foreign_key "charitable_categories", "charity_causes", on_delete: :cascade
   add_foreign_key "identities", "users", on_delete: :cascade
+  add_foreign_key "members", "organizations", on_delete: :cascade
 end
