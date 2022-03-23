@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Organization < ApplicationRecord
+  include Charitable
+
   has_many :members, dependent: :delete_all
 
   attribute :images, :string, array: true, default: []
