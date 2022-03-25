@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_23_163445) do
+ActiveRecord::Schema.define(version: 2022_03_25_075635) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(version: 2022_03_23_163445) do
     t.string "facebook_url"
     t.string "youtube_url"
     t.string "person_in_charge_name", null: false
-    t.string "avatar_url"
+    t.string "avatar"
     t.string "video_url"
     t.string "images", default: [], array: true
     t.text "about_us", null: false
