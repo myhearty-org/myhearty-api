@@ -3,6 +3,8 @@
 class FundraisingCampaign < ApplicationRecord
   belongs_to :organization
 
+  has_many :donations
+
   attribute :published, :boolean, default: false
 
   validates :organization, presence: true
