@@ -2,7 +2,8 @@
 
 class User < ApplicationRecord
   has_many :identities, dependent: :delete_all
-  has_many :donations, inverse_of: :user
+  has_many :donations
+  has_many :payments
 
   devise :database_authenticatable, :registerable, :recoverable,
          :rememberable, :validatable, :confirmable, :lockable,
