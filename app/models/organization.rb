@@ -3,6 +3,8 @@
 class Organization < ApplicationRecord
   include Charitable
 
+  pay_merchant
+
   has_many :members, dependent: :delete_all
   has_many :fundraising_campaigns, dependent: :delete_all, inverse_of: :organization
 

@@ -4,6 +4,7 @@ class FundraisingCampaign < ApplicationRecord
   belongs_to :organization
 
   has_many :donations
+  has_many :payments
 
   attribute :published, :boolean, default: false
 
