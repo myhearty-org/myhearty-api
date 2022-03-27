@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_26_191601) do
+ActiveRecord::Schema.define(version: 2022_03_27_205007) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -206,6 +206,28 @@ ActiveRecord::Schema.define(version: 2022_03_26_191601) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "payments", force: :cascade do |t|
+    t.string "stripe_checkout_session_id", null: false
+    t.integer "gross_amount"
+    t.integer "fee"
+    t.integer "net_amount"
+    t.string "payment_method"
+    t.string "status", null: false
+    t.datetime "completed_at", precision: 6
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "donation_id", null: false
+    t.bigint "fundraising_campaign_id", null: false
+    t.bigint "user_id", null: false
+    t.index ["completed_at"], name: "index_payments_on_completed_at"
+    t.index ["created_at"], name: "index_payments_on_created_at"
+    t.index ["donation_id"], name: "index_payments_on_donation_id"
+    t.index ["fundraising_campaign_id"], name: "index_payments_on_fundraising_campaign_id"
+    t.index ["gross_amount"], name: "index_payments_on_gross_amount"
+    t.index ["stripe_checkout_session_id"], name: "index_payments_on_stripe_checkout_session_id"
+    t.index ["user_id"], name: "index_payments_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -248,4 +270,7 @@ ActiveRecord::Schema.define(version: 2022_03_26_191601) do
   add_foreign_key "pay_charges", "pay_subscriptions", column: "subscription_id"
   add_foreign_key "pay_payment_methods", "pay_customers", column: "customer_id"
   add_foreign_key "pay_subscriptions", "pay_customers", column: "customer_id"
+  add_foreign_key "payments", "donations"
+  add_foreign_key "payments", "fundraising_campaigns"
+  add_foreign_key "payments", "users"
 end
