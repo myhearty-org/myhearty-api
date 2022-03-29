@@ -9,5 +9,7 @@ class Member < ApplicationRecord
 
   attribute :admin, :boolean, default: false
 
+  validates :organization, presence: true, if: :organization_id_changed?
+
   scope :admin, -> { where(admin: true) }
 end
