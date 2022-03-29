@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_29_112204) do
+ActiveRecord::Schema.define(version: 2022_03_29_182308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,15 +78,15 @@ ActiveRecord::Schema.define(version: 2022_03_29_112204) do
   create_table "fundraising_campaigns", force: :cascade do |t|
     t.string "name", limit: 255, null: false
     t.string "url"
-    t.integer "target_amount", default: 0, null: false
+    t.integer "target_amount"
     t.integer "total_raised_amount", default: 0, null: false
-    t.integer "total_donors", default: 0, null: false
+    t.integer "donor_count", default: 0, null: false
     t.text "location"
     t.text "about_campaign"
     t.string "main_image"
     t.string "youtube_url"
-    t.datetime "start_datetime", precision: 6
-    t.datetime "end_datetime", precision: 6
+    t.datetime "start_datetime", precision: 0
+    t.datetime "end_datetime", precision: 0
     t.boolean "published", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
