@@ -10,10 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_29_104451) do
+ActiveRecord::Schema.define(version: 2022_03_29_112204) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "charitable_aid_applications", force: :cascade do |t|
+    t.integer "status", default: 0, null: false
+    t.datetime "status_updated_at", precision: 6, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "charitable_aid_id", null: false
+    t.bigint "receiver_id", null: false
+    t.index ["charitable_aid_id", "receiver_id"], name: "index_charitable_aid_applications", unique: true
+    t.index ["charitable_aid_id"], name: "index_charitable_aid_applications_on_charitable_aid_id"
+    t.index ["receiver_id"], name: "index_charitable_aid_applications_on_receiver_id"
+    t.index ["status"], name: "index_charitable_aid_applications_on_status"
+  end
 
   create_table "charitable_aids", force: :cascade do |t|
     t.string "name", limit: 255, null: false
@@ -312,6 +325,8 @@ ActiveRecord::Schema.define(version: 2022_03_29_104451) do
     t.index ["organization_id"], name: "index_volunteer_events_on_organization_id"
   end
 
+  add_foreign_key "charitable_aid_applications", "charitable_aids"
+  add_foreign_key "charitable_aid_applications", "users", column: "receiver_id"
   add_foreign_key "charitable_aids", "organizations", on_delete: :cascade
   add_foreign_key "charitable_categories", "charity_causes", on_delete: :cascade
   add_foreign_key "donations", "fundraising_campaigns"
