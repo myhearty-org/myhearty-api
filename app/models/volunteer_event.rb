@@ -3,6 +3,9 @@
 class VolunteerEvent < ApplicationRecord
   belongs_to :organization
 
+  has_many :volunteer_applications
+  has_many :volunteers, through: :volunteer_applications
+
   attribute :published, :boolean, default: false
 
   validates :organization, presence: true
