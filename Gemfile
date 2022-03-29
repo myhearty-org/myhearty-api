@@ -30,8 +30,9 @@ gem "responders", "~> 3.0"
 gem "pay", "~> 3.0"
 gem "stripe", "~> 5.0"
 
-# URL
+# Validations
 gem "public_suffix", "~> 4.0"
+gem "validates_timeliness", "~> 6.0.0.alpha1"
 
 group :development, :test do
   gem "debug", platforms: %i[mri mingw x64_mingw]

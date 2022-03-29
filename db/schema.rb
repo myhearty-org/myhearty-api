@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_27_205007) do
+ActiveRecord::Schema.define(version: 2022_03_28_203208) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -260,6 +260,41 @@ ActiveRecord::Schema.define(version: 2022_03_27_205007) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  create_table "volunteer_applications", force: :cascade do |t|
+    t.integer "status", default: 0, null: false
+    t.datetime "status_updated_at", precision: 6, null: false
+    t.integer "attendance", default: 0, null: false
+    t.datetime "attendance_updated_at", precision: 6, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "volunteer_event_id", null: false
+    t.bigint "volunteer_id", null: false
+    t.index ["attendance"], name: "index_volunteer_applications_on_attendance"
+    t.index ["status"], name: "index_volunteer_applications_on_status"
+    t.index ["volunteer_event_id", "volunteer_id"], name: "index_volunteer_applications", unique: true
+    t.index ["volunteer_event_id"], name: "index_volunteer_applications_on_volunteer_event_id"
+    t.index ["volunteer_id"], name: "index_volunteer_applications_on_volunteer_id"
+  end
+
+  create_table "volunteer_events", force: :cascade do |t|
+    t.string "name", limit: 255, null: false
+    t.string "url"
+    t.integer "openings"
+    t.integer "volunteer_count", default: 0, null: false
+    t.text "location"
+    t.text "about_event"
+    t.string "main_image"
+    t.string "youtube_url"
+    t.datetime "start_datetime", precision: 0
+    t.datetime "end_datetime", precision: 0
+    t.datetime "sign_up_deadline", precision: 0
+    t.boolean "published", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "organization_id", null: false
+    t.index ["organization_id"], name: "index_volunteer_events_on_organization_id"
+  end
+
   add_foreign_key "charitable_categories", "charity_causes", on_delete: :cascade
   add_foreign_key "donations", "fundraising_campaigns"
   add_foreign_key "donations", "users"
@@ -273,4 +308,7 @@ ActiveRecord::Schema.define(version: 2022_03_27_205007) do
   add_foreign_key "payments", "donations"
   add_foreign_key "payments", "fundraising_campaigns"
   add_foreign_key "payments", "users"
+  add_foreign_key "volunteer_applications", "users", column: "volunteer_id"
+  add_foreign_key "volunteer_applications", "volunteer_events"
+  add_foreign_key "volunteer_events", "organizations", on_delete: :cascade
 end
