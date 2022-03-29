@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_29_182308) do
+ActiveRecord::Schema.define(version: 2022_03_29_184951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,12 +67,10 @@ ActiveRecord::Schema.define(version: 2022_03_29_182308) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "fundraising_campaign_id", null: false
-    t.bigint "user_id", null: false
-    t.datetime "completed_at", precision: 6
+    t.bigint "donor_id", null: false
     t.index ["amount"], name: "index_donations_on_amount"
-    t.index ["completed_at"], name: "index_donations_on_completed_at"
+    t.index ["donor_id"], name: "index_donations_on_donor_id"
     t.index ["fundraising_campaign_id"], name: "index_donations_on_fundraising_campaign_id"
-    t.index ["user_id"], name: "index_donations_on_user_id"
   end
 
   create_table "fundraising_campaigns", force: :cascade do |t|
@@ -330,7 +328,7 @@ ActiveRecord::Schema.define(version: 2022_03_29_182308) do
   add_foreign_key "charitable_aids", "organizations", on_delete: :cascade
   add_foreign_key "charitable_categories", "charity_causes", on_delete: :cascade
   add_foreign_key "donations", "fundraising_campaigns"
-  add_foreign_key "donations", "users"
+  add_foreign_key "donations", "users", column: "donor_id"
   add_foreign_key "fundraising_campaigns", "organizations", on_delete: :cascade
   add_foreign_key "identities", "users", on_delete: :cascade
   add_foreign_key "members", "organizations", on_delete: :cascade
