@@ -11,15 +11,16 @@ class FundraisingCampaign < ApplicationRecord
   validates :organization, presence: true
   validates :name, presence: true, length: { maximum: 255 }
   validates :url, allow_blank: true, url: true
-  validates :target_amount, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :total_raised_amount, presence: true, numericality: { only_integer: true,
-                                                                  greater_than_or_equal_to: 0,
-                                                                  less_than_or_equal_to: :target_amount }
-  validates :total_donors, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :location, length: { maximum: 255 }
+  validates :target_amount, allow_nil: true, numericality: { only_integer: true, greater_than: 0 }
+  validates :total_raised_amount, allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :donor_count, allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :location, allow_blank: true, length: { maximum: 255 }
   validates :main_image, allow_blank: true, url: true
   validates :youtube_url, allow_blank: true, url: true
-  validates :end_datetime, comparison: { greater_than: :start_datetime }
+  validates_datetime :start_datetime, allow_nil: true, ignore_usec: true,
+                                      on_or_after: :time_current, on_or_after_message: "must be after current datetime"
+  validates_datetime :end_datetime, allow_nil: true, ignore_usec: true,
+                                    after: :start_datetime, after_message: "must be after start datetime"
   validates :published, inclusion: { in: [true, false] }
   validates :published, exclusion: { in: [nil] }
 end
