@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_29_203223) do
+ActiveRecord::Schema.define(version: 2022_03_29_205604) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 2022_03_29_203223) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "organization_id", null: false
+    t.index ["name"], name: "index_charitable_aids_on_name"
     t.index ["organization_id"], name: "index_charitable_aids_on_organization_id"
   end
 
@@ -90,6 +91,7 @@ ActiveRecord::Schema.define(version: 2022_03_29_203223) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "organization_id", null: false
     t.string "stripe_product_id"
+    t.index ["name"], name: "index_fundraising_campaigns_on_name"
     t.index ["organization_id"], name: "index_fundraising_campaigns_on_organization_id"
   end
 
@@ -320,6 +322,7 @@ ActiveRecord::Schema.define(version: 2022_03_29_203223) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "organization_id", null: false
+    t.index ["name"], name: "index_volunteer_events_on_name"
     t.index ["organization_id"], name: "index_volunteer_events_on_organization_id"
   end
 
