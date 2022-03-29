@@ -7,8 +7,8 @@ class VolunteerApplication < ApplicationRecord
   enum status: %i[pending confirmed rejected]
   enum attendance: %i[absent present]
 
-  validates :volunteer_event, presence: true
-  validates :volunteer, presence: true
+  validates :volunteer_event, presence: true, if: :volunteer_event_id_changed?
+  validates :volunteer, presence: true, if: :volunteer_id_changed?
   validates :volunteer_event_id, uniqueness: { scope: :volunteer_id },
                                  if: -> { volunteer_id_changed? || volunteer_event_id_changed? }
   validates :status, allow_nil: true, inclusion: { in: statuses.keys }
