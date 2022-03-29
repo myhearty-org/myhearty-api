@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class VolunteerEvent < ApplicationRecord
+  include Charitable
+
   belongs_to :organization
 
   has_many :volunteer_applications

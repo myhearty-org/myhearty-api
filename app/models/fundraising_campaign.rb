@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class FundraisingCampaign < ApplicationRecord
+  include Charitable
+
   belongs_to :organization
 
   has_many :donations

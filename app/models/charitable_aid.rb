@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class CharitableAid < ApplicationRecord
+  include Charitable
+
   belongs_to :organization
 
   has_many :charitable_aid_applications
