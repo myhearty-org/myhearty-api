@@ -9,7 +9,7 @@ class FundraisingCampaign < ApplicationRecord
 
   attribute :published, :boolean, default: false
 
-  validates :organization, presence: true
+  validates :organization, presence: true, if: :organization_id_changed?
   validates :name, presence: true, length: { maximum: 255 }
   validates :url, allow_blank: true, url: true
   validates :target_amount, allow_nil: true, numericality: { only_integer: true, greater_than: 0 }
