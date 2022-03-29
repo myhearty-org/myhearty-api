@@ -10,10 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_28_203208) do
+ActiveRecord::Schema.define(version: 2022_03_29_104451) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "charitable_aids", force: :cascade do |t|
+    t.string "name", limit: 255, null: false
+    t.string "url"
+    t.integer "openings"
+    t.integer "receiver_count", default: 0, null: false
+    t.text "location"
+    t.text "about_aid"
+    t.string "main_image"
+    t.string "youtube_url"
+    t.datetime "application_deadline", precision: 0
+    t.boolean "published", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "organization_id", null: false
+    t.index ["organization_id"], name: "index_charitable_aids_on_organization_id"
+  end
 
   create_table "charitable_categories", id: false, force: :cascade do |t|
     t.bigint "charitable_id", null: false
@@ -295,6 +312,7 @@ ActiveRecord::Schema.define(version: 2022_03_28_203208) do
     t.index ["organization_id"], name: "index_volunteer_events_on_organization_id"
   end
 
+  add_foreign_key "charitable_aids", "organizations", on_delete: :cascade
   add_foreign_key "charitable_categories", "charity_causes", on_delete: :cascade
   add_foreign_key "donations", "fundraising_campaigns"
   add_foreign_key "donations", "users"
