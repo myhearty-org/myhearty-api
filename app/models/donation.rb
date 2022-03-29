@@ -2,7 +2,7 @@
 
 class Donation < ApplicationRecord
   belongs_to :fundraising_campaign
-  belongs_to :user
+  belongs_to :donor, class_name: "User"
 
   has_one :payment
 
