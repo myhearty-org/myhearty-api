@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :donations
   has_many :payments
   has_many :volunteer_applications, foreign_key: :volunteer_id
+  has_many :charitable_aid_applications, foreign_key: :receiver_id
 
   devise :database_authenticatable, :registerable, :recoverable,
          :rememberable, :validatable, :confirmable, :lockable,

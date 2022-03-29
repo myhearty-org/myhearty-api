@@ -3,6 +3,9 @@
 class CharitableAid < ApplicationRecord
   belongs_to :organization
 
+  has_many :charitable_aid_applications
+  has_many :receivers, through: :charitable_aid_applications
+
   attribute :published, :boolean, default: false
 
   validates :organization, presence: true
