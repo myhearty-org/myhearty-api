@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_29_205604) do
+ActiveRecord::Schema.define(version: 2022_03_30_081401) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,14 +46,14 @@ ActiveRecord::Schema.define(version: 2022_03_29_205604) do
     t.index ["organization_id"], name: "index_charitable_aids_on_organization_id"
   end
 
-  create_table "charitable_categories", id: false, force: :cascade do |t|
+  create_table "charitables_charity_causes", id: false, force: :cascade do |t|
     t.bigint "charitable_id", null: false
     t.string "charitable_type", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "charity_cause_id", null: false
-    t.index ["charitable_id", "charitable_type", "charity_cause_id"], name: "index_charitable_categories", unique: true
-    t.index ["charity_cause_id"], name: "index_charitable_categories_on_charity_cause_id"
+    t.index ["charitable_id", "charitable_type", "charity_cause_id"], name: "index_charitables_charity_causes", unique: true
+    t.index ["charity_cause_id"], name: "index_charitables_charity_causes_on_charity_cause_id"
   end
 
   create_table "charity_causes", force: :cascade do |t|
@@ -329,7 +329,7 @@ ActiveRecord::Schema.define(version: 2022_03_29_205604) do
   add_foreign_key "charitable_aid_applications", "charitable_aids"
   add_foreign_key "charitable_aid_applications", "users", column: "receiver_id"
   add_foreign_key "charitable_aids", "organizations", on_delete: :cascade
-  add_foreign_key "charitable_categories", "charity_causes", on_delete: :cascade
+  add_foreign_key "charitables_charity_causes", "charity_causes", on_delete: :cascade
   add_foreign_key "donations", "fundraising_campaigns"
   add_foreign_key "donations", "users", column: "donor_id"
   add_foreign_key "fundraising_campaigns", "organizations", on_delete: :cascade
