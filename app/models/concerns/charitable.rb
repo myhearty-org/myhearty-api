@@ -4,19 +4,19 @@ module Charitable
   extend ActiveSupport::Concern
 
   included do
-    has_many :charitable_categories, as: :charitable, dependent: :delete_all
-    has_many :charity_causes, through: :charitable_categories
+    has_many :charitables_charity_causes, as: :charitable, dependent: :delete_all
+    has_many :charity_causes, through: :charitables_charity_causes
   end
 
-  def insert_charitable_categories(charity_causes)
+  def insert_charity_causes(charity_causes)
     return unless charity_causes.present?
 
     charity_cause_ids = charity_causes.map { |c| find_id_by_charity_cause(c) }
-    charitable_categories = charity_cause_ids.filter_map { |id| build_charitable_category(id) }
+    charitables_charity_causes = charity_cause_ids.filter_map { |id| build_charitables_charity_cause(id) }
 
-    return unless charitable_categories.present?
+    return unless charitables_charity_causes.present?
 
-    CharitableCategory.upsert_all(charitable_categories, unique_by: :index_charitable_categories)
+    CharitablesCharityCause.upsert_all(charitables_charity_causes, unique_by: :index_charitables_charity_causes)
   end
 
   private
@@ -30,7 +30,7 @@ module Charitable
     @charity_cause_records ||= CharityCause.pluck(:id, :name).map { |id, name| { id: id, name: name } }
   end
 
-  def build_charitable_category(charity_cause_id)
+  def build_charitables_charity_cause(charity_cause_id)
     return unless charity_cause_id.present?
 
     {
