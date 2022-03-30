@@ -4,7 +4,7 @@ class FundraisingCampaign < ApplicationRecord
   include Charitable
   include RandomId
 
-  self.random_id_prefix = "frcp"
+  random_id prefix: :frcp
 
   belongs_to :organization
 
