@@ -11,7 +11,7 @@ module RandomId
     attr_writer :random_id_name, :random_id_prefix, :random_id_separator, :random_id_length
 
     def random_id_name
-      @random_id_name || "#{name.downcase}_id"
+      @random_id_name || "#{name.underscore}_id"
     end
 
     def random_id_prefix
