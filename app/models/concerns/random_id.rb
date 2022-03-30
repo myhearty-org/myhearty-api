@@ -8,11 +8,14 @@ module RandomId
   end
 
   class_methods do
-    def random_id(name = nil, prefix: nil, separator: nil, length: nil)
+    attr_reader :no_prefix
+
+    def random_id(name = nil, prefix: nil, separator: nil, length: nil, no_prefix: false)
       @random_id_name = name
       @random_id_prefix = prefix
       @random_id_separator = separator
       @random_id_length = length
+      @no_prefix = no_prefix
     end
 
     def random_id_name
@@ -20,10 +23,14 @@ module RandomId
     end
 
     def random_id_prefix
+      return nil if no_prefix
+
       @random_id_prefix || name.downcase[0, 2]
     end
 
     def random_id_separator
+      return nil if no_prefix
+
       @random_id_separator || "_"
     end
 
