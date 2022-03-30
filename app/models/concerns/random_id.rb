@@ -8,7 +8,12 @@ module RandomId
   end
 
   class_methods do
-    attr_writer :random_id_name, :random_id_prefix, :random_id_separator, :random_id_length
+    def random_id(name = nil, prefix: nil, separator: nil, length: nil)
+      @random_id_name = name
+      @random_id_prefix = prefix
+      @random_id_separator = separator
+      @random_id_length = length
+    end
 
     def random_id_name
       @random_id_name || "#{name.underscore}_id"
