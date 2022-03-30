@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Donation < ApplicationRecord
+  include RandomId
+
   belongs_to :fundraising_campaign
   belongs_to :donor, class_name: "User"
 
