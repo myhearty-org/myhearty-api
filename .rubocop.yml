@@ -12,6 +12,7 @@ AllCops:
     - "vendor/**/*"
     - "config.ru"
     - "Rakefile"
+    - "**/*.jbuilder"
 
 Bundler/OrderedGems:
   Enabled: false
