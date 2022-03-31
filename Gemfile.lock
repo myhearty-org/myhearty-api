@@ -73,6 +73,9 @@ GEM
     bootsnap (1.10.1)
       msgpack (~> 1.2)
     builder (3.2.4)
+    bullet (7.0.1)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.11)
     concurrent-ruby (1.1.9)
     crass (1.0.6)
     database_consistency (1.1.12)
@@ -238,6 +241,7 @@ GEM
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.1.0)
+    uniform_notifier (1.16.0)
     validates_timeliness (6.0.0.alpha1)
       timeliness (>= 0.3.10, < 1)
     warden (1.2.9)
@@ -253,6 +257,7 @@ PLATFORMS
 DEPENDENCIES
   active_record_doctor
   bootsnap
+  bullet
   database_consistency
   debase
   debug
