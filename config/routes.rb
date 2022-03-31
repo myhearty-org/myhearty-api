@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   # in devise_for block, otherwise passthru method will not work
   devise_for :users,
              only: :omniauth_callbacks,
-             controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
+             controllers: { omniauth_callbacks: "users/omniauth_callbacks" },
+             defaults: { format: :json }
 
   devise_scope :user do
     scope :users, as: :user do
@@ -24,7 +25,7 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :members, skip: :all
+  devise_for :members, skip: :all, defaults: { format: :json }
 
   devise_scope :member do
     scope :members, as: :member do
