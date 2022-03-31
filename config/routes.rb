@@ -9,7 +9,7 @@ Rails.application.routes.draw do
              defaults: { format: :json }
 
   devise_scope :user do
-    scope :users, as: :user do
+    scope :users, as: :user, defaults: { format: :json } do
       post "/sign_in", to: "users/sessions#create"
       post "/sign_out", to: "users/sessions#destroy"
 
@@ -25,10 +25,10 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :members, skip: :all, defaults: { format: :json }
+  devise_for :members, skip: :all
 
   devise_scope :member do
-    scope :members, as: :member do
+    scope :members, as: :member, defaults: { format: :json } do
       post "/sign_in", to: "members/sessions#create"
       post "/sign_out", to: "members/sessions#destroy"
 
