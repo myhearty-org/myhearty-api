@@ -38,7 +38,14 @@ group :development, :test do
   gem "debug", platforms: %i[mri mingw x64_mingw]
   gem "debase"
   gem "ruby-debug-ide"
+
+  # Static code analyzer
   gem "rubocop", require: false
+
+  # N + 1 queries checker
+  gem "bullet"
+
+  # Consistency check for database and active record validations
   gem "active_record_doctor", require: false
   gem "database_consistency", require: false
 end
