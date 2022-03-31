@@ -11,11 +11,19 @@ class ApplicationController < ActionController::API
 
   respond_to :json
 
+  rescue_from ActionController::InvalidAuthenticityToken do
+    respond_401
+  end
+
   protected
 
   def set_csrf_cookie
     return cookies.delete("X-CSRF-Token") unless current_user_or_member
 
     cookies["X-CSRF-Token"] = form_authenticity_token
+  end
+
+  def respond_401
+    head :unauthorized
   end
 end
