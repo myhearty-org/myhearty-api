@@ -5,6 +5,8 @@ class ApplicationController < ActionController::API
   include ActionController::Cookies
   include ActionController::RequestForgeryProtection
 
+  devise_group :user_or_member, contains: %i[user member]
+
   protect_from_forgery with: :exception, prepend: true
 
   after_action :set_csrf_cookie
