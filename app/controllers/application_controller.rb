@@ -15,9 +15,7 @@ class ApplicationController < ActionController::API
 
   rescue_from ActionController::InvalidAuthenticityToken, with: :respond_401
 
-  rescue_from ActionController::ParameterMissing do |exception|
-    respond_422(exception.message)
-  end
+  rescue_from ActionController::ParameterMissing, with: :error_missing_params
 
   rescue_from ActiveRecord::RecordInvalid do |exception|
     error_invalid_params(exception.record)
@@ -51,6 +49,13 @@ class ApplicationController < ActionController::API
     render json: {
       message: "Validation Failed",
       errors: Validation::ErrorsSerializer.new(record).serialize
+    }, status: :unprocessable_entity
+  end
+
+  def error_missing_params(exception)
+    render json: {
+      message: "Missing Parameter(s)",
+      error: exception.message
     }, status: :unprocessable_entity
   end
 end
