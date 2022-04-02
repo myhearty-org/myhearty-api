@@ -1,0 +1,7 @@
+api:
+  resources:
+  fields:
+  errors:
+    codes:
+      blank: missing_field
+      taken: already_exists
