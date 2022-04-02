@@ -37,8 +37,10 @@ class ApplicationController < ActionController::API
     head :unauthorized
   end
 
-  def respond_404
-    head :not_found
+  def respond_404(exception)
+    render json: {
+      message: exception.message
+    }, status: :not_found
   end
 
   def respond_422
