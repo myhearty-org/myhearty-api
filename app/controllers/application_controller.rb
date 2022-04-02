@@ -20,7 +20,7 @@ class ApplicationController < ActionController::API
   end
 
   rescue_from ActiveRecord::RecordInvalid do |exception|
-    respond_422(exception.message)
+    error_invalid_params(exception.record)
   end
 
   rescue_from ActiveRecord::RecordNotFound, with: :respond_404
@@ -45,5 +45,12 @@ class ApplicationController < ActionController::API
 
   def respond_422(message)
     render json: { error: message }, status: :unprocessable_entity
+  end
+
+  def error_invalid_params(record)
+    render json: {
+      message: "Validation Failed",
+      errors: Validation::ErrorsSerializer.new(record).serialize
+    }, status: :unprocessable_entity
   end
 end
