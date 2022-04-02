@@ -17,6 +17,10 @@ AllCops:
 Bundler/OrderedGems:
   Enabled: false
 
+Lint/MissingSuper:
+  Exclude:
+    - "app/services/**/*"
+
 Metrics/AbcSize:
   Enabled: false
 
@@ -32,5 +36,11 @@ Style/Documentation:
 Style/PercentLiteralDelimiters:
   Enabled: false
 
+Style/Alias:
+  EnforcedStyle: prefer_alias_method
+
 Style/StringLiterals:
   EnforcedStyle: double_quotes
+
+Style/SymbolArray:
+  Enabled: false
