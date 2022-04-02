@@ -41,8 +41,8 @@ class ApplicationController < ActionController::API
     head :not_found
   end
 
-  def respond_422(message)
-    render json: { error: message }, status: :unprocessable_entity
+  def respond_422
+    head :unprocessable_entity
   end
 
   def error_invalid_params(record)
