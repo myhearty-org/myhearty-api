@@ -43,5 +43,7 @@ Rails.application.routes.draw do
         get "/unlock", to: "members/unlocks#show"
       end
     end
+
+    resources :organizations, only: %i[create]
   end
 end
