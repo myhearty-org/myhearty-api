@@ -30,6 +30,19 @@ module Api
         end
       end
 
+      def update
+        @volunteer_event = VolunteerEvent.find(params[:id])
+        result = VolunteerEvents::UpdateService.call(current_member, @volunteer_event, volunteer_event_params)
+
+        if result.success?
+          render :show, status: :ok
+        elsif @volunteer_event.errors.any?
+          error_invalid_params(@volunteer_event)
+        else
+          render_error_response(message: result.message, http_status: result.http_status)
+        end
+      end
+
       private
 
       def volunteer_event_params
