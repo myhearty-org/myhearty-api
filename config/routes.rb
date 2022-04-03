@@ -32,8 +32,6 @@ Rails.application.routes.draw do
         post "/sign_in", to: "members/sessions#create"
         post "/sign_out", to: "members/sessions#destroy"
 
-        post "/sign_up", to: "members/registrations#create"
-
         post "/password", to: "members/passwords#create"
         patch "/password", to: "members/passwords#update"
 
@@ -43,5 +41,7 @@ Rails.application.routes.draw do
         get "/unlock", to: "members/unlocks#show"
       end
     end
+
+    resources :organizations, only: %i[create]
   end
 end
