@@ -11,6 +11,10 @@ module Api
           @fundraising_campaigns = FundraisingCampaign.all
         end
       end
+
+      def show
+        @fundraising_campaign = FundraisingCampaign.find(params[:id])
+      end
     end
   end
 end
