@@ -43,5 +43,11 @@ Rails.application.routes.draw do
     end
 
     resources :organizations, only: %i[create]
+
+    scope module: :api do
+      scope module: :v0 do
+        resources :organizations, only: %i[index show update]
+      end
+    end
   end
 end
