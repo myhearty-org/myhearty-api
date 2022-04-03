@@ -25,4 +25,10 @@ class Organization < ApplicationRecord
   validates :about_us, presence: true
   validates :charity, inclusion: [true, false]
   validates :charity, exclusion: [nil]
+
+  scope :charity, -> { where(charity: true) }
+
+  def admins
+    members.admin
+  end
 end

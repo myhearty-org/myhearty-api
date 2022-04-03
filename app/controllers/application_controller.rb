@@ -7,6 +7,8 @@ class ApplicationController < ActionController::API
 
   devise_group :user_or_member, contains: %i[user member]
 
+  alias_method :current_organization_admin, :current_member
+
   protect_from_forgery with: :exception, prepend: true
 
   after_action :set_csrf_cookie
@@ -59,5 +61,11 @@ class ApplicationController < ActionController::API
       message: "Missing Parameter(s)",
       error: exception.message
     }, status: :unprocessable_entity
+  end
+
+  def render_error_response(message: nil, http_status: nil)
+    render json: {
+      message: message
+    }, status: http_status
   end
 end
