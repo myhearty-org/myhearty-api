@@ -1,18 +1,19 @@
 # frozen_string_literal: true
 
 class ServiceResponse
-  def self.success(message: nil, http_status: :ok)
-    new(status: :success, message: message, http_status: http_status)
+  def self.success(record: nil, message: nil, http_status: :ok)
+    new(status: :success, record: record, message: message, http_status: http_status)
   end
 
-  def self.error(message: nil, http_status: nil)
-    new(status: :error, message: message, http_status: http_status)
+  def self.error(record: nil, message: nil, http_status: nil)
+    new(status: :error, record: record, message: message, http_status: http_status)
   end
 
-  attr_reader :status, :message, :http_status
+  attr_reader :status, :record, :message, :http_status
 
-  def initialize(status:, message: nil, http_status: nil)
+  def initialize(status:, record: nil, message: nil, http_status: nil)
     @status = status
+    @record = record
     @message = message
     @http_status = http_status
   end

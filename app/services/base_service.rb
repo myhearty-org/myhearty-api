@@ -5,11 +5,11 @@ class BaseService
     new(...).call
   end
 
-  def success(message: nil, http_status: nil)
-    ServiceResponse.success(message: message, http_status: http_status)
+  def success(record: nil, message: nil, http_status: nil)
+    ServiceResponse.success(record: record, message: message, http_status: http_status)
   end
 
-  def error(message: nil, http_status: nil)
-    ServiceResponse.error(message: message, http_status: http_status)
+  def error(record: nil, message: nil, http_status: nil)
+    ServiceResponse.error(record: record, message: message, http_status: http_status)
   end
 end
