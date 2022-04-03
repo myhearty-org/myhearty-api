@@ -8,15 +8,13 @@ class OrganizationsController < ApplicationController
 
     @organization = Organizations::CreateService.call(organization_params)
 
-    if @organization.persisted?
-      @organization_admin = Members::CreateService.call(admin_params, @organization, admin: true)
+    return error_invalid_params(@organization) unless @organization.persisted?
 
-      return render :create, status: :created if @organization_admin.persisted?
+    @organization_admin = Members::CreateService.call(admin_params, @organization, admin: true)
 
-      error_invalid_params(@organization_admin)
-    else
-      error_invalid_params(@organization)
-    end
+    return error_invalid_params(@organization_admin) unless @organization_admin.persisted?
+
+    render :create, status: :created
   end
 
   private
