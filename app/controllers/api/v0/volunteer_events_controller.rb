@@ -11,6 +11,10 @@ module Api
           @volunteer_events = VolunteerEvent.all
         end
       end
+
+      def show
+        @volunteer_event = VolunteerEvent.find(params[:id])
+      end
     end
   end
 end
