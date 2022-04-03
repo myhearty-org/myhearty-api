@@ -5,8 +5,6 @@ module Api
     class OrganizationsController < ApiController
       before_action :authenticate_organization_admin!, only: %i[update]
 
-      skip_forgery_protection only: %i[index show]
-
       def index
         @organizations = Organization.all
       end
