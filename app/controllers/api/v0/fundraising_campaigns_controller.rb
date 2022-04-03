@@ -30,6 +30,19 @@ module Api
         end
       end
 
+      def update
+        @fundraising_campaign = FundraisingCampaign.find(params[:id])
+        result = FundraisingCampaigns::UpdateService.call(current_member, @fundraising_campaign, fundraising_campaign_params)
+
+        if result.success?
+          render :show, status: :ok
+        elsif @fundraising_campaign.errors.any?
+          error_invalid_params(@fundraising_campaign)
+        else
+          render_error_response(message: result.message, http_status: result.http_status)
+        end
+      end
+
       private
 
       def fundraising_campaign_params
