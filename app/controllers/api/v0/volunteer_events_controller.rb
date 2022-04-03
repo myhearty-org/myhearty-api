@@ -3,6 +3,8 @@
 module Api
   module V0
     class VolunteerEventsController < ApiController
+      before_action :authenticate_member!, only: %i[create update]
+
       def index
         if params.key?(:organization_id)
           organization = Organization.find(params[:organization_id])
