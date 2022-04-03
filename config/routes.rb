@@ -48,9 +48,11 @@ Rails.application.routes.draw do
       scope module: :v0 do
         resources :organizations, only: %i[index show update] do
           resources :fundraising_campaigns, shallow: true, only: %i[index show create update]
+          resources :volunteer_events, shallow: true, only: %i[index show create update]
         end
 
         resources :fundraising_campaigns, only: %i[index]
+        resources :volunteer_events, only: %i[index]
       end
     end
   end
