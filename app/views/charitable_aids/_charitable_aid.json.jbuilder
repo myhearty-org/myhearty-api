@@ -1,4 +1,4 @@
-json.extract! volunteer_event,
+json.extract! charitable_aid,
   :id,
   :name,
   :url,
