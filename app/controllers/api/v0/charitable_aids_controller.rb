@@ -30,6 +30,19 @@ module Api
         end
       end
 
+      def update
+        @charitable_aid = CharitableAid.find(params[:id])
+        result = CharitableAids::UpdateService.call(current_member, @charitable_aid, charitable_aid_params)
+
+        if result.success?
+          render :show, status: :ok
+        elsif @charitable_aid.errors.any?
+          error_invalid_params(@charitable_aid)
+        else
+          render_error_response(message: result.message, http_status: result.http_status)
+        end
+      end
+
       private
 
       def charitable_aid_params
