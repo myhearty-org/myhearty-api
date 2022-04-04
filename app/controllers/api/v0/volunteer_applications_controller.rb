@@ -22,5 +22,32 @@ module Api
           error_invalid_params(@volunteer_application)
         end
       end
+
+      def update
+        @volunteer_application = VolunteerApplication.find(params[:id])
+        result = VolunteerApplications::UpdateService.call(current_member, @volunteer_application, volunteer_application_params)
+
+        if result.success?
+          render :show, status: :ok
+        elsif @volunteer_application.errors.any?
+          error_invalid_params(@volunteer_application)
+        else
+          render_error_response(message: result.message, http_status: result.http_status)
+        end
+      end
+
+      private
+
+      def volunteer_application_params
+        params.require(:volunteer_application).permit(volunteer_application_params_attributes)
+      end
+
+      def volunteer_application_params_attributes
+        %i[
+          status
+          attendance
+        ]
+      end
+    end
   end
 end
