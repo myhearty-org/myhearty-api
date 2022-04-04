@@ -15,6 +15,39 @@ module Api
       def show
         @charitable_aid = CharitableAid.find(params[:id])
       end
+
+      def create
+        @organization = Organization.find(params[:organization_id])
+        result = CharitableAids::CreateService.call(current_member, @organization, charitable_aid_params)
+        @charitable_aid = result.record
+
+        if result.success?
+          render :show, status: :created
+        elsif @charitable_aid&.errors&.any?
+          error_invalid_params(@charitable_aid)
+        else
+          render_error_response(message: result.message, http_status: result.http_status)
+        end
+      end
+
+      private
+
+      def charitable_aid_params
+        params.require(:charitable_aid).permit(charitable_aid_params_attributes)
+      end
+
+      def charitable_aid_params_attributes
+        %i[
+          name
+          openings
+          location
+          about_aid
+          main_image
+          youtube_url
+          application_deadline
+          published
+        ]
+      end
     end
   end
 end
