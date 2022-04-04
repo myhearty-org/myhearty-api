@@ -36,6 +36,17 @@ module Api
         end
       end
 
+      def destroy
+        @volunteer_application = VolunteerApplication.find(params[:id])
+        result = VolunteerApplications::DestroyService.call(current_user, @volunteer_application)
+
+        if result.success?
+          respond_204
+        else
+          render_error_response(message: result.message, http_status: result.http_status)
+        end
+      end
+
       private
 
       def volunteer_application_params
