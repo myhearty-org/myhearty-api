@@ -3,6 +3,10 @@
 module Api
   module V0
     class VolunteerApplicationsController < ApiController
+      before_action :authenticate_user_or_member!, only: %i[show]
+      before_action :authenticate_member!, only: %i[index update]
+      before_action :authenticate_user!, only: %i[create destroy]
+
       def index
         volunteer_event = VolunteerEvent.find(params[:volunteer_event_id])
         @volunteer_applications = volunteer_event.volunteer_applications
