@@ -1,0 +1,10 @@
+json.extract! volunteer_application,
+  :id,
+  :status,
+  :status_updated_at,
+  :attendance,
+  :attendance_updated_at,
+  :volunteer_event_id,
+  :volunteer_id,
+  :created_at,
+  :updated_at
