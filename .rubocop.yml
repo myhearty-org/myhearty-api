@@ -30,16 +30,19 @@ Metrics/MethodLength:
 Naming/VariableNumber:
   EnforcedStyle: snake_case
 
+Style/Alias:
+  EnforcedStyle: prefer_alias_method
+
 Style/Documentation:
   Enabled: false
 
 Style/PercentLiteralDelimiters:
   Enabled: false
 
-Style/Alias:
-  EnforcedStyle: prefer_alias_method
-
 Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
   EnforcedStyle: double_quotes
 
 Style/SymbolArray:
