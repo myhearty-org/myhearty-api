@@ -11,6 +11,10 @@ module Api
           @charitable_aids = CharitableAid.all
         end
       end
+
+      def show
+        @charitable_aid = CharitableAid.find(params[:id])
+      end
     end
   end
 end
