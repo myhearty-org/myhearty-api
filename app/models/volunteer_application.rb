@@ -24,4 +24,6 @@ class VolunteerApplication < ApplicationRecord
   def set_attendance_updated_at
     self.attendance_updated_at = Time.current if attendance_changed? || attendance_updated_at.nil?
   end
+
+  delegate :organization, to: :volunteer_event
 end
