@@ -11,6 +11,16 @@ module Api
       def show
         @volunteer_application = VolunteerApplication.find(params[:id])
       end
-    end
+
+      def create
+        volunteer_event = VolunteerEvent.find(params[:volunteer_event_id])
+        @volunteer_application = VolunteerApplications::CreateService.call(current_user, volunteer_event)
+
+        if @volunteer_application.persisted?
+          render :show, status: :created
+        else
+          error_invalid_params(@volunteer_application)
+        end
+      end
   end
 end
