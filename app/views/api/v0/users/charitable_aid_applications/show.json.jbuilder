@@ -1,0 +1,1 @@
+json.partial! "charitable_aid_applications/charitable_aid_application", charitable_aid_application: @charitable_aid_application
