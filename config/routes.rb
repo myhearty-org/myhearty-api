@@ -68,6 +68,14 @@ Rails.application.routes.draw do
               delete "/:volunteer_event_id", to: "volunteer_applications#unapply"
             end
           end
+
+          resources :charitable_aid_applications, path: "aid-applications", only: %i[index] do
+            collection do
+              get "/:charitable_aid_id", to: "charitable_aid_applications#applied"
+              post "/:charitable_aid_id", to: "charitable_aid_applications#apply"
+              delete "/:charitable_aid_id", to: "charitable_aid_applications#unapply"
+            end
+          end
         end
       end
     end
