@@ -17,4 +17,6 @@ class CharitableAidApplication < ApplicationRecord
   def set_status_updated_at
     self.status_updated_at = Time.current if status_changed? || status_updated_at.nil?
   end
+
+  delegate :organization, to: :charitable_aid
 end
