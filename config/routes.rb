@@ -42,11 +42,11 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :organizations, only: %i[create]
+    resources :organizations, path: :orgs, only: %i[create]
 
     scope module: :api do
       scope module: :v0 do
-        resources :organizations, only: %i[index show update] do
+        resources :organizations, path: :orgs, only: %i[index show update] do
           resources :charitable_aids, path: :aids, shallow: true, only: %i[index show create update]
           resources :fundraising_campaigns, path: :campaigns, shallow: true, only: %i[index show create update]
           resources :volunteer_events, shallow: true, only: %i[index show create update]
