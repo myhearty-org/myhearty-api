@@ -17,7 +17,30 @@ module Api
         return head :unauthorized unless user_charitable_aid_application? || organization_charitable_aid_application?
       end
 
+      def update
+        @charitable_aid_application = CharitableAidApplication.find(params[:id])
+        result = CharitableAidApplications::UpdateService.call(current_member, @charitable_aid_application, charitable_aid_application_params)
+
+        if result.success?
+          render :show, status: :ok
+        elsif @charitable_aid_application.errors.any?
+          error_invalid_params(@charitable_aid_application)
+        else
+          render_error_response(message: result.message, http_status: result.http_status)
+        end
+      end
+
       private
+
+      def charitable_aid_application_params
+        params.require(:charitable_aid_application).permit(charitable_aid_application_params_attributes)
+      end
+
+      def charitable_aid_application_params_attributes
+        %i[
+          status
+        ]
+      end
 
       def organization_charitable_aid?
         @charitable_aid.organization.members.include?(current_member)
