@@ -55,7 +55,17 @@ Rails.application.routes.draw do
         resources :charitable_aids, only: %i[index]
         resources :fundraising_campaigns, only: %i[index]
         resources :volunteer_events, only: %i[index] do
-          resources :volunteer_applications, shallow: true, only: %i[index show create update destroy]
+          resources :volunteer_applications, shallow: true, only: %i[index show update]
+        end
+
+        namespace :users do
+          resources :volunteer_applications, only: %i[index] do
+            collection do
+              get "/:volunteer_event_id", to: "volunteer_applications#applied"
+              post "/:volunteer_event_id", to: "volunteer_applications#apply"
+              delete "/:volunteer_event_id", to: "volunteer_applications#unapply"
+            end
+          end
         end
       end
     end

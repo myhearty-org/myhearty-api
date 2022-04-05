@@ -5,26 +5,21 @@ module Api
     class VolunteerApplicationsController < ApiController
       before_action :authenticate_user_or_member!, only: %i[show]
       before_action :authenticate_member!, only: %i[index update]
-      before_action :authenticate_user!, only: %i[create destroy]
 
       def index
-        volunteer_event = VolunteerEvent.find(params[:volunteer_event_id])
-        @volunteer_applications = volunteer_event.volunteer_applications
+        @volunteer_event = VolunteerEvent.find(params[:volunteer_event_id])
+
+        return head :unauthorized unless organization_volunteer_event?
+
+        @volunteer_applications = @volunteer_event.volunteer_applications
       end
 
       def show
         @volunteer_application = VolunteerApplication.find(params[:id])
-      end
 
-      def create
-        volunteer_event = VolunteerEvent.find(params[:volunteer_event_id])
-        @volunteer_application = VolunteerApplications::CreateService.call(current_user, volunteer_event)
+        return head :unauthorized unless user_volunteer_application? || organization_volunteer_application?
 
-        if @volunteer_application.persisted?
-          render :show, status: :created
-        else
-          error_invalid_params(@volunteer_application)
-        end
+        render :show, status: :ok
       end
 
       def update
@@ -35,17 +30,6 @@ module Api
           render :show, status: :ok
         elsif @volunteer_application.errors.any?
           error_invalid_params(@volunteer_application)
-        else
-          render_error_response(message: result.message, http_status: result.http_status)
-        end
-      end
-
-      def destroy
-        @volunteer_application = VolunteerApplication.find(params[:id])
-        result = VolunteerApplications::DestroyService.call(current_user, @volunteer_application)
-
-        if result.success?
-          respond_204
         else
           render_error_response(message: result.message, http_status: result.http_status)
         end
@@ -62,6 +46,18 @@ module Api
           status
           attendance
         ]
+      end
+
+      def organization_volunteer_event?
+        @volunteer_event.organization.members.include?(current_member)
+      end
+
+      def user_volunteer_application?
+        @volunteer_application.volunteer == current_user
+      end
+
+      def organization_volunteer_application?
+        @volunteer_application.organization.members.include?(current_member)
       end
     end
   end
