@@ -7,12 +7,19 @@ module Api
       before_action :authenticate_member!, only: %i[index update]
 
       def index
-        volunteer_event = VolunteerEvent.find(params[:volunteer_event_id])
-        @volunteer_applications = volunteer_event.volunteer_applications
+        @volunteer_event = VolunteerEvent.find(params[:volunteer_event_id])
+
+        return head :unauthorized unless organization_volunteer_event?
+
+        @volunteer_applications = @volunteer_event.volunteer_applications
       end
 
       def show
         @volunteer_application = VolunteerApplication.find(params[:id])
+
+        return head :unauthorized unless user_volunteer_application? || organization_volunteer_application?
+
+        render :show, status: :ok
       end
 
       def update
@@ -39,6 +46,18 @@ module Api
           status
           attendance
         ]
+      end
+
+      def organization_volunteer_event?
+        @volunteer_event.organization.members.include?(current_member)
+      end
+
+      def user_volunteer_application?
+        @volunteer_application.volunteer == current_user
+      end
+
+      def organization_volunteer_application?
+        @volunteer_application.organization.members.include?(current_member)
       end
     end
   end
