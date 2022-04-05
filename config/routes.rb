@@ -48,12 +48,12 @@ Rails.application.routes.draw do
       scope module: :v0 do
         resources :organizations, only: %i[index show update] do
           resources :charitable_aids, path: :aids, shallow: true, only: %i[index show create update]
-          resources :fundraising_campaigns, shallow: true, only: %i[index show create update]
+          resources :fundraising_campaigns, path: :campaigns, shallow: true, only: %i[index show create update]
           resources :volunteer_events, shallow: true, only: %i[index show create update]
         end
 
         resources :charitable_aids, path: :aids, only: %i[index]
-        resources :fundraising_campaigns, only: %i[index]
+        resources :fundraising_campaigns, path: :campaigns, only: %i[index]
         resources :volunteer_events, only: %i[index] do
           resources :volunteer_applications, shallow: true, only: %i[index show update]
         end
