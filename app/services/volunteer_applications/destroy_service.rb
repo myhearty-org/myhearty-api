@@ -2,13 +2,15 @@
 
 module VolunteerApplications
   class DestroyService < BaseService
-    def initialize(volunteer, volunteer_application)
+    def initialize(volunteer, volunteer_event)
       @volunteer = volunteer
-      @volunteer_application = volunteer_application
+      @volunteer_event = volunteer_event
     end
 
     def call
-      return error_no_permissions unless volunteer?
+      volunteer_application = VolunteerApplication.find_by(volunteer: volunteer, volunteer_event: volunteer_event)
+
+      return error unless volunteer_application
 
       volunteer_application.delete
       success
@@ -16,17 +18,6 @@ module VolunteerApplications
 
     private
 
-    attr_reader :volunteer, :volunteer_application
-
-    def volunteer?
-      volunteer_application.volunteer == volunteer
-    end
-
-    def error_no_permissions
-      error(
-        message: "No permission to delete volunteer application",
-        http_status: :unauthorized
-      )
-    end
+    attr_reader :volunteer, :volunteer_event
   end
 end
