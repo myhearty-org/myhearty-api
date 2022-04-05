@@ -45,10 +45,6 @@ class ApplicationController < ActionController::API
     }, status: :not_found
   end
 
-  def respond_422
-    head :unprocessable_entity
-  end
-
   def error_invalid_params(record)
     render json: {
       message: "Validation Failed",
