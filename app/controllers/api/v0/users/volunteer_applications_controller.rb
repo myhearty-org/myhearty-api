@@ -27,6 +27,8 @@ module Api
             render :show, status: :created
           when :not_modified
             head :not_modified
+          when :unprocessable_entity
+            render_error_response(message: result.message, http_status: result.http_status)
           end
         end
 
