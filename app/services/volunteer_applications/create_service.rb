@@ -8,9 +8,14 @@ module VolunteerApplications
     end
 
     def call
-      volunteer_application = volunteer.volunteer_applications.new(volunteer_event: volunteer_event)
+      volunteer_application = volunteer.volunteer_applications
+                                       .where(volunteer_event: volunteer_event)
+                                       .first_or_initialize
+
+      return success(record: volunteer_application, http_status: :not_modified) unless volunteer_application.new_record?
+
       volunteer_application.save
-      volunteer_application
+      success(record: volunteer_application, http_status: :created)
     end
 
     private
