@@ -42,24 +42,24 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :organizations, only: %i[create]
+    resources :organizations, path: :orgs, only: %i[create]
 
     scope module: :api do
       scope module: :v0 do
-        resources :organizations, only: %i[index show update] do
-          resources :charitable_aids, shallow: true, only: %i[index show create update]
-          resources :fundraising_campaigns, shallow: true, only: %i[index show create update]
-          resources :volunteer_events, shallow: true, only: %i[index show create update]
+        resources :organizations, path: :orgs, only: %i[index show update] do
+          resources :charitable_aids, path: :aids, shallow: true, only: %i[index show create update]
+          resources :fundraising_campaigns, path: :campaigns, shallow: true, only: %i[index show create update]
+          resources :volunteer_events, path: "volunteer-events", shallow: true, only: %i[index show create update]
         end
 
-        resources :charitable_aids, only: %i[index]
-        resources :fundraising_campaigns, only: %i[index]
-        resources :volunteer_events, only: %i[index] do
-          resources :volunteer_applications, shallow: true, only: %i[index show update]
+        resources :charitable_aids, path: :aids, only: %i[index]
+        resources :fundraising_campaigns, path: :campaigns, only: %i[index]
+        resources :volunteer_events, path: "volunteer-events", only: %i[index] do
+          resources :volunteer_applications, path: "volunteer-applications", shallow: true, only: %i[index show update]
         end
 
         namespace :users do
-          resources :volunteer_applications, only: %i[index] do
+          resources :volunteer_applications, path: "volunteer-applications", only: %i[index] do
             collection do
               get "/:volunteer_event_id", to: "volunteer_applications#applied"
               post "/:volunteer_event_id", to: "volunteer_applications#apply"
