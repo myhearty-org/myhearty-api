@@ -11,10 +11,24 @@ module Api
         @charitable_aid_applications = @charitable_aid.charitable_aid_applications
       end
 
+      def show
+        @charitable_aid_application = CharitableAidApplication.find(params[:id])
+
+        return head :unauthorized unless user_charitable_aid_application? || organization_charitable_aid_application?
+      end
+
       private
 
       def organization_charitable_aid?
         @charitable_aid.organization.members.include?(current_member)
+      end
+
+      def user_charitable_aid_application?
+        @charitable_aid_application.receiver == current_user
+      end
+
+      def organization_charitable_aid_application?
+        @charitable_aid_application.organization.members.include?(current_member)
       end
     end
   end
