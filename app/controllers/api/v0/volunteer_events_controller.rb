@@ -61,7 +61,7 @@ module Api
           youtube_url
           start_datetime
           end_datetime
-          sign_up_deadline
+          application_deadline
           published
         ]
       end

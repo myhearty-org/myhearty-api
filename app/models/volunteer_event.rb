@@ -23,9 +23,9 @@ class VolunteerEvent < ApplicationRecord
                                       after: :time_current, after_message: "must be after current datetime"
   validates_datetime :end_datetime, allow_nil: true, ignore_usec: true,
                                     after: :start_datetime, after_message: "must be after start datetime"
-  validates_datetime :sign_up_deadline, allow_nil: true, ignore_usec: true,
-                                        after: :time_current, after_message: "must be after current datetime",
-                                        before: :start_datetime, before_message: "must be before start datetime"
+  validates_datetime :application_deadline, allow_nil: true, ignore_usec: true,
+                                            after: :time_current, after_message: "must be after current datetime",
+                                            before: :start_datetime, before_message: "must be before start datetime"
   validates :published, inclusion: { in: [true, false] }
   validates :published, exclusion: { in: [nil] }
 
