@@ -3,6 +3,9 @@
 module Api
   module V0
     class CharitableAidApplicationsController < ApiController
+      before_action :authenticate_user_or_member!, only: %i[show]
+      before_action :authenticate_member!, only: %i[index update]
+
       def index
         @charitable_aid = CharitableAid.find(params[:charitable_aid_id])
 
