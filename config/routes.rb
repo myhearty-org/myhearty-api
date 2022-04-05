@@ -52,7 +52,9 @@ Rails.application.routes.draw do
           resources :volunteer_events, path: "volunteer-events", shallow: true, only: %i[index show create update]
         end
 
-        resources :charitable_aids, path: :aids, only: %i[index]
+        resources :charitable_aids, path: :aids, only: %i[index] do
+          resources :charitable_aid_applications, path: "aid-applications", shallow: true, only: %i[index show update]
+        end
         resources :fundraising_campaigns, path: :campaigns, only: %i[index]
         resources :volunteer_events, path: "volunteer-events", only: %i[index] do
           resources :volunteer_applications, path: "volunteer-applications", shallow: true, only: %i[index show update]
