@@ -35,10 +35,6 @@ class ApplicationController < ActionController::API
     cookies["X-CSRF-Token"] = form_authenticity_token
   end
 
-  def respond_204
-    head :no_content
-  end
-
   def respond_401
     head :unauthorized
   end
@@ -47,10 +43,6 @@ class ApplicationController < ActionController::API
     render json: {
       message: exception.message
     }, status: :not_found
-  end
-
-  def respond_422
-    head :unprocessable_entity
   end
 
   def error_invalid_params(record)

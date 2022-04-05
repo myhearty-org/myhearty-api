@@ -6,7 +6,7 @@ module Api
       protected
 
       def authenticate_organization_admin!
-        return respond_401 unless authenticate_member! && current_member.admin?
+        return head :unauthorized unless authenticate_member! && current_member.admin?
       end
     end
   end
