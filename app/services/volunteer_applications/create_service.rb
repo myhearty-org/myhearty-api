@@ -12,6 +12,8 @@ module VolunteerApplications
 
       return success_already_exists unless volunteer_application.new_record?
 
+      return error_application_closed if application_closed?
+
       volunteer_application.save
       success(record: volunteer_application, http_status: :created)
     end
@@ -26,10 +28,29 @@ module VolunteerApplications
                .first_or_initialize
     end
 
+    def application_closed?
+      deadline_exceeded? || volunteer_count_exceeded?
+    end
+
+    def deadline_exceeded?
+      Time.current > volunteer_event.application_deadline
+    end
+
+    def volunteer_count_exceeded?
+      volunteer_event.volunteer_count >= volunteer_event.openings
+    end
+
     def success_already_exists
       success(
         record: volunteer_application,
         http_status: :not_modified
+      )
+    end
+
+    def error_application_closed
+      error(
+        message: "Application closed",
+        http_status: :unprocessable_entity
       )
     end
   end
