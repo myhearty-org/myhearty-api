@@ -16,6 +16,19 @@ module Api
 
           volunteer_application ? head(:no_content) : head(:not_found)
         end
+
+        def apply
+          volunteer_event = VolunteerEvent.find(params[:volunteer_event_id])
+          result = VolunteerApplications::CreateService.call(current_user, volunteer_event)
+          @volunteer_application = result.record
+
+          case result.http_status
+          when :created
+            render :show, status: :created
+          when :not_modified
+            head :not_modified
+          end
+        end
       end
     end
   end
