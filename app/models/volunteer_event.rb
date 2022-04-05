@@ -20,12 +20,14 @@ class VolunteerEvent < ApplicationRecord
   validates :main_image, allow_blank: true, url: true
   validates :youtube_url, allow_blank: true, url: true
   validates_datetime :start_datetime, allow_nil: true, ignore_usec: true,
-                                      after: :time_current, after_message: "must be after current datetime"
+                                      after: :time_current, after_message: "must be after current datetime",
+                                      if: :start_datetime_changed?
   validates_datetime :end_datetime, allow_nil: true, ignore_usec: true,
                                     after: :start_datetime, after_message: "must be after start datetime"
   validates_datetime :application_deadline, allow_nil: true, ignore_usec: true,
                                             after: :time_current, after_message: "must be after current datetime",
-                                            before: :start_datetime, before_message: "must be before start datetime"
+                                            before: :start_datetime, before_message: "must be before start datetime",
+                                            if: -> { application_deadline_changed? || start_datetime_changed? }
   validates :published, inclusion: { in: [true, false] }
   validates :published, exclusion: { in: [nil] }
 
