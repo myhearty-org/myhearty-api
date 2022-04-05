@@ -29,6 +29,13 @@ module Api
             head :not_modified
           end
         end
+
+        def unapply
+          volunteer_event = VolunteerEvent.find(params[:volunteer_event_id])
+          result = VolunteerApplications::DestroyService.call(current_user, volunteer_event)
+
+          result.success? ? head(:no_content) : head(:not_found)
+        end
       end
     end
   end
