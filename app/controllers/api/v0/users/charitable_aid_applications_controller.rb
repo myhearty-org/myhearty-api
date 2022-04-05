@@ -27,6 +27,13 @@ module Api
             head :not_modified
           end
         end
+
+        def unapply
+          charitable_aid = CharitableAid.find(params[:charitable_aid_id])
+          result = CharitableAidApplications::DestroyService.call(current_user, charitable_aid)
+
+          result.success? ? head(:no_content) : head(:not_found)
+        end
       end
     end
   end
