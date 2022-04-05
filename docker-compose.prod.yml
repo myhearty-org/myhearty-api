@@ -9,6 +9,7 @@ services:
       dockerfile: ./docker/rails/Dockerfile
     restart: always
     environment:
+      TZ: "Asia/Kuala_Lumpur"
       MYHEARTY_DB_USER: ${POSTGRES_USER}
       MYHEARTY_DB_PASSWORD: ${POSTGRES_PASSWORD}
       MYHEARTY_DB_HOST: ${POSTGRES_HOST}
@@ -26,6 +27,8 @@ services:
     image: postgres:${POSTGRES_VERSION}
     restart: always
     environment:
+      TZ: "Asia/Kuala_Lumpur"
+      PGTZ: "Asia/Kuala_Lumpur"
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: myhearty_production
@@ -41,6 +44,8 @@ services:
   redis:
     image: redis:${REDIS_VERSION}
     restart: always
+    environment:
+      TZ: "Asia/Kuala_Lumpur"
     ports:
       - "6379:6379"
     volumes:
@@ -54,6 +59,8 @@ services:
       dockerfile: ./docker/rails/Dockerfile
     restart: always
     command: [ "bundle", "exec", "sidekiq", "-c", "2" ]
+    environment:
+      TZ: "Asia/Kuala_Lumpur"
     volumes:
       - .:/api
     depends_on:
@@ -73,6 +80,8 @@ services:
   nginx:
     image: nginx:${NGINX_VERSION}
     restart: always
+    environment:
+      TZ: "Asia/Kuala_Lumpur"
     ports:
       - "80:80"
       - "443:443"
