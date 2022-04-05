@@ -8,11 +8,9 @@ module VolunteerApplications
     end
 
     def call
-      volunteer_application = volunteer.volunteer_applications
-                                       .where(volunteer_event: volunteer_event)
-                                       .first_or_initialize
+      @volunteer_application = find_volunteer_application
 
-      return success(record: volunteer_application, http_status: :not_modified) unless volunteer_application.new_record?
+      return success_already_exists unless volunteer_application.new_record?
 
       volunteer_application.save
       success(record: volunteer_application, http_status: :created)
@@ -20,6 +18,19 @@ module VolunteerApplications
 
     private
 
-    attr_reader :volunteer, :volunteer_event
+    attr_reader :volunteer, :volunteer_event, :volunteer_application
+
+    def find_volunteer_application
+      volunteer.volunteer_applications
+               .where(volunteer_event: volunteer_event)
+               .first_or_initialize
+    end
+
+    def success_already_exists
+      success(
+        record: volunteer_application,
+        http_status: :not_modified
+      )
+    end
   end
 end
