@@ -4,6 +4,8 @@ module Api
   module V0
     module Users
       class CharitableAidApplicationsController < ApiController
+        before_action :authenticate_user!
+
         def index
           @charitable_aid_applications = current_user.charitable_aid_applications
         end
