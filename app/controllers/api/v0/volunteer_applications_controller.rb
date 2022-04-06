@@ -18,8 +18,6 @@ module Api
         @volunteer_application = VolunteerApplication.find(params[:id])
 
         return head :unauthorized unless user_volunteer_application? || organization_volunteer_application?
-
-        render :show, status: :ok
       end
 
       def update
