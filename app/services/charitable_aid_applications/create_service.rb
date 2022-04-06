@@ -10,7 +10,7 @@ module CharitableAidApplications
     def call
       charitable_aid_application = find_charitable_aid_application
 
-      return success(record: charitable_aid_application, http_status: :not_modified) unless charitable_aid_application.new_record?
+      return error_already_exists unless charitable_aid_application.new_record?
 
       charitable_aid_application.save
       success(record: charitable_aid_application, http_status: :created)
@@ -24,6 +24,10 @@ module CharitableAidApplications
       receiver.charitable_aid_applications
               .where(charitable_aid: charitable_aid)
               .first_or_initialize
+    end
+
+    def error_already_exists
+      error(http_status: :not_modified)
     end
   end
 end
