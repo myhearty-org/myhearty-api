@@ -22,11 +22,10 @@ module Api
           result = CharitableAidApplications::CreateService.call(current_user, charitable_aid)
           @charitable_aid_application = result.record
 
-          case result.http_status
-          when :created
+          if result.success?
             render :show, status: :created
-          when :not_modified
-            head :not_modified
+          else
+            render_error_response(message: result.message, http_status: result.http_status)
           end
         end
 
@@ -34,7 +33,11 @@ module Api
           charitable_aid = CharitableAid.find(params[:charitable_aid_id])
           result = CharitableAidApplications::DestroyService.call(current_user, charitable_aid)
 
-          result.success? ? head(:no_content) : head(:not_found)
+          if result.success?
+            head :no_content
+          else
+            render_error_response(message: result.message, http_status: result.http_status)
+          end
         end
       end
     end
