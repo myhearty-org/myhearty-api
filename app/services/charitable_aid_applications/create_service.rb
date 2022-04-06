@@ -8,7 +8,7 @@ module CharitableAidApplications
     end
 
     def call
-      charitable_aid_application = find_charitable_aid_application
+      @charitable_aid_application = find_charitable_aid_application
 
       return error_already_exists unless charitable_aid_application.new_record?
 
@@ -18,7 +18,7 @@ module CharitableAidApplications
 
     private
 
-    attr_reader :receiver, :charitable_aid
+    attr_reader :receiver, :charitable_aid, :charitable_aid_application
 
     def find_charitable_aid_application
       receiver.charitable_aid_applications
