@@ -36,7 +36,11 @@ module Api
           volunteer_event = VolunteerEvent.find(params[:volunteer_event_id])
           result = VolunteerApplications::DestroyService.call(current_user, volunteer_event)
 
-          result.success? ? head(:no_content) : head(:not_found)
+          if result.success?
+            head(:no_content)
+          else
+            render_error_response(message: result.message, http_status: result.http_status)
+          end
         end
       end
     end
