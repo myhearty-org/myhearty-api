@@ -42,7 +42,12 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :organizations, path: :orgs, only: %i[create]
+    resources :organizations, path: :orgs, only: %i[create] do
+      collection do
+        post "/stripe-onboard", to: "organizations#stripe_onboard"
+        get "/stripe-onboard/refresh", to: "organizations#stripe_onboard_refresh"
+      end
+    end
 
     scope module: :api do
       scope module: :v0 do
