@@ -8,7 +8,7 @@ module CharitableAidApplications
     end
 
     def call
-      charitable_aid_application = CharitableAidApplication.find_by(receiver: receiver, charitable_aid: charitable_aid)
+      @charitable_aid_application = CharitableAidApplication.find_by(receiver: receiver, charitable_aid: charitable_aid)
 
       return error unless charitable_aid_application
 
@@ -18,6 +18,6 @@ module CharitableAidApplications
 
     private
 
-    attr_reader :receiver, :charitable_aid
+    attr_reader :receiver, :charitable_aid, :charitable_aid_application
   end
 end
