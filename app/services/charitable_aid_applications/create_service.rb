@@ -13,7 +13,7 @@ module CharitableAidApplications
       return error_already_exists unless charitable_aid_application.new_record?
 
       charitable_aid_application.save
-      success(record: charitable_aid_application, http_status: :created)
+      success(record: charitable_aid_application)
     end
 
     private
