@@ -25,6 +25,8 @@ module Webhooks
       end
     end
 
+    private
+
     def account_updated(event)
       stripe_account = event.data.object
       stripe_account_id = event.account
