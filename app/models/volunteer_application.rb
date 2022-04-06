@@ -32,4 +32,9 @@ class VolunteerApplication < ApplicationRecord
   scope :rejected, -> { where(status: :rejected) }
   scope :absent, -> { where(attendance: :absent) }
   scope :present, -> { where(attendance: :present) }
+
+  counter_culture :volunteer_event,
+                  column_name: ->(application) { application.confirmed? ? :volunteer_count : nil },
+                  column_names: { confirmed => :volunteer_count },
+                  touch: true
 end
