@@ -8,9 +8,7 @@ module CharitableAidApplications
     end
 
     def call
-      charitable_aid_application = receiver.charitable_aid_applications
-                                           .where(charitable_aid: charitable_aid)
-                                           .first_or_initialize
+      charitable_aid_application = find_charitable_aid_application
 
       return success(record: charitable_aid_application, http_status: :not_modified) unless charitable_aid_application.new_record?
 
@@ -21,5 +19,11 @@ module CharitableAidApplications
     private
 
     attr_reader :receiver, :charitable_aid
+
+    def find_charitable_aid_application
+      receiver.charitable_aid_applications
+              .where(charitable_aid: charitable_aid)
+              .first_or_initialize
+    end
   end
 end
