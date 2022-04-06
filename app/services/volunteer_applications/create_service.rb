@@ -10,12 +10,12 @@ module VolunteerApplications
     def call
       @volunteer_application = find_volunteer_application
 
-      return success_already_exists unless volunteer_application.new_record?
+      return error_already_exists unless volunteer_application.new_record?
 
       return error_application_closed if application_closed?
 
       volunteer_application.save
-      success(record: volunteer_application, http_status: :created)
+      success(record: volunteer_application)
     end
 
     private
@@ -40,11 +40,8 @@ module VolunteerApplications
       volunteer_event.volunteer_count >= volunteer_event.openings
     end
 
-    def success_already_exists
-      success(
-        record: volunteer_application,
-        http_status: :not_modified
-      )
+    def error_already_exists
+      error(http_status: :not_modified)
     end
 
     def error_application_closed

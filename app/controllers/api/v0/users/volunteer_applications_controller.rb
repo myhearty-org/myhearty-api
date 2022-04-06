@@ -22,12 +22,9 @@ module Api
           result = VolunteerApplications::CreateService.call(current_user, volunteer_event)
           @volunteer_application = result.record
 
-          case result.http_status
-          when :created
+          if result.success?
             render :show, status: :created
-          when :not_modified
-            head :not_modified
-          when :unprocessable_entity
+          else
             render_error_response(message: result.message, http_status: result.http_status)
           end
         end
@@ -37,7 +34,7 @@ module Api
           result = VolunteerApplications::DestroyService.call(current_user, volunteer_event)
 
           if result.success?
-            head(:no_content)
+            head :no_content
           else
             render_error_response(message: result.message, http_status: result.http_status)
           end
