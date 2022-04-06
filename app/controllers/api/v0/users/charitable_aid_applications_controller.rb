@@ -33,7 +33,11 @@ module Api
           charitable_aid = CharitableAid.find(params[:charitable_aid_id])
           result = CharitableAidApplications::DestroyService.call(current_user, charitable_aid)
 
-          result.success? ? head(:no_content) : head(:not_found)
+          if result.success?
+            head :no_content
+          else
+            render_error_response(message: result.message, http_status: result.http_status)
+          end
         end
       end
     end
