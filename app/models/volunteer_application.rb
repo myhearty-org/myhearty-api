@@ -26,4 +26,10 @@ class VolunteerApplication < ApplicationRecord
   end
 
   delegate :organization, to: :volunteer_event
+
+  scope :pending, -> { where(status: :pending) }
+  scope :confirmed, -> { where(status: :confirmed) }
+  scope :rejected, -> { where(status: :rejected) }
+  scope :absent, -> { where(attendance: :absent) }
+  scope :present, -> { where(attendance: :present) }
 end
