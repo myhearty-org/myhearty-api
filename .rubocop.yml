@@ -17,6 +17,9 @@ AllCops:
 Bundler/OrderedGems:
   Enabled: false
 
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent
+
 Lint/MissingSuper:
   Exclude:
     - "app/services/**/*"

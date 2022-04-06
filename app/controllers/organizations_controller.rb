@@ -2,6 +2,7 @@
 
 class OrganizationsController < ApplicationController
   skip_forgery_protection only: %i[create]
+  before_action :authenticate_organization_admin!, only: %i[stripe_onboard]
 
   def create
     organization_params, admin_params = create_organization_params
@@ -15,6 +16,28 @@ class OrganizationsController < ApplicationController
     return error_invalid_params(@organization_admin) unless @organization_admin.persisted?
 
     render :create, status: :created
+  end
+
+  def stripe_onboard
+    organization = current_organization_admin.organization
+
+    stripe_account = create_stripe_account(organization)
+    stripe_account_link = create_stripe_account_link(stripe_account.id)
+
+    session[:stripe_account_id] = stripe_account.id
+    redirect_to stripe_account_link.url, allow_other_host: true
+  end
+
+  def stripe_onboard_refresh
+    stripe_account_id = session[:stripe_account_id]
+
+    if stripe_account_id.nil?
+      redirect_to "https://dashboard.myhearty.my/stipe-onboard/failed", allow_other_host: true and return
+    end
+
+    stripe_account_link = create_stripe_account_link(stripe_account_id)
+
+    redirect_to stripe_account_link.url, allow_other_host: true
   end
 
   private
@@ -47,5 +70,23 @@ class OrganizationsController < ApplicationController
       email
       password
     ]
+  end
+
+  def create_stripe_account(organization)
+    Stripe::Account.create({
+      type: "standard",
+      country: "MY",
+      email: organization.email,
+      business_type: "non_profit"
+    })
+  end
+
+  def create_stripe_account_link(stripe_account_id)
+    Stripe::AccountLink.create({
+      account: stripe_account_id,
+      type: "account_onboarding",
+      refresh_url: "https://api.myhearty.my/orgs/stripe-onboard/refresh",
+      return_url: "https://dashboard.myhearty.my/stipe-onboard/success"
+    })
   end
 end
