@@ -19,4 +19,8 @@ class CharitableAidApplication < ApplicationRecord
   end
 
   delegate :organization, to: :charitable_aid
+
+  scope :pending, -> { where(status: :pending) }
+  scope :approved, -> { where(status: :approved) }
+  scope :rejected, -> { where(status: :rejected) }
 end
