@@ -34,6 +34,9 @@ gem "stripe", "~> 5.0"
 gem "public_suffix", "~> 4.0"
 gem "validates_timeliness", "~> 6.0.0.alpha1"
 
+# Counter cache
+gem "counter_culture", "~> 3.2"
+
 group :development, :test do
   gem "debug", platforms: %i[mri mingw x64_mingw]
   gem "debase"

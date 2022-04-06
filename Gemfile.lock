@@ -77,6 +77,9 @@ GEM
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     concurrent-ruby (1.1.9)
+    counter_culture (3.2.1)
+      activerecord (>= 4.2)
+      activesupport (>= 4.2)
     crass (1.0.6)
     database_consistency (1.1.12)
       activerecord (>= 3.2)
@@ -258,6 +261,7 @@ DEPENDENCIES
   active_record_doctor
   bootsnap
   bullet
+  counter_culture (~> 3.2)
   database_consistency
   debase
   debug

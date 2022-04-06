@@ -26,4 +26,15 @@ class VolunteerApplication < ApplicationRecord
   end
 
   delegate :organization, to: :volunteer_event
+
+  scope :pending, -> { where(status: :pending) }
+  scope :confirmed, -> { where(status: :confirmed) }
+  scope :rejected, -> { where(status: :rejected) }
+  scope :absent, -> { where(attendance: :absent) }
+  scope :present, -> { where(attendance: :present) }
+
+  counter_culture :volunteer_event,
+                  column_name: ->(application) { application.confirmed? ? :volunteer_count : nil },
+                  column_names: { confirmed => :volunteer_count },
+                  touch: true
 end

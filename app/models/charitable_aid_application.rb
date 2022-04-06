@@ -19,4 +19,13 @@ class CharitableAidApplication < ApplicationRecord
   end
 
   delegate :organization, to: :charitable_aid
+
+  scope :pending, -> { where(status: :pending) }
+  scope :approved, -> { where(status: :approved) }
+  scope :rejected, -> { where(status: :rejected) }
+
+  counter_culture :charitable_aid,
+                  column_name: ->(application) { application.approved? ? :receiver_count : nil },
+                  column_names: { approved => :receiver_count },
+                  touch: true
 end
