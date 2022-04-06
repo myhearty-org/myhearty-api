@@ -60,8 +60,12 @@ class ApplicationController < ActionController::API
   end
 
   def render_error_response(message: nil, http_status: nil)
-    render json: {
-      message: message
-    }, status: http_status
+    if message
+      render json: {
+        message: message
+      }, status: http_status
+    else
+      head(http_status)
+    end
   end
 end
