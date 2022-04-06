@@ -20,7 +20,8 @@ class CharitableAid < ApplicationRecord
   validates :main_image, allow_blank: true, url: true
   validates :youtube_url, allow_blank: true, url: true
   validates_datetime :application_deadline, allow_nil: true, ignore_usec: true,
-                                            after: :time_current, after_message: "must be after current datetime"
+                                            after: :time_current, after_message: "must be after current datetime",
+                                            if: :application_deadline_changed?
   validates :published, inclusion: { in: [true, false] }
   validates :published, exclusion: { in: [nil] }
 
