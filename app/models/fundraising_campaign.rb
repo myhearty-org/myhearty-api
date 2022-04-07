@@ -36,13 +36,10 @@ class FundraisingCampaign < ApplicationRecord
   private
 
   def create_stripe_product
-    Stripe::Product.create(
-      {
-        id: fundraising_campaign_id,
-        name: name
-      },
-      { stripe_account: organization.stripe_account_id }
-    )
+    Stripe::Product.create({
+      id: fundraising_campaign_id,
+      name: name
+    }, { stripe_account: organization.stripe_account_id })
   rescue Stripe::StripeError
     errors.add(:fundraising_campaign_id, :failed_to_create_stripe_product)
     throw(:abort)
