@@ -11,7 +11,11 @@ module FundraisingCampaigns
     def call
       return error_no_permissions unless organization_member?
 
-      fundraising_campaign.update(params) ? success : error
+      if fundraising_campaign.update(params)
+        success
+      else
+        error
+      end
     end
 
     private
