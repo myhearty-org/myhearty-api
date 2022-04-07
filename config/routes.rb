@@ -60,7 +60,13 @@ Rails.application.routes.draw do
         resources :charitable_aids, path: :aids, only: %i[index] do
           resources :charitable_aid_applications, path: "aid-applications", shallow: true, only: %i[index show update]
         end
-        resources :fundraising_campaigns, path: :campaigns, only: %i[index]
+
+        resources :fundraising_campaigns, path: :campaigns, only: %i[index] do
+          member do
+            post "/donate", to: "fundraising_campaigns#donate"
+          end
+        end
+
         resources :volunteer_events, path: "volunteer-events", only: %i[index] do
           resources :volunteer_applications, path: "volunteer-applications", shallow: true, only: %i[index show update]
         end
