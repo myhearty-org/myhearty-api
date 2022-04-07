@@ -12,7 +12,12 @@ module FundraisingCampaigns
       return error_no_permissions unless organization_member?
 
       fundraising_campaign = organization.fundraising_campaigns.new(params)
-      fundraising_campaign.save ? success(record: fundraising_campaign) : error(record: fundraising_campaign)
+
+      if fundraising_campaign.save
+        success(record: fundraising_campaign)
+      else
+        error(record: fundraising_campaign)
+      end
     end
 
     private
