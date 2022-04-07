@@ -22,6 +22,8 @@ module Webhooks
       case event.type
       when "account.updated"
         account_updated(event)
+      else
+        head :bad_request
       end
     end
 
