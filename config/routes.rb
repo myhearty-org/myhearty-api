@@ -65,6 +65,8 @@ Rails.application.routes.draw do
           member do
             post "/donate", to: "fundraising_campaigns#donate"
           end
+
+          resources :donations, shallow: true, only: %i[index show]
         end
 
         resources :volunteer_events, path: "volunteer-events", only: %i[index] do
