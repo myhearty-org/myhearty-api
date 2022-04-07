@@ -5,7 +5,7 @@ class ServiceResponse
     new(status: :success, record: record, message: message, http_status: http_status)
   end
 
-  def self.error(record: nil, message: nil, http_status: nil)
+  def self.error(record: nil, message: nil, http_status: :unprocessable_entity)
     new(status: :error, record: record, message: message, http_status: http_status)
   end
 
