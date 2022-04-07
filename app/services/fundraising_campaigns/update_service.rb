@@ -11,6 +11,8 @@ module FundraisingCampaigns
     def call
       return error_no_permissions unless organization_member?
 
+      @params = params.except(*unallowed_params_for_published) if fundraising_campaign.published?
+
       if fundraising_campaign.update(params)
         success
       else
@@ -24,6 +26,16 @@ module FundraisingCampaigns
 
     def organization_member?
       fundraising_campaign.organization.members.include?(member)
+    end
+
+    def unallowed_params_for_published
+      %i[
+        name
+        target_amount
+        start_datetime
+        end_datetime
+        published
+      ]
     end
 
     def error_no_permissions
