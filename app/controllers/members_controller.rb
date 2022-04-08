@@ -26,6 +26,16 @@ class MembersController < ApplicationController
     end
   end
 
+  def destroy
+    result = Members::DestroyService.call(current_organization_admin, params[:id])
+
+    if result.success?
+      head :no_content
+    else
+      render_error_response(message: result.message, http_status: result.http_status)
+    end
+  end
+
   private
 
   def member_params
