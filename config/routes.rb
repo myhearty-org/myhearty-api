@@ -43,9 +43,9 @@ Rails.application.routes.draw do
     end
 
     resource :organization, path: :org, only: %i[show create update] do
-      get "campaigns"
+      get "/campaigns", action: "fundraising_campaigns"
       get "volunteer-events"
-      get "aids"
+      get "/aids", action: "charitable_aids"
 
       post "stripe-onboard"
       get "stripe-onboard-refresh"
