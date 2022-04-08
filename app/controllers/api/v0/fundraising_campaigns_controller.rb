@@ -26,8 +26,6 @@ module Api
 
         if result.success?
           render :show, status: :created
-        elsif @fundraising_campaign&.errors&.any?
-          error_invalid_params(@fundraising_campaign)
         else
           render_error(result.json, result.http_status)
         end
@@ -39,8 +37,6 @@ module Api
 
         if result.success?
           render :show, status: :ok
-        elsif @fundraising_campaign.errors.any?
-          error_invalid_params(@fundraising_campaign)
         else
           render_error(result.json, result.http_status)
         end

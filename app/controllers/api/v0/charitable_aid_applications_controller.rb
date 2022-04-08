@@ -26,8 +26,6 @@ module Api
 
         if result.success?
           render :show, status: :ok
-        elsif @charitable_aid_application.errors.any?
-          error_invalid_params(@charitable_aid_application)
         else
           render_error(result.json, result.http_status)
         end

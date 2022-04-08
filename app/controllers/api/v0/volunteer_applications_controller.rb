@@ -26,8 +26,6 @@ module Api
 
         if result.success?
           render :show, status: :ok
-        elsif @volunteer_application.errors.any?
-          error_invalid_params(@volunteer_application)
         else
           render_error(result.json, result.http_status)
         end
