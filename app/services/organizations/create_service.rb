@@ -8,8 +8,12 @@ module Organizations
 
     def call
       organization = Organization.new(params)
-      organization.save
-      organization
+
+      if organization.save
+        success(record: organization)
+      else
+        error_invalid_params(organization)
+      end
     end
 
     private
