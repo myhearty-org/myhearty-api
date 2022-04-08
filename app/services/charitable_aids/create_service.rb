@@ -12,7 +12,12 @@ module CharitableAids
       return error_no_permissions unless organization_member?
 
       charitable_aid = organization.charitable_aids.new(params)
-      charitable_aid.save ? success(record: charitable_aid) : error(record: charitable_aid)
+
+      if charitable_aid.save
+        success(record: charitable_aid)
+      else
+        error_invalid_params(charitable_aid)
+      end
     end
 
     private
@@ -25,7 +30,7 @@ module CharitableAids
 
     def error_no_permissions
       error(
-        message: "No permission to create charitable aid",
+        json: { message: "No permission to create charitable aid" },
         http_status: :unauthorized
       )
     end

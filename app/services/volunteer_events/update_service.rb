@@ -11,7 +11,11 @@ module VolunteerEvents
     def call
       return error_no_permissions unless organization_member?
 
-      volunteer_event.update(params) ? success : error
+      if volunteer_event.update(params)
+        success
+      else
+        error_invalid_params(volunteer_event)
+      end
     end
 
     private
@@ -24,7 +28,7 @@ module VolunteerEvents
 
     def error_no_permissions
       error(
-        message: "No permission to update volunteer event",
+        json: { message: "No permission to update volunteer event" },
         http_status: :unauthorized
       )
     end

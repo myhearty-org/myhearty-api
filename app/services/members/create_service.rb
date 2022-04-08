@@ -11,8 +11,12 @@ module Members
     def call
       build_member_params
       member = organization.members.new(params)
-      member.save
-      member
+
+      if member.save
+        success(record: member)
+      else
+        error_invalid_params(member)
+      end
     end
 
     private

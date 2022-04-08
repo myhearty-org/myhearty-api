@@ -19,10 +19,8 @@ module Api
 
         if result.success?
           render :show, status: :ok
-        elsif @organization.errors.any?
-          error_invalid_params(@organization)
         else
-          render_error_response(message: result.message, http_status: result.http_status)
+          render_error(result.json, result.http_status)
         end
       end
 

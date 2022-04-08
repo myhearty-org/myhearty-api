@@ -11,7 +11,11 @@ module Organizations
     def call
       return error_no_permissions unless organization_admin?
 
-      organization.update(params) ? success : error
+      if organization.update(params)
+        success
+      else
+        error_invalid_params(organization)
+      end
     end
 
     private
@@ -24,7 +28,7 @@ module Organizations
 
     def error_no_permissions
       error(
-        message: "Member does not have admin role to update an organization",
+        json: { message: "Member does not have admin role to update an organization" },
         http_status: :unauthorized
       )
     end

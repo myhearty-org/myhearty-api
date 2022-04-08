@@ -16,7 +16,7 @@ module FundraisingCampaigns
       if fundraising_campaign.update(params)
         success
       else
-        error
+        error_invalid_params(fundraising_campaign)
       end
     end
 
@@ -40,7 +40,7 @@ module FundraisingCampaigns
 
     def error_no_permissions
       error(
-        message: "No permission to update fundraising campaign",
+        json: { message: "No permission to update fundraising campaign" },
         http_status: :unauthorized
       )
     end

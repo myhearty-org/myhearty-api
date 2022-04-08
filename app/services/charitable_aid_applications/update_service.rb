@@ -13,7 +13,11 @@ module CharitableAidApplications
 
       return error_enough_receivers if enough_receivers?
 
-      charitable_aid_application.update(params) ? success : error
+      if charitable_aid_application.update(params)
+        success
+      else
+        error_invalid_params(charitable_aid_application)
+      end
     end
 
     private
@@ -38,14 +42,14 @@ module CharitableAidApplications
 
     def error_no_permissions
       error(
-        message: "No permission to update charitable aid application",
+        json: { message: "No permission to update charitable aid application" },
         http_status: :unauthorized
       )
     end
 
     def error_enough_receivers
       error(
-        message: "Enough receivers",
+        json: { message: "Enough receivers" },
         http_status: :unprocessable_entity
       )
     end

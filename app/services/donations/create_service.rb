@@ -10,8 +10,12 @@ module Donations
 
     def call
       donation = Donation.new(donor: donor, fundraising_campaign: fundraising_campaign, amount: amount)
-      donation.save
-      donation
+
+      if donation.save
+        success(record: donation)
+      else
+        error_invalid_params(donation)
+      end
     end
 
     private

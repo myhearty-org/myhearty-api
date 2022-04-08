@@ -26,10 +26,8 @@ module Api
 
         if result.success?
           render :show, status: :created
-        elsif @fundraising_campaign&.errors&.any?
-          error_invalid_params(@fundraising_campaign)
         else
-          render_error_response(message: result.message, http_status: result.http_status)
+          render_error(result.json, result.http_status)
         end
       end
 
@@ -39,19 +37,18 @@ module Api
 
         if result.success?
           render :show, status: :ok
-        elsif @fundraising_campaign.errors.any?
-          error_invalid_params(@fundraising_campaign)
         else
-          render_error_response(message: result.message, http_status: result.http_status)
+          render_error(result.json, result.http_status)
         end
       end
 
       def donate
         fundraising_campaign = FundraisingCampaign.find(params[:id])
 
-        donation = Donations::CreateService.call(current_user, fundraising_campaign, params[:amount])
+        result = Donations::CreateService.call(current_user, fundraising_campaign, params[:amount])
+        donation = result.record
 
-        return error_invalid_params(donation) unless donation.persisted?
+        return render_error(result.json, result.http_status) unless result.success?
 
         stripe_checkout_session = create_stripe_checkout_session(current_user, fundraising_campaign, donation)
 

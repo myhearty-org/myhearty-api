@@ -13,7 +13,11 @@ module VolunteerApplications
 
       return error_enough_volunteers if enough_volunteers?
 
-      volunteer_application.update(params) ? success : error
+      if volunteer_application.update(params)
+        success
+      else
+        error_invalid_params(volunteer_application)
+      end
     end
 
     private
@@ -38,14 +42,14 @@ module VolunteerApplications
 
     def error_no_permissions
       error(
-        message: "No permission to update volunteer application",
+        json: { message: "No permission to update volunteer application" },
         http_status: :unauthorized
       )
     end
 
     def error_enough_volunteers
       error(
-        message: "Enough volunteers",
+        json: { message: "Enough volunteers" },
         http_status: :unprocessable_entity
       )
     end
