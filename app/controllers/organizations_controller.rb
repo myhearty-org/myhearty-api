@@ -3,6 +3,11 @@
 class OrganizationsController < ApplicationController
   skip_forgery_protection only: %i[create stripe_onboard_refresh]
   before_action :authenticate_organization_admin!, only: %i[update stripe_onboard]
+  before_action :authenticate_member!, only: %i[show]
+
+  def show
+    @organization = current_member.organization
+  end
 
   def create
     organization_params, admin_params = create_organization_params

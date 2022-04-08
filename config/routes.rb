@@ -42,7 +42,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resource :organization, path: :org, only: %i[create update] do
+    resource :organization, path: :org, only: %i[show create update] do
       post "/stripe-onboard", to: "organizations#stripe_onboard"
       get "/stripe-onboard/refresh", to: "organizations#stripe_onboard_refresh"
     end
