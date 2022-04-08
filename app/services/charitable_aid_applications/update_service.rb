@@ -38,14 +38,14 @@ module CharitableAidApplications
 
     def error_no_permissions
       error(
-        message: "No permission to update charitable aid application",
+        json: { message: "No permission to update charitable aid application" },
         http_status: :unauthorized
       )
     end
 
     def error_enough_receivers
       error(
-        message: "Enough receivers",
+        json: { message: "Enough receivers" },
         http_status: :unprocessable_entity
       )
     end

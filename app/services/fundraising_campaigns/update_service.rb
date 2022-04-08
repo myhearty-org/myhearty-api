@@ -40,7 +40,7 @@ module FundraisingCampaigns
 
     def error_no_permissions
       error(
-        message: "No permission to update fundraising campaign",
+        json: { message: "No permission to update fundraising campaign" },
         http_status: :unauthorized
       )
     end

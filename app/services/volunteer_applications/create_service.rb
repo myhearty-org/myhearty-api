@@ -46,7 +46,7 @@ module VolunteerApplications
 
     def error_application_closed
       error(
-        message: "Application closed",
+        json: { message: "Application closed" },
         http_status: :unprocessable_entity
       )
     end

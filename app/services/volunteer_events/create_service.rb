@@ -25,7 +25,7 @@ module VolunteerEvents
 
     def error_no_permissions
       error(
-        message: "No permission to create volunteer event",
+        json: { message: "No permission to create volunteer event" },
         http_status: :unauthorized
       )
     end

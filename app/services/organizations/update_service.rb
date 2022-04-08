@@ -24,7 +24,7 @@ module Organizations
 
     def error_no_permissions
       error(
-        message: "Member does not have admin role to update an organization",
+        json: { message: "Member does not have admin role to update an organization" },
         http_status: :unauthorized
       )
     end

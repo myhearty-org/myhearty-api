@@ -24,7 +24,7 @@ module CharitableAids
 
     def error_no_permissions
       error(
-        message: "No permission to update charitable aid",
+        json: { message: "No permission to update charitable aid" },
         http_status: :unauthorized
       )
     end
