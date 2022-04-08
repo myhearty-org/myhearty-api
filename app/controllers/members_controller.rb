@@ -19,7 +19,7 @@ class MembersController < ApplicationController
   end
 
   def create
-    organization = current_member.organization
+    organization = current_organization_admin.organization
     result = Members::CreateService.call(member_params, organization)
     @member = result.record
 
