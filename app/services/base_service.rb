@@ -14,11 +14,13 @@ class BaseService
   end
 
   def error_invalid_params(record)
-    json = {
-      message: "Validation Failed",
-      errors: Validation::ErrorsSerializer.new(record).serialize
-    }
-
-    ServiceResponse.error(record: record, json: json, http_status: :unprocessable_entity)
+    error(
+      json: {
+        message: "Validation Failed",
+        errors: Validation::ErrorsSerializer.new(record).serialize
+      },
+      record: record,
+      http_status: :unprocessable_entity
+    )
   end
 end
