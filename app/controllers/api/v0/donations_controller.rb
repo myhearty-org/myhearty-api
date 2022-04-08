@@ -11,10 +11,24 @@ module Api
         @donations = @fundraising_campaign.donations.with_payment
       end
 
+      def show
+        @donation = Donation.with_payment.find(params[:id])
+
+        return head :unauthorized unless user_donation? || organization_donation?
+      end
+
       private
 
       def organization_fundraising_campaign?
         @fundraising_campaign.organization.members.include?(current_member)
+      end
+
+      def user_donation?
+        @donation.donor == current_user
+      end
+
+      def organization_donation?
+        @donation.organization.members.include?(current_member)
       end
     end
   end
