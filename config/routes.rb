@@ -43,8 +43,8 @@ Rails.application.routes.draw do
     end
 
     resource :organization, path: :org, only: %i[show create update] do
-      post "/stripe-onboard", to: "organizations#stripe_onboard"
-      get "/stripe-onboard/refresh", to: "organizations#stripe_onboard_refresh"
+      post "stripe-onboard"
+      get "stripe-onboard-refresh"
     end
 
     resources :members, only: %i[index show create destroy]
@@ -62,9 +62,7 @@ Rails.application.routes.draw do
         end
 
         resources :fundraising_campaigns, path: :campaigns, only: %i[index show create update] do
-          member do
-            post "/donate", to: "fundraising_campaigns#donate"
-          end
+          post "donate", on: :member
 
           resources :donations, shallow: true, only: %i[index show]
         end
