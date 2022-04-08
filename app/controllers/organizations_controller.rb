@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class OrganizationsController < ApplicationController
-  skip_forgery_protection only: %i[create]
+  skip_forgery_protection only: %i[create stripe_onboard_refresh]
   before_action :authenticate_organization_admin!, only: %i[stripe_onboard]
 
   def create
