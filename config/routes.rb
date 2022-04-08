@@ -42,18 +42,16 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :organizations, path: :orgs, only: %i[create] do
-      collection do
-        post "/stripe-onboard", to: "organizations#stripe_onboard"
-        get "/stripe-onboard/refresh", to: "organizations#stripe_onboard_refresh"
-      end
+    resource :organization, path: :org, only: %i[create update] do
+      post "/stripe-onboard", to: "organizations#stripe_onboard"
+      get "/stripe-onboard/refresh", to: "organizations#stripe_onboard_refresh"
     end
 
     resources :members, only: %i[index show create destroy]
 
     scope module: :api do
       scope module: :v0 do
-        resources :organizations, path: :orgs, only: %i[index show update] do
+        resources :organizations, path: :orgs, only: %i[index show] do
           resources :charitable_aids, path: :aids, shallow: true, only: %i[index show create update]
           resources :fundraising_campaigns, path: :campaigns, shallow: true, only: %i[index show create update]
           resources :volunteer_events, path: "volunteer-events", shallow: true, only: %i[index show create update]

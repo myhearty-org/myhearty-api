@@ -2,17 +2,16 @@
 
 module Organizations
   class UpdateService < BaseService
-    def initialize(admin, organization, params)
+    def initialize(admin, params)
       @admin = admin
-      @organization = organization
       @params = params
     end
 
     def call
-      return error_no_permissions unless organization_admin?
+      organization = admin.organization
 
       if organization.update(params)
-        success
+        success(record: organization)
       else
         error_invalid_params(organization)
       end
@@ -20,17 +19,6 @@ module Organizations
 
     private
 
-    attr_reader :admin, :organization, :params
-
-    def organization_admin?
-      organization.admins.include?(admin)
-    end
-
-    def error_no_permissions
-      error(
-        json: { message: "Member does not have admin role to update an organization" },
-        http_status: :unauthorized
-      )
-    end
+    attr_reader :admin, :params
   end
 end

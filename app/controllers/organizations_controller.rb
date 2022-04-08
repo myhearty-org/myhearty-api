@@ -2,7 +2,7 @@
 
 class OrganizationsController < ApplicationController
   skip_forgery_protection only: %i[create stripe_onboard_refresh]
-  before_action :authenticate_organization_admin!, only: %i[stripe_onboard]
+  before_action :authenticate_organization_admin!, only: %i[update stripe_onboard]
 
   def create
     organization_params, admin_params = create_organization_params
@@ -18,6 +18,17 @@ class OrganizationsController < ApplicationController
     return render_error(result.json, result.http_status) unless result.success?
 
     render :create, status: :created
+  end
+
+  def update
+    result = Organizations::UpdateService.call(current_organization_admin, organization_params)
+    @organization = result.record
+
+    if result.success?
+      render :show, status: :ok
+    else
+      render_error(result.json, result.http_status)
+    end
   end
 
   def stripe_onboard
@@ -47,6 +58,10 @@ class OrganizationsController < ApplicationController
   def create_organization_params
     organization_params, admin_params = params.require([:organization, :admin])
     [organization_params.permit(organization_params_attributes), admin_params.permit(admin_params_attributes)]
+  end
+
+  def organization_params
+    params.require(:organization).permit(organization_params_attributes)
   end
 
   def organization_params_attributes
