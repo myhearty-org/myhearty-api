@@ -3,7 +3,7 @@
 class OrganizationsController < ApplicationController
   skip_forgery_protection only: %i[create stripe_onboard_refresh]
   before_action :authenticate_organization_admin!, only: %i[update stripe_onboard]
-  before_action :authenticate_member!, only: %i[show]
+  before_action :authenticate_member!, only: %i[show fundraising_campaigns volunteer_events charitable_aids]
 
   def show
     @organization = current_member.organization
@@ -34,6 +34,18 @@ class OrganizationsController < ApplicationController
     else
       render_error(result.json, result.http_status)
     end
+  end
+
+  def fundraising_campaigns
+    @fundraising_campaigns = current_member.organization.fundraising_campaigns
+  end
+
+  def volunteer_events
+    @volunteer_events = current_member.organization.volunteer_events
+  end
+
+  def charitable_aids
+    @charitable_aids = current_member.organization.charitable_aids
   end
 
   def stripe_onboard
