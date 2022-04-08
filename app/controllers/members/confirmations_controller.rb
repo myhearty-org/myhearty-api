@@ -2,8 +2,6 @@
 
 module Members
   class ConfirmationsController < Devise::ConfirmationsController
-    skip_forgery_protection only: %i[show]
-
     def show
       self.resource = resource_class.confirm_by_token(params[:confirmation_token])
       yield resource if block_given?
