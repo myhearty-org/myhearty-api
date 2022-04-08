@@ -74,6 +74,8 @@ Rails.application.routes.draw do
         end
 
         namespace :users do
+          resources :donations, only: %i[index]
+
           resources :volunteer_applications, path: "volunteer-applications", only: %i[index] do
             collection do
               get "/:volunteer_event_id", to: "volunteer_applications#applied"
