@@ -7,8 +7,7 @@ module Api
 
       def index
         if params.key?(:organization_id)
-          organization = Organization.find(params[:organization_id])
-          @charitable_aids = organization.charitable_aids
+          @charitable_aids = CharitableAid.where(organization_id: params[:organization_id])
         else
           @charitable_aids = CharitableAid.all
         end
