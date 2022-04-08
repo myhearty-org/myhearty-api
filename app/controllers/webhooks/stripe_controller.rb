@@ -13,7 +13,7 @@ module Webhooks
         event = Stripe::Webhook.construct_event(
           payload,
           sig_header,
-          Rails.application.credentials.stripe.signing_secret[0]
+          Rails.application.credentials.stripe.webhook_signing_secret
         )
       rescue JSON::ParserError, Stripe::SignatureVerificationError
         head :bad_request and return

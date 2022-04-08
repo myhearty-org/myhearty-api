@@ -27,7 +27,6 @@ gem "rack-cors", "~> 1.1"
 gem "responders", "~> 3.0"
 
 # Payments
-gem "pay", "~> 3.0"
 gem "stripe", "~> 5.0"
 
 # Validations
