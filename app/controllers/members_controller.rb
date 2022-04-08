@@ -24,7 +24,7 @@ class MembersController < ApplicationController
     @member = result.record
 
     if result.success?
-      render :show, status: :ok
+      render :show, status: :created
     else
       render_error(result.json, result.http_status)
     end
