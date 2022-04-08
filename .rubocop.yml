@@ -39,6 +39,9 @@ Naming/VariableNumber:
 Style/Alias:
   EnforcedStyle: prefer_alias_method
 
+Style/ConditionalAssignment:
+  EnforcedStyle: assign_inside_condition
+
 Style/Documentation:
   Enabled: false
 
