@@ -2,9 +2,9 @@
 
 module Members
   class CreateService < BaseService
-    def initialize(params, organization, admin: false)
-      @params = params.dup
+    def initialize(organization, params, admin: false)
       @organization = organization
+      @params = params.dup
       @admin = admin
     end
 
@@ -21,7 +21,7 @@ module Members
 
     private
 
-    attr_reader :params, :organization, :admin
+    attr_reader :organization, :params, :admin
 
     def build_member_params
       params[:password_confirmation] = params[:password]

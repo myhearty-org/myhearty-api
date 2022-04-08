@@ -12,7 +12,7 @@ class OrganizationsController < ApplicationController
 
     return render_error(result.json, result.http_status) unless result.success?
 
-    result = Members::CreateService.call(admin_params, @organization, admin: true)
+    result = Members::CreateService.call(@organization, admin_params, admin: true)
     @organization_admin = result.record
 
     return render_error(result.json, result.http_status) unless result.success?
