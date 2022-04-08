@@ -49,6 +49,8 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :members, only: %i[index show create destroy]
+
     scope module: :api do
       scope module: :v0 do
         resources :organizations, path: :orgs, only: %i[index show update] do
