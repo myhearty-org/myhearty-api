@@ -63,7 +63,7 @@ class ApplicationController < ActionController::API
     }, status: :unprocessable_entity
   end
 
-  def render_error_response(json, status)
+  def render_error(json, status)
     if json
       render json: json, status: status
     else
