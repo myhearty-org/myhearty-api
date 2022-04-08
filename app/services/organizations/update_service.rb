@@ -2,16 +2,14 @@
 
 module Organizations
   class UpdateService < BaseService
-    def initialize(admin, params)
-      @admin = admin
+    def initialize(organization, params)
+      @organization = organization
       @params = params
     end
 
     def call
-      organization = admin.organization
-
       if organization.update(params)
-        success(record: organization)
+        success
       else
         error_invalid_params(organization)
       end
@@ -19,6 +17,6 @@ module Organizations
 
     private
 
-    attr_reader :admin, :params
+    attr_reader :organization, :params
   end
 end
