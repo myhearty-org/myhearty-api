@@ -21,8 +21,8 @@ class OrganizationsController < ApplicationController
   end
 
   def update
-    @organization = Organization.find(params[:id])
-    result = Organizations::UpdateService.call(current_organization_admin, @organization, organization_params)
+    result = Organizations::UpdateService.call(current_organization_admin, organization_params)
+    @organization = result.record
 
     if result.success?
       render :show, status: :ok
