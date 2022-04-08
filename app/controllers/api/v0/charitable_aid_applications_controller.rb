@@ -29,7 +29,7 @@ module Api
         elsif @charitable_aid_application.errors.any?
           error_invalid_params(@charitable_aid_application)
         else
-          render_error_response(message: result.message, http_status: result.http_status)
+          render_error(result.json, result.http_status)
         end
       end
 

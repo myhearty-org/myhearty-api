@@ -25,7 +25,7 @@ module Api
           if result.success?
             render :show, status: :created
           else
-            render_error_response(message: result.message, http_status: result.http_status)
+            render_error(result.json, result.http_status)
           end
         end
 
@@ -36,7 +36,7 @@ module Api
           if result.success?
             head :no_content
           else
-            render_error_response(message: result.message, http_status: result.http_status)
+            render_error(result.json, result.http_status)
           end
         end
       end
