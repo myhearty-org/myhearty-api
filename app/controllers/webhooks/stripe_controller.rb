@@ -16,7 +16,7 @@ module Webhooks
           Rails.application.credentials.stripe.webhook_signing_secret
         )
       rescue JSON::ParserError, Stripe::SignatureVerificationError
-        head :bad_request and return
+        return head :bad_request
       end
 
       case event.type
