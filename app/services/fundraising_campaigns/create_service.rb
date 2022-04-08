@@ -2,16 +2,13 @@
 
 module FundraisingCampaigns
   class CreateService < BaseService
-    def initialize(member, organization, params)
+    def initialize(member, params)
       @member = member
-      @organization = organization
       @params = params
     end
 
     def call
-      return error_no_permissions unless organization_member?
-
-      fundraising_campaign = organization.fundraising_campaigns.new(params)
+      fundraising_campaign = member.organization.fundraising_campaigns.new(params)
 
       if fundraising_campaign.save
         success(record: fundraising_campaign)
@@ -22,17 +19,6 @@ module FundraisingCampaigns
 
     private
 
-    attr_reader :member, :organization, :params
-
-    def organization_member?
-      organization.members.include?(member)
-    end
-
-    def error_no_permissions
-      error(
-        json: { message: "No permission to create fundraising campaign" },
-        http_status: :unauthorized
-      )
-    end
+    attr_reader :member, :params
   end
 end
