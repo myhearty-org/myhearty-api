@@ -52,16 +52,16 @@ Rails.application.routes.draw do
     scope module: :api do
       scope module: :v0 do
         resources :organizations, path: :orgs, only: %i[index show] do
-          resources :charitable_aids, path: :aids, shallow: true, only: %i[index show create update]
-          resources :fundraising_campaigns, path: :campaigns, shallow: true, only: %i[index show create update]
-          resources :volunteer_events, path: "volunteer-events", shallow: true, only: %i[index show create update]
+          resources :charitable_aids, path: :aids, only: %i[index]
+          resources :fundraising_campaigns, path: :campaigns, only: %i[index]
+          resources :volunteer_events, path: "volunteer-events", only: %i[index]
         end
 
-        resources :charitable_aids, path: :aids, only: %i[index] do
+        resources :charitable_aids, path: :aids, only: %i[index show create update] do
           resources :charitable_aid_applications, path: "aid-applications", shallow: true, only: %i[index show update]
         end
 
-        resources :fundraising_campaigns, path: :campaigns, only: %i[index] do
+        resources :fundraising_campaigns, path: :campaigns, only: %i[index show create update] do
           member do
             post "/donate", to: "fundraising_campaigns#donate"
           end
@@ -69,7 +69,7 @@ Rails.application.routes.draw do
           resources :donations, shallow: true, only: %i[index show]
         end
 
-        resources :volunteer_events, path: "volunteer-events", only: %i[index] do
+        resources :volunteer_events, path: "volunteer-events", only: %i[index show create update] do
           resources :volunteer_applications, path: "volunteer-applications", shallow: true, only: %i[index show update]
         end
 

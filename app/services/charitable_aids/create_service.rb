@@ -2,16 +2,13 @@
 
 module CharitableAids
   class CreateService < BaseService
-    def initialize(member, organization, params)
+    def initialize(member, params)
       @member = member
-      @organization = organization
       @params = params
     end
 
     def call
-      return error_no_permissions unless organization_member?
-
-      charitable_aid = organization.charitable_aids.new(params)
+      charitable_aid = member.organization.charitable_aids.new(params)
 
       if charitable_aid.save
         success(record: charitable_aid)
@@ -22,17 +19,6 @@ module CharitableAids
 
     private
 
-    attr_reader :member, :organization, :params
-
-    def organization_member?
-      organization.members.include?(member)
-    end
-
-    def error_no_permissions
-      error(
-        json: { message: "No permission to create charitable aid" },
-        http_status: :unauthorized
-      )
-    end
+    attr_reader :member, :params
   end
 end

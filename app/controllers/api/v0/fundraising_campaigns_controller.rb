@@ -19,8 +19,7 @@ module Api
       end
 
       def create
-        @organization = Organization.find(params[:organization_id])
-        result = FundraisingCampaigns::CreateService.call(current_member, @organization, fundraising_campaign_params)
+        result = FundraisingCampaigns::CreateService.call(current_member, fundraising_campaign_params)
         @fundraising_campaign = result.record
 
         if result.success?
