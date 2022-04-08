@@ -20,12 +20,13 @@ class MembersController < ApplicationController
 
   def create
     organization = current_member.organization
-    @member = Members::CreateService.call(member_params, organization)
+    result = Members::CreateService.call(member_params, organization)
+    @member = result.record
 
-    if @member.persisted?
+    if result.success?
       render :show, status: :ok
     else
-      error_invalid_params(@member)
+      render_error(result.json, result.http_status)
     end
   end
 
