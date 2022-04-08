@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class MembersController < ApplicationController
+  before_action :authenticate_member!, only: %i[index show]
+  before_action :authenticate_organization_admin!, only: %i[create destroy]
+
   def index
     @members = current_member.organization.members
   end
