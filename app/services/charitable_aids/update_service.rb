@@ -11,7 +11,11 @@ module CharitableAids
     def call
       return error_no_permissions unless organization_member?
 
-      charitable_aid.update(params) ? success : error
+      if charitable_aid.update(params)
+        success
+      else
+        error_invalid_params(charitable_aid)
+      end
     end
 
     private

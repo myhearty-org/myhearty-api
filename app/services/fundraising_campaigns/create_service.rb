@@ -16,7 +16,7 @@ module FundraisingCampaigns
       if fundraising_campaign.save
         success(record: fundraising_campaign)
       else
-        error(record: fundraising_campaign)
+        error_invalid_params(fundraising_campaign)
       end
     end
 

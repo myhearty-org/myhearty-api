@@ -13,7 +13,11 @@ module CharitableAidApplications
 
       return error_enough_receivers if enough_receivers?
 
-      charitable_aid_application.update(params) ? success : error
+      if charitable_aid_application.update(params)
+        success
+      else
+        error_invalid_params(charitable_aid_application)
+      end
     end
 
     private

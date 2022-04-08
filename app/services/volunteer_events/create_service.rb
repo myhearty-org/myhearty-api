@@ -12,7 +12,12 @@ module VolunteerEvents
       return error_no_permissions unless organization_member?
 
       volunteer_event = organization.volunteer_events.new(params)
-      volunteer_event.save ? success(record: volunteer_event) : error(record: volunteer_event)
+
+      if volunteer_event.save
+        success(record: volunteer_event)
+      else
+        error_invalid_params(volunteer_event)
+      end
     end
 
     private

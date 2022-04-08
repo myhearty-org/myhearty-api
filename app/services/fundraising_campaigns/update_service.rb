@@ -16,7 +16,7 @@ module FundraisingCampaigns
       if fundraising_campaign.update(params)
         success
       else
-        error
+        error_invalid_params(fundraising_campaign)
       end
     end
 

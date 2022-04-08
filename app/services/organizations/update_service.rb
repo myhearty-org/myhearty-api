@@ -11,7 +11,11 @@ module Organizations
     def call
       return error_no_permissions unless organization_admin?
 
-      organization.update(params) ? success : error
+      if organization.update(params)
+        success
+      else
+        error_invalid_params(organization)
+      end
     end
 
     private
