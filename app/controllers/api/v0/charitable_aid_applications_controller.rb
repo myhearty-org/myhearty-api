@@ -17,7 +17,7 @@ module Api
       def show
         @charitable_aid_application = CharitableAidApplication.find(params[:id])
 
-        return head :unauthorized unless user_charitable_aid_application? || organization_charitable_aid_application?
+        return head :not_found unless user_charitable_aid_application? || organization_charitable_aid_application?
       end
 
       def update
@@ -44,11 +44,11 @@ module Api
       end
 
       def user_charitable_aid_application?
-        @charitable_aid_application.receiver == current_user
+        @charitable_aid_application.receiver == current_user if current_user
       end
 
       def organization_charitable_aid_application?
-        @charitable_aid_application.organization.members.include?(current_member)
+        @charitable_aid_application.organization == current_member.organization if current_member
       end
     end
   end
