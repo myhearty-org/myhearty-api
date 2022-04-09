@@ -74,25 +74,25 @@ Rails.application.routes.draw do
         resources :volunteer_events, path: "volunteer-events", only: %i[index show create update destroy] do
           resources :volunteer_applications, path: "volunteer-applications", shallow: true, only: %i[index show update]
         end
+      end
+    end
 
-        namespace :users do
-          resources :donations, only: %i[index]
+    namespace :users do
+      resources :donations, only: %i[index]
 
-          resources :charitable_aid_applications, path: "aid-applications", only: %i[index] do
-            collection do
-              get "/:charitable_aid_id", to: "charitable_aid_applications#applied"
-              post "/:charitable_aid_id", to: "charitable_aid_applications#apply"
-              delete "/:charitable_aid_id", to: "charitable_aid_applications#unapply"
-            end
-          end
+      resources :charitable_aid_applications, path: "aid-applications", only: %i[index] do
+        collection do
+          get "/:charitable_aid_id", to: "charitable_aid_applications#applied"
+          post "/:charitable_aid_id", to: "charitable_aid_applications#apply"
+          delete "/:charitable_aid_id", to: "charitable_aid_applications#unapply"
+        end
+      end
 
-          resources :volunteer_applications, path: "volunteer-applications", only: %i[index] do
-            collection do
-              get "/:volunteer_event_id", to: "volunteer_applications#applied"
-              post "/:volunteer_event_id", to: "volunteer_applications#apply"
-              delete "/:volunteer_event_id", to: "volunteer_applications#unapply"
-            end
-          end
+      resources :volunteer_applications, path: "volunteer-applications", only: %i[index] do
+        collection do
+          get "/:volunteer_event_id", to: "volunteer_applications#applied"
+          post "/:volunteer_event_id", to: "volunteer_applications#apply"
+          delete "/:volunteer_event_id", to: "volunteer_applications#unapply"
         end
       end
     end
