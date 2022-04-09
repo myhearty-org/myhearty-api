@@ -7,9 +7,9 @@ module Api
       before_action :authenticate_member!, only: %i[index]
 
       def index
-        @fundraising_campaign = FundraisingCampaign.find(params[:fundraising_campaign_id])
+        @fundraising_campaign = FundraisingCampaign.find_by(id: params[:fundraising_campaign_id], organization: current_member.organization)
 
-        return head :unauthorized unless organization_fundraising_campaign?
+        return head :not_found unless @fundraising_campaign
 
         @donations = @fundraising_campaign.donations.with_payment
       end
@@ -17,21 +17,17 @@ module Api
       def show
         @donation = Donation.with_payment.find(params[:id])
 
-        return head :unauthorized unless user_donation? || organization_donation?
+        return head :not_found unless user_donation? || organization_donation?
       end
 
       private
 
-      def organization_fundraising_campaign?
-        @fundraising_campaign.organization.members.include?(current_member)
-      end
-
       def user_donation?
-        @donation.donor == current_user
+        @donation.donor == current_user if current_user
       end
 
       def organization_donation?
-        @donation.organization.members.include?(current_member)
+        @donation.organization == current_member.organization if current_member
       end
     end
   end
