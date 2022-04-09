@@ -3,7 +3,7 @@
 module Api
   module V0
     class FundraisingCampaignsController < ApiController
-      before_action :authenticate_member!, only: %i[create update]
+      before_action :authenticate_member!, only: %i[create update destroy]
       before_action :authenticate_user!, only: %i[donate]
 
       def index
@@ -35,6 +35,16 @@ module Api
 
         if result.success?
           render :show, status: :ok
+        else
+          render_error(result.json, result.http_status)
+        end
+      end
+
+      def destroy
+        result = FundraisingCampaigns::DestroyService.call(current_member, params[:id])
+
+        if result.success?
+          head :no_content
         else
           render_error(result.json, result.http_status)
         end

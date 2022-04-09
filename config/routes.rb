@@ -61,17 +61,17 @@ Rails.application.routes.draw do
           resources :volunteer_events, path: "volunteer-events", only: %i[index]
         end
 
-        resources :charitable_aids, path: :aids, only: %i[index show create update] do
+        resources :charitable_aids, path: :aids, only: %i[index show create update destroy] do
           resources :charitable_aid_applications, path: "aid-applications", shallow: true, only: %i[index show update]
         end
 
-        resources :fundraising_campaigns, path: :campaigns, only: %i[index show create update] do
+        resources :fundraising_campaigns, path: :campaigns, only: %i[index show create update destroy] do
           post "donate", on: :member
 
           resources :donations, shallow: true, only: %i[index show]
         end
 
-        resources :volunteer_events, path: "volunteer-events", only: %i[index show create update] do
+        resources :volunteer_events, path: "volunteer-events", only: %i[index show create update destroy] do
           resources :volunteer_applications, path: "volunteer-applications", shallow: true, only: %i[index show update]
         end
 
