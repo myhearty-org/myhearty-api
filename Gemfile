@@ -29,6 +29,12 @@ gem "responders", "~> 3.0"
 # Payments
 gem "stripe", "~> 5.0"
 
+# Files attachments
+gem "shrine", "~> 3.0"
+
+# Storage
+gem "aws-sdk-s3", "~> 1.0"
+
 # Validations
 gem "public_suffix", "~> 4.0"
 gem "validates_timeliness", "~> 6.0.0.alpha1"
