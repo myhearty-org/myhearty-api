@@ -25,7 +25,7 @@ module VolunteerApplications
     attr_reader :member, :volunteer_application, :params
 
     def organization_member?
-      volunteer_application.organization.members.include?(member)
+      volunteer_application.organization == member.organization
     end
 
     def enough_volunteers?
