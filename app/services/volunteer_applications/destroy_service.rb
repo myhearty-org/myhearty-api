@@ -10,7 +10,7 @@ module VolunteerApplications
     def call
       @volunteer_application = VolunteerApplication.find_by(volunteer: volunteer, volunteer_event: volunteer_event)
 
-      return error_not_found unless volunteer_application
+      return error(http_status: :not_found) unless volunteer_application
 
       return error_application_processed if processing_application?
 
@@ -32,10 +32,6 @@ module VolunteerApplications
 
     def deadline_exceeded?
       Time.current > volunteer_event.application_deadline
-    end
-
-    def error_not_found
-      error(http_status: :not_found)
     end
 
     def error_application_processed

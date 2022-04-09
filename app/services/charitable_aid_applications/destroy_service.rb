@@ -10,7 +10,7 @@ module CharitableAidApplications
     def call
       @charitable_aid_application = CharitableAidApplication.find_by(receiver: receiver, charitable_aid: charitable_aid)
 
-      return error_not_found unless charitable_aid_application
+      return error(http_status: :not_found) unless charitable_aid_application
 
       return error_application_processed if processing_application?
 
@@ -32,10 +32,6 @@ module CharitableAidApplications
 
     def deadline_exceeded?
       Time.current > charitable_aid.application_deadline
-    end
-
-    def error_not_found
-      error(http_status: :not_found)
     end
 
     def error_application_processed
