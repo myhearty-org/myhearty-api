@@ -42,11 +42,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resource :organization, path: :org, only: %i[show create update] do
-      get "/campaigns", action: "fundraising_campaigns"
-      get "volunteer-events"
-      get "/aids", action: "charitable_aids"
-
+    resource :organization, path: :org, only: %i[create] do
       post "stripe-onboard"
       get "stripe-onboard-refresh"
     end
@@ -55,6 +51,12 @@ Rails.application.routes.draw do
 
     scope module: :api do
       scope module: :v0 do
+        resource :organization, path: :org, only: %i[show update] do
+          get "/campaigns", action: "fundraising_campaigns"
+          get "volunteer-events"
+          get "/aids", action: "charitable_aids"
+        end
+
         resources :organizations, path: :orgs, only: %i[index show] do
           resources :charitable_aids, path: :aids, only: %i[index]
           resources :fundraising_campaigns, path: :campaigns, only: %i[index]
