@@ -25,7 +25,7 @@ module CharitableAidApplications
     attr_reader :member, :charitable_aid_application, :params
 
     def organization_member?
-      charitable_aid_application.organization.members.include?(member)
+      charitable_aid_application.organization == member.organization
     end
 
     def enough_receivers?
