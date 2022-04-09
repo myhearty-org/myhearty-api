@@ -9,7 +9,7 @@ module VolunteerEvents
     end
 
     def call
-      return error_no_permissions unless organization_member?
+      return error(http_status: :not_found) unless organization_member?
 
       if volunteer_event.update(params)
         success
@@ -23,14 +23,7 @@ module VolunteerEvents
     attr_reader :member, :volunteer_event, :params
 
     def organization_member?
-      volunteer_event.organization.members.include?(member)
-    end
-
-    def error_no_permissions
-      error(
-        json: { message: "No permission to update volunteer event" },
-        http_status: :unauthorized
-      )
+      volunteer_event.organization == member.organization
     end
   end
 end

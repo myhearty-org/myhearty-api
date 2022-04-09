@@ -9,7 +9,7 @@ module FundraisingCampaigns
     end
 
     def call
-      return error_no_permissions unless organization_member?
+      return error(http_status: :not_found) unless organization_member?
 
       @params = params.except(*unallowed_params_for_published) if fundraising_campaign.published?
 
@@ -25,7 +25,7 @@ module FundraisingCampaigns
     attr_reader :member, :fundraising_campaign, :params
 
     def organization_member?
-      fundraising_campaign.organization.members.include?(member)
+      fundraising_campaign.organization == member.organization
     end
 
     def unallowed_params_for_published
@@ -36,13 +36,6 @@ module FundraisingCampaigns
         end_datetime
         published
       ]
-    end
-
-    def error_no_permissions
-      error(
-        json: { message: "No permission to update fundraising campaign" },
-        http_status: :unauthorized
-      )
     end
   end
 end
