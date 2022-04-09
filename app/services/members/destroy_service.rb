@@ -2,13 +2,13 @@
 
 module Members
   class DestroyService < BaseService
-    def initialize(admin, member_id)
+    def initialize(admin, id)
       @admin = admin
-      @member_id = member_id
+      @id = id
     end
 
     def call
-      member = Member.find_by(id: member_id, organization: admin.organization)
+      member = Member.find_by(id: id, organization: admin.organization)
 
       return error(http_status: :not_found) unless member
 
@@ -18,6 +18,6 @@ module Members
 
     private
 
-    attr_reader :admin, :member_id
+    attr_reader :admin, :id
   end
 end
