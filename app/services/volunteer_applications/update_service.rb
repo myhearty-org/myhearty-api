@@ -9,7 +9,7 @@ module VolunteerApplications
     end
 
     def call
-      return error_no_permissions unless organization_member?
+      return error(http_status: :not_found) unless organization_member?
 
       return error_enough_volunteers if enough_volunteers?
 
@@ -38,13 +38,6 @@ module VolunteerApplications
 
     def volunteer_event
       @volunteer_event ||= volunteer_application.volunteer_event
-    end
-
-    def error_no_permissions
-      error(
-        json: { message: "No permission to update volunteer application" },
-        http_status: :unauthorized
-      )
     end
 
     def error_enough_volunteers
