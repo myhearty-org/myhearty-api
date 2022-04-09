@@ -12,7 +12,11 @@ module Users
       volunteer_event_id = params[:volunteer_event_id]
       volunteer_application = VolunteerApplication.find_by(volunteer: current_user, volunteer_event_id: volunteer_event_id)
 
-      volunteer_application ? head(:no_content) : head(:not_found)
+      if volunteer_application
+        head :no_content
+      else
+        head :not_found
+      end
     end
 
     def apply
