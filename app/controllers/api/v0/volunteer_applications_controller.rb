@@ -17,7 +17,7 @@ module Api
       def show
         @volunteer_application = VolunteerApplication.find(params[:id])
 
-        return head :unauthorized unless user_volunteer_application? || organization_volunteer_application?
+        return head :not_found unless user_volunteer_application? || organization_volunteer_application?
       end
 
       def update
@@ -45,11 +45,11 @@ module Api
       end
 
       def user_volunteer_application?
-        @volunteer_application.volunteer == current_user
+        @volunteer_application.volunteer == current_user if current_user
       end
 
       def organization_volunteer_application?
-        @volunteer_application.organization.members.include?(current_member)
+        @volunteer_application.organization == current_member.organization if current_member
       end
     end
   end
