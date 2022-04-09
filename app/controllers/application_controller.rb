@@ -15,7 +15,7 @@ class ApplicationController < ActionController::API
 
   respond_to :json
 
-  rescue_from ActionController::InvalidAuthenticityToken, with: :respond_401
+  rescue_from ActionController::InvalidAuthenticityToken, with: -> { head :forbidden }
 
   rescue_from ActionController::ParameterMissing, with: :error_missing_params
 
@@ -37,10 +37,6 @@ class ApplicationController < ActionController::API
 
   def authenticate_organization_admin!
     return head :unauthorized unless authenticate_member! && current_member.admin?
-  end
-
-  def respond_401
-    head :unauthorized
   end
 
   def respond_404(exception)
