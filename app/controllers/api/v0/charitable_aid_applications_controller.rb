@@ -7,9 +7,9 @@ module Api
       before_action :authenticate_member!, only: %i[index update]
 
       def index
-        @charitable_aid = CharitableAid.find(params[:charitable_aid_id])
+        @charitable_aid = CharitableAid.find_by(id: params[:charitable_aid_id], organization: current_member.organization)
 
-        return head :unauthorized unless organization_charitable_aid?
+        return head :not_found unless @charitable_aid
 
         @charitable_aid_applications = @charitable_aid.charitable_aid_applications
       end
@@ -17,7 +17,7 @@ module Api
       def show
         @charitable_aid_application = CharitableAidApplication.find(params[:id])
 
-        return head :unauthorized unless user_charitable_aid_application? || organization_charitable_aid_application?
+        return head :not_found unless user_charitable_aid_application? || organization_charitable_aid_application?
       end
 
       def update
@@ -43,16 +43,12 @@ module Api
         ]
       end
 
-      def organization_charitable_aid?
-        @charitable_aid.organization.members.include?(current_member)
-      end
-
       def user_charitable_aid_application?
-        @charitable_aid_application.receiver == current_user
+        @charitable_aid_application.receiver == current_user if current_user
       end
 
       def organization_charitable_aid_application?
-        @charitable_aid_application.organization.members.include?(current_member)
+        @charitable_aid_application.organization == current_member.organization if current_member
       end
     end
   end

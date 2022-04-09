@@ -9,7 +9,7 @@ module CharitableAidApplications
     end
 
     def call
-      return error_no_permissions unless organization_member?
+      return error(http_status: :not_found) unless organization_member?
 
       return error_enough_receivers if enough_receivers?
 
@@ -25,7 +25,7 @@ module CharitableAidApplications
     attr_reader :member, :charitable_aid_application, :params
 
     def organization_member?
-      charitable_aid_application.organization.members.include?(member)
+      charitable_aid_application.organization == member.organization
     end
 
     def enough_receivers?
@@ -38,13 +38,6 @@ module CharitableAidApplications
 
     def charitable_aid
       @charitable_aid ||= charitable_aid_application.charitable_aid
-    end
-
-    def error_no_permissions
-      error(
-        json: { message: "No permission to update charitable aid application" },
-        http_status: :unauthorized
-      )
     end
 
     def error_enough_receivers
