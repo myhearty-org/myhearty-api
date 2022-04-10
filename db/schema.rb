@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_10_064306) do
+ActiveRecord::Schema.define(version: 2022_04_10_182814) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,9 @@ ActiveRecord::Schema.define(version: 2022_04_10_064306) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "organization_id", null: false
     t.text "image_data"
+    t.decimal "latitude", precision: 13, scale: 9
+    t.decimal "longitude", precision: 13, scale: 9
+    t.index ["latitude", "longitude"], name: "index_charitable_aids_on_latitude_and_longitude"
     t.index ["name"], name: "index_charitable_aids_on_name"
     t.index ["organization_id"], name: "index_charitable_aids_on_organization_id"
   end
@@ -93,7 +96,10 @@ ActiveRecord::Schema.define(version: 2022_04_10_064306) do
     t.bigint "organization_id", null: false
     t.string "fundraising_campaign_id", null: false
     t.text "image_data"
+    t.decimal "latitude", precision: 13, scale: 9
+    t.decimal "longitude", precision: 13, scale: 9
     t.index ["fundraising_campaign_id"], name: "index_fundraising_campaigns_on_fundraising_campaign_id", unique: true
+    t.index ["latitude", "longitude"], name: "index_fundraising_campaigns_on_latitude_and_longitude"
     t.index ["name"], name: "index_fundraising_campaigns_on_name"
     t.index ["organization_id"], name: "index_fundraising_campaigns_on_organization_id"
   end
@@ -157,7 +163,10 @@ ActiveRecord::Schema.define(version: 2022_04_10_064306) do
     t.string "stripe_account_id"
     t.text "avatar_data"
     t.text "image_data"
+    t.decimal "latitude", precision: 13, scale: 9
+    t.decimal "longitude", precision: 13, scale: 9
     t.index ["email"], name: "index_organizations_on_email", unique: true
+    t.index ["latitude", "longitude"], name: "index_organizations_on_latitude_and_longitude"
     t.index ["name"], name: "index_organizations_on_name"
     t.index ["website_url"], name: "index_organizations_on_website_url", unique: true
   end
@@ -248,6 +257,9 @@ ActiveRecord::Schema.define(version: 2022_04_10_064306) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "organization_id", null: false
     t.text "image_data"
+    t.decimal "latitude", precision: 13, scale: 9
+    t.decimal "longitude", precision: 13, scale: 9
+    t.index ["latitude", "longitude"], name: "index_volunteer_events_on_latitude_and_longitude"
     t.index ["name"], name: "index_volunteer_events_on_name"
     t.index ["organization_id"], name: "index_volunteer_events_on_organization_id"
   end
