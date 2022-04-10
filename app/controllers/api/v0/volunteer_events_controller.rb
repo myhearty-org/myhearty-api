@@ -61,7 +61,7 @@ module Api
           openings
           location
           about_event
-          main_image
+          image
           youtube_url
           start_datetime
           end_datetime

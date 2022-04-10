@@ -2,6 +2,6 @@ json.extract! user,
   :id,
   :email,
   :name,
-  :avatar,
+  :avatar_url,
   :created_at,
   :updated_at

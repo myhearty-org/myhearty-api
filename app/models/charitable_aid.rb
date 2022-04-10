@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class CharitableAid < ApplicationRecord
+  include ImageUploader::Attachment(:image)
   include Charitable
 
   belongs_to :organization
@@ -17,7 +18,6 @@ class CharitableAid < ApplicationRecord
   validates :receiver_count, allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validate :receiver_count_less_than_openings
   validates :location, allow_blank: true, length: { maximum: 255 }
-  validates :main_image, allow_blank: true, url: true
   validates :youtube_url, allow_blank: true, url: true
   validates_datetime :application_deadline, allow_nil: true, ignore_usec: true,
                                             after: :time_current, after_message: "must be after current datetime",

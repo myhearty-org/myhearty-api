@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Organization < ApplicationRecord
+  include ImageUploader::Attachment(:avatar)
+  include ImageUploader::Attachment(:image)
   include Charitable
 
   has_many :members, dependent: :delete_all
@@ -8,7 +10,6 @@ class Organization < ApplicationRecord
   has_many :volunteer_events, dependent: :delete_all
   has_many :charitable_aids, dependent: :delete_all
 
-  attribute :images, :string, array: true, default: []
   attribute :charity, :boolean, default: false
 
   validates :name, presence: true, length: { maximum: 63 }
