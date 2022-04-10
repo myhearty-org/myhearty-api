@@ -33,6 +33,9 @@ Metrics/AbcSize:
 Metrics/MethodLength:
   Enabled: false
 
+Naming/AccessorMethodName:
+  Enabled: false
+
 Naming/VariableNumber:
   EnforcedStyle: snake_case
 
