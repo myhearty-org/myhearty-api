@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_05_183525) do
+ActiveRecord::Schema.define(version: 2022_04_10_064306) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,13 +35,13 @@ ActiveRecord::Schema.define(version: 2022_04_05_183525) do
     t.integer "receiver_count", default: 0, null: false
     t.text "location"
     t.text "about_aid"
-    t.string "main_image"
     t.string "youtube_url"
     t.datetime "application_deadline", precision: 0
     t.boolean "published", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "organization_id", null: false
+    t.text "image_data"
     t.index ["name"], name: "index_charitable_aids_on_name"
     t.index ["organization_id"], name: "index_charitable_aids_on_organization_id"
   end
@@ -84,7 +84,6 @@ ActiveRecord::Schema.define(version: 2022_04_05_183525) do
     t.integer "donor_count", default: 0, null: false
     t.text "location"
     t.text "about_campaign"
-    t.string "main_image"
     t.string "youtube_url"
     t.datetime "start_datetime", precision: 0
     t.datetime "end_datetime", precision: 0
@@ -93,6 +92,7 @@ ActiveRecord::Schema.define(version: 2022_04_05_183525) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "organization_id", null: false
     t.string "fundraising_campaign_id", null: false
+    t.text "image_data"
     t.index ["fundraising_campaign_id"], name: "index_fundraising_campaigns_on_fundraising_campaign_id", unique: true
     t.index ["name"], name: "index_fundraising_campaigns_on_name"
     t.index ["organization_id"], name: "index_fundraising_campaigns_on_organization_id"
@@ -131,6 +131,7 @@ ActiveRecord::Schema.define(version: 2022_04_05_183525) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "organization_id", null: false
     t.boolean "admin", default: false, null: false
+    t.text "avatar_data"
     t.index ["confirmation_token"], name: "index_members_on_confirmation_token", unique: true
     t.index ["email"], name: "index_members_on_email", unique: true
     t.index ["organization_id"], name: "index_members_on_organization_id"
@@ -147,15 +148,15 @@ ActiveRecord::Schema.define(version: 2022_04_05_183525) do
     t.string "facebook_url"
     t.string "youtube_url"
     t.string "person_in_charge_name", limit: 63, null: false
-    t.string "avatar"
     t.string "video_url"
-    t.string "images", default: [], array: true
     t.text "about_us", null: false
     t.text "programmes_summary"
     t.boolean "charity", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "stripe_account_id"
+    t.text "avatar_data"
+    t.text "image_data"
     t.index ["email"], name: "index_organizations_on_email", unique: true
     t.index ["name"], name: "index_organizations_on_name"
     t.index ["website_url"], name: "index_organizations_on_website_url", unique: true
@@ -204,9 +205,9 @@ ActiveRecord::Schema.define(version: 2022_04_05_183525) do
     t.string "unlock_token"
     t.datetime "locked_at", precision: 6
     t.string "name"
-    t.string "avatar"
     t.string "facebook_username"
     t.string "google_oauth2_username"
+    t.text "avatar_data"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["facebook_username"], name: "index_users_on_facebook_username"
@@ -238,7 +239,6 @@ ActiveRecord::Schema.define(version: 2022_04_05_183525) do
     t.integer "volunteer_count", default: 0, null: false
     t.text "location"
     t.text "about_event"
-    t.string "main_image"
     t.string "youtube_url"
     t.datetime "start_datetime", precision: 0
     t.datetime "end_datetime", precision: 0
@@ -247,6 +247,7 @@ ActiveRecord::Schema.define(version: 2022_04_05_183525) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "organization_id", null: false
+    t.text "image_data"
     t.index ["name"], name: "index_volunteer_events_on_name"
     t.index ["organization_id"], name: "index_volunteer_events_on_organization_id"
   end
