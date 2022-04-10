@@ -35,6 +35,9 @@ gem "shrine", "~> 3.0"
 # Storage
 gem "aws-sdk-s3", "~> 1.0"
 
+# Geocoding
+gem "geocoder", "~> 1.7"
+
 # Validations
 gem "public_suffix", "~> 4.0"
 gem "validates_timeliness", "~> 6.0.0.alpha1"

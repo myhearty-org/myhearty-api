@@ -122,6 +122,7 @@ GEM
       faraday-net_http (~> 2.0)
       ruby2_keywords (>= 0.0.4)
     faraday-net_http (2.0.1)
+    geocoder (1.7.5)
     globalid (1.0.0)
       activesupport (>= 5.0)
     hashie (5.0.0)
@@ -290,6 +291,7 @@ DEPENDENCIES
   debase
   debug
   devise (~> 4.8.1)
+  geocoder (~> 1.7)
   jbuilder (~> 2.11)
   omniauth (~> 2.0)
   omniauth-facebook (~> 9.0)
