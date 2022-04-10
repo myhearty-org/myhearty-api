@@ -4,6 +4,10 @@ Rails.application.routes.draw do
   defaults format: :json do
     get "/s3/params", to: "presigns#image"
 
+    namespace :webhooks do
+      post :stripe, to: "stripe#create"
+    end
+
     # for unknown reason, omniauth_callbacks_controller must be declared
     # in devise_for block, otherwise passthru method will not work
     devise_for :users,
@@ -99,10 +103,6 @@ Rails.application.routes.draw do
           delete "/:volunteer_event_id", to: "volunteer_applications#unapply"
         end
       end
-    end
-
-    namespace :webhooks do
-      post :stripe, to: "stripe#create"
     end
   end
 end

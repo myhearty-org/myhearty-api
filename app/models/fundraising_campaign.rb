@@ -6,6 +6,9 @@ class FundraisingCampaign < ApplicationRecord
   include RandomId
 
   random_id prefix: :frcp
+  geocoded_by :location
+
+  after_validation :geocode, if: -> { location.present? && location_changed? }
 
   belongs_to :organization
 
