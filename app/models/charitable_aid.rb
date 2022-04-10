@@ -4,6 +4,10 @@ class CharitableAid < ApplicationRecord
   include ImageUploader::Attachment(:image)
   include Charitable
 
+  geocoded_by :location
+
+  after_validation :geocode, if: -> { location.present? && location_changed? }
+
   belongs_to :organization
 
   has_many :charitable_aid_applications

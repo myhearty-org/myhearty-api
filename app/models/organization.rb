@@ -5,6 +5,10 @@ class Organization < ApplicationRecord
   include ImageUploader::Attachment(:image)
   include Charitable
 
+  geocoded_by :location
+
+  after_validation :geocode, if: -> { location.present? && location_changed? }
+
   has_many :members, dependent: :delete_all
   has_many :fundraising_campaigns, dependent: :delete_all
   has_many :volunteer_events, dependent: :delete_all
