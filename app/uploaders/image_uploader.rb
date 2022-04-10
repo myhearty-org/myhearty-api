@@ -23,4 +23,15 @@ class ImageUploader < Shrine
       validate_max_dimensions MAX_DIMENSIONS
     end
   end
+
+  plugin :default_url
+
+  Attacher.default_url do
+    case name
+    when :avatar
+      "https://www.gravatar.com/avatar/?d=mp"
+    when :image
+      "https://fakeimg.pl/640x360/"
+    end
+  end
 end
