@@ -8,6 +8,9 @@ class FundraisingCampaign < ApplicationRecord
   random_id prefix: :frcp
   geocoded_by :location
 
+  before_create :create_stripe_product, if: :published?
+  before_update :create_stripe_product, if: -> { published_changed? && published? }
+
   after_validation :geocode, if: -> { location.present? && location_changed? }
 
   belongs_to :organization
@@ -32,9 +35,6 @@ class FundraisingCampaign < ApplicationRecord
                                     after: :start_datetime, after_message: "must be after start datetime"
   validates :published, inclusion: { in: [true, false] }
   validates :published, exclusion: { in: [nil] }
-
-  before_create :create_stripe_product, if: :published?
-  before_update :create_stripe_product, if: -> { published_changed? && published? }
 
   private
 
