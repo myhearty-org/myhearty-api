@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Member < ApplicationRecord
+  include ImageUploader::Attachment(:avatar)
+
   belongs_to :organization
 
   devise :database_authenticatable, :registerable, :recoverable,

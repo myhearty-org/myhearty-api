@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Organization < ApplicationRecord
+  include ImageUploader::Attachment(:avatar)
+  include ImageUploader::Attachment(:image)
   include Charitable
 
   has_many :members, dependent: :delete_all

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class FundraisingCampaign < ApplicationRecord
+  include ImageUploader::Attachment(:image)
   include Charitable
   include RandomId
 

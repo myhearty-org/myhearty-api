@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class VolunteerEvent < ApplicationRecord
+  include ImageUploader::Attachment(:image)
   include Charitable
 
   belongs_to :organization

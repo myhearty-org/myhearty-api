@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class CharitableAid < ApplicationRecord
+  include ImageUploader::Attachment(:image)
   include Charitable
 
   belongs_to :organization
