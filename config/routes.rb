@@ -2,6 +2,8 @@
 
 Rails.application.routes.draw do
   defaults format: :json do
+    get "/s3/params", to: "presigns#image"
+
     # for unknown reason, omniauth_callbacks_controller must be declared
     # in devise_for block, otherwise passthru method will not work
     devise_for :users,
