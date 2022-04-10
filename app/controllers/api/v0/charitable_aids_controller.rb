@@ -61,7 +61,7 @@ module Api
           openings
           location
           about_aid
-          main_image
+          image
           youtube_url
           application_deadline
           published

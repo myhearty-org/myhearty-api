@@ -61,7 +61,7 @@ module Api
           target_amount
           location
           about_campaign
-          main_image
+          image
           youtube_url
           start_datetime
           end_datetime

@@ -61,7 +61,7 @@ class OrganizationsController < ApplicationController
       person_in_charge_name
       avatar
       video_url
-      images
+      image
       about_us
       programmes_summary
     ]
