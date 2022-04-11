@@ -6,7 +6,9 @@ json.extract! fundraising_campaign,
   :total_raised_amount,
   :donor_count,
   :location,
-  :about_campaign,
+  :about_campaign
+json.categories fundraising_campaign.charity_causes.map(&:display_name)
+json.extract! fundraising_campaign,
   :image_url,
   :youtube_url,
   :start_datetime,
