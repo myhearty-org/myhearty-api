@@ -5,7 +5,9 @@ module Users
     before_action :authenticate_user!
 
     def index
-      @donations = current_user.donations.with_payment
+      @donations = current_user.donations
+                               .with_payment
+                               .includes(:fundraising_campaign)
     end
 
     def donate

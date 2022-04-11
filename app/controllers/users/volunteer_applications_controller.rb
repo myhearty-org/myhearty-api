@@ -6,6 +6,7 @@ module Users
 
     def index
       @volunteer_applications = current_user.volunteer_applications
+                                            .includes(:volunteer_event)
     end
 
     def applied
@@ -20,8 +21,8 @@ module Users
     end
 
     def apply
-      volunteer_event = VolunteerEvent.find(params[:volunteer_event_id])
-      result = VolunteerApplications::CreateService.call(current_user, volunteer_event)
+      @volunteer_event = VolunteerEvent.find(params[:volunteer_event_id])
+      result = VolunteerApplications::CreateService.call(current_user, @volunteer_event)
       @volunteer_application = result.record
 
       if result.success?
