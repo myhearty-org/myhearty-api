@@ -8,9 +8,10 @@ module Api
       def index
         if params.key?(:organization_id)
           @volunteer_events = VolunteerEvent.where(organization_id: params[:organization_id])
+                                            .includes([:charity_causes, :organization])
         else
           @volunteer_events = VolunteerEvent.all
-                                            .includes(:organization)
+                                            .includes([:charity_causes, :organization])
         end
       end
 
