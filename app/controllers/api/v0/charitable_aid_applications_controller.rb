@@ -16,15 +16,13 @@ module Api
       end
 
       def show
-        @charitable_aid_application = CharitableAidApplication.includes(:receiver)
-                                                              .find(params[:id])
+        @charitable_aid_application = CharitableAidApplication.find(params[:id])
 
         return head :not_found unless user_charitable_aid_application? || organization_charitable_aid_application?
       end
 
       def update
-        @charitable_aid_application = CharitableAidApplication.includes(:receiver)
-                                                              .find(params[:id])
+        @charitable_aid_application = CharitableAidApplication.find(params[:id])
         result = CharitableAidApplications::UpdateService.call(current_member, @charitable_aid_application, charitable_aid_application_params)
 
         if result.success?

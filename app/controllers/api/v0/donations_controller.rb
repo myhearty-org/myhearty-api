@@ -18,7 +18,6 @@ module Api
 
       def show
         @donation = Donation.with_payment
-                            .includes(:donor)
                             .find(params[:id])
 
         return head :not_found unless user_donation? || organization_donation?
