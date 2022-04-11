@@ -28,7 +28,11 @@ module Api
 
     config.middleware.use ActionDispatch::Cookies
 
-    config.middleware.use ActionDispatch::Session::CookieStore
+    config.middleware.use ActionDispatch::Session::CookieStore,
+                          key: "_myhearty_session",
+                          secure: true,
+                          httponly: true,
+                          expire_after: 2.days
 
     config.i18n.enforce_available_locales = false
 
