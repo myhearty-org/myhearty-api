@@ -12,16 +12,19 @@ module Api
         return head :not_found unless @volunteer_event
 
         @volunteer_applications = @volunteer_event.volunteer_applications
+                                                  .includes(:volunteer)
       end
 
       def show
-        @volunteer_application = VolunteerApplication.find(params[:id])
+        @volunteer_application = VolunteerApplication.includes(:volunteer)
+                                                     .find(params[:id])
 
         return head :not_found unless user_volunteer_application? || organization_volunteer_application?
       end
 
       def update
-        @volunteer_application = VolunteerApplication.find(params[:id])
+        @volunteer_application = VolunteerApplication.includes(:volunteer)
+                                                     .find(params[:id])
         result = VolunteerApplications::UpdateService.call(current_member, @volunteer_application, volunteer_application_params)
 
         if result.success?
