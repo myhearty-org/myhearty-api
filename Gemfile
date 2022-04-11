@@ -45,6 +45,10 @@ gem "validates_timeliness", "~> 6.0.0.alpha1"
 # Counter cache
 gem "counter_culture", "~> 3.2"
 
+# JSON
+gem "oj", "~> 3.13"
+gem "multi_json", "~> 1.15"
+
 group :development, :test do
   gem "debug", platforms: %i[mri mingw x64_mingw]
   gem "debase"
