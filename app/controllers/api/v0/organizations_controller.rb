@@ -8,6 +8,7 @@ module Api
 
       def index
         @organizations = Organization.all
+                                     .includes(:charity_causes)
       end
 
       def show
@@ -31,15 +32,21 @@ module Api
       end
 
       def fundraising_campaigns
-        @fundraising_campaigns = current_member.organization.fundraising_campaigns
+        @fundraising_campaigns = current_member.organization
+                                               .fundraising_campaigns
+                                               .includes(:charity_causes)
       end
 
       def volunteer_events
-        @volunteer_events = current_member.organization.volunteer_events
+        @volunteer_events = current_member.organization
+                                          .volunteer_events
+                                          .includes(:charity_causes)
       end
 
       def charitable_aids
-        @charitable_aids = current_member.organization.charitable_aids
+        @charitable_aids = current_member.organization
+                                         .charitable_aids
+                                         .includes(:charity_causes)
       end
 
       private
