@@ -1,5 +1,5 @@
 json.array!(@donations) do |donation|
-  json.partial! "donations/donation", donation: donation
+  json.partial! "shared/donation", donation: donation
   json.fundraising_campaign do
     json.extract! donation.fundraising_campaign,
       :id,

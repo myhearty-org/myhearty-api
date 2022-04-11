@@ -1,5 +1,5 @@
 json.array!(@volunteer_applications) do |volunteer_application|
-  json.partial! "volunteer_applications/volunteer_application", volunteer_application: volunteer_application
+  json.partial! "shared/volunteer_application", volunteer_application: volunteer_application
   json.volunteer_event do
     json.extract! volunteer_application.volunteer_event,
       :id,
