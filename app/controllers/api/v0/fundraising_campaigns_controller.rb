@@ -10,6 +10,7 @@ module Api
           @fundraising_campaigns = FundraisingCampaign.where(organization_id: params[:organization_id])
         else
           @fundraising_campaigns = FundraisingCampaign.all
+                                                      .includes(:organization)
         end
       end
 
