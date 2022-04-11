@@ -11,11 +11,15 @@ module Api
 
         return head :not_found unless @fundraising_campaign
 
-        @donations = @fundraising_campaign.donations.with_payment
+        @donations = @fundraising_campaign.donations
+                                          .with_payment
+                                          .includes(:donor)
       end
 
       def show
-        @donation = Donation.with_payment.find(params[:id])
+        @donation = Donation.with_payment
+                            .includes(:donor)
+                            .find(params[:id])
 
         return head :not_found unless user_donation? || organization_donation?
       end
