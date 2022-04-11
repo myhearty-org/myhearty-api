@@ -10,6 +10,7 @@ module Api
           @charitable_aids = CharitableAid.where(organization_id: params[:organization_id])
         else
           @charitable_aids = CharitableAid.all
+                                          .includes(:organization)
         end
       end
 
