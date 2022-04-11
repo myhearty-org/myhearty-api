@@ -10,6 +10,7 @@ module Api
           @volunteer_events = VolunteerEvent.where(organization_id: params[:organization_id])
         else
           @volunteer_events = VolunteerEvent.all
+                                            .includes(:organization)
         end
       end
 
