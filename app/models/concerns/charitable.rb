@@ -3,6 +3,8 @@
 module Charitable
   extend ActiveSupport::Concern
 
+  attr_accessor :categories
+
   included do
     has_many :charitables_charity_causes, as: :charitable, dependent: :delete_all
     has_many :charity_causes, through: :charitables_charity_causes
