@@ -63,6 +63,9 @@ group :development, :test do
   # Consistency check for database and active record validations
   gem "active_record_doctor", require: false
   gem "database_consistency", require: false
+
+  # Generate fake data
+  gem "faker", "~> 2.20"
 end
 
 group :development do
