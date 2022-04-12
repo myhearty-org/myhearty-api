@@ -29,6 +29,9 @@ gem "responders", "~> 3.0"
 # Payments
 gem "stripe", "~> 5.0"
 
+# Pagination
+gem "kaminari", "~> 1.2"
+
 # Files attachments
 gem "shrine", "~> 3.0"
 
