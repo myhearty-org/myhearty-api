@@ -52,7 +52,8 @@ module Api
       private
 
       def organization_params
-        params.require(:organization).permit(organization_params_attributes)
+        organization_params = params.require(:organization).permit(organization_params_attributes)
+        organization_params.merge!(categories_params)
       end
 
       def organization_params_attributes
@@ -71,6 +72,10 @@ module Api
           about_us
           programmes_summary
         ]
+      end
+
+      def categories_params
+        params.slice(:categories).permit(categories: [])
       end
     end
   end

@@ -54,7 +54,8 @@ module Api
       private
 
       def charitable_aid_params
-        params.require(:charitable_aid).permit(charitable_aid_params_attributes)
+        charitable_aid_params = params.require(:charitable_aid).permit(charitable_aid_params_attributes)
+        charitable_aid_params.merge!(categories_params)
       end
 
       def charitable_aid_params_attributes
@@ -68,6 +69,10 @@ module Api
           application_deadline
           published
         ]
+      end
+
+      def categories_params
+        params.slice(:categories).permit(categories: [])
       end
     end
   end

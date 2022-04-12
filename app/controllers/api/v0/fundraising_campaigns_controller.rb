@@ -54,7 +54,8 @@ module Api
       private
 
       def fundraising_campaign_params
-        params.require(:fundraising_campaign).permit(fundraising_campaign_params_attributes)
+        fundraising_campaign_params = params.require(:fundraising_campaign).permit(fundraising_campaign_params_attributes)
+        fundraising_campaign_params.merge!(categories_params)
       end
 
       def fundraising_campaign_params_attributes
@@ -69,6 +70,10 @@ module Api
           end_datetime
           published
         ]
+      end
+
+      def categories_params
+        params.slice(:categories).permit(categories: [])
       end
     end
   end
