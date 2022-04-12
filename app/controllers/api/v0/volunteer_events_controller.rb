@@ -54,7 +54,8 @@ module Api
       private
 
       def volunteer_event_params
-        params.require(:volunteer_event).permit(volunteer_event_params_attributes)
+        volunteer_event_params = params.require(:volunteer_event).permit(volunteer_event_params_attributes)
+        volunteer_event_params.merge!(categories_params)
       end
 
       def volunteer_event_params_attributes
@@ -70,6 +71,10 @@ module Api
           application_deadline
           published
         ]
+      end
+
+      def categories_params
+        params.slice(:categories).permit(categories: [])
       end
     end
   end

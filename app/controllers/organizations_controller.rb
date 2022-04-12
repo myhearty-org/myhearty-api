@@ -46,7 +46,8 @@ class OrganizationsController < ApplicationController
 
   def create_organization_params
     organization_params, admin_params = params.require([:organization, :admin])
-    [organization_params.permit(organization_params_attributes), admin_params.permit(admin_params_attributes)]
+    [organization_params.permit(organization_params_attributes).merge!(categories_params),
+     admin_params.permit(admin_params_attributes)]
   end
 
   def organization_params_attributes
@@ -72,6 +73,10 @@ class OrganizationsController < ApplicationController
       email
       password
     ]
+  end
+
+  def categories_params
+    params.slice(:categories).permit(categories: [])
   end
 
   def create_stripe_account(organization)

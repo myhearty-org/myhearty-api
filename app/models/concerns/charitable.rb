@@ -3,14 +3,21 @@
 module Charitable
   extend ActiveSupport::Concern
 
+  attr_accessor :categories
+
   included do
+    after_save :insert_charity_causes
+
     has_many :charitables_charity_causes, as: :charitable, dependent: :delete_all
     has_many :charity_causes, through: :charitables_charity_causes
   end
 
-  def insert_charity_causes(charity_causes)
-    return unless charity_causes.present?
+  def insert_charity_causes
+    return unless categories
 
+    CharitablesCharityCause.where(charitable_id: self.id, charitable_type: self.class.name).delete_all
+
+    charity_causes = categories
     charity_cause_ids = charity_causes.map { |c| find_id_by_charity_cause(c) }
     charitables_charity_causes = charity_cause_ids.filter_map { |id| build_charitables_charity_cause(id) }
 
