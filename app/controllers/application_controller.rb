@@ -19,6 +19,8 @@ class ApplicationController < ActionController::API
 
   rescue_from ActionController::ParameterMissing, with: :error_missing_params
 
+  rescue_from ActionDispatch::Http::Parameters::ParseError, with: :error_parsing_json
+
   rescue_from ActiveRecord::RecordInvalid do |exception|
     error_invalid_params(exception.record)
   end
@@ -57,6 +59,12 @@ class ApplicationController < ActionController::API
       message: "Missing Parameter(s)",
       error: exception.message
     }, status: :unprocessable_entity
+  end
+
+  def error_parsing_json
+    render json: {
+      message: "Problems parsing JSON"
+    }, status: :bad_request
   end
 
   def render_error(json, status)
