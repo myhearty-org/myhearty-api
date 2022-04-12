@@ -31,6 +31,7 @@ gem "stripe", "~> 5.0"
 
 # Pagination
 gem "kaminari", "~> 1.2"
+gem "api-pagination", "~> 5.0"
 
 # Files attachments
 gem "shrine", "~> 3.0"
