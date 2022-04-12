@@ -7,11 +7,13 @@ module Api
 
       def index
         if params.key?(:organization_id)
-          @fundraising_campaigns = FundraisingCampaign.where(organization_id: params[:organization_id])
-                                                      .includes([:charity_causes, :organization])
+          @fundraising_campaigns = paginate FundraisingCampaign.where(organization_id: params[:organization_id])
+                                                               .includes([:charity_causes, :organization])
+                                                               .order(created_at: :desc)
         else
-          @fundraising_campaigns = FundraisingCampaign.all
-                                                      .includes([:charity_causes, :organization])
+          @fundraising_campaigns = paginate FundraisingCampaign.all
+                                                               .includes([:charity_causes, :organization])
+                                                               .order(created_at: :desc)
         end
       end
 

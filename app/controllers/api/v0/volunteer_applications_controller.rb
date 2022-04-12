@@ -11,8 +11,9 @@ module Api
 
         return head :not_found unless @volunteer_event
 
-        @volunteer_applications = @volunteer_event.volunteer_applications
-                                                  .includes(:volunteer)
+        @volunteer_applications = paginate @volunteer_event.volunteer_applications
+                                                           .includes(:volunteer)
+                                                           .order(created_at: :desc)
       end
 
       def show

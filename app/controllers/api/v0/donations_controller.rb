@@ -11,9 +11,10 @@ module Api
 
         return head :not_found unless @fundraising_campaign
 
-        @donations = @fundraising_campaign.donations
-                                          .with_payment
-                                          .includes(:donor)
+        @donations = paginate @fundraising_campaign.donations
+                                                   .with_payment
+                                                   .includes(:donor)
+                                                   .order(created_at: :desc)
       end
 
       def show

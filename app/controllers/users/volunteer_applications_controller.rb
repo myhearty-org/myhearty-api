@@ -5,8 +5,9 @@ module Users
     before_action :authenticate_user!
 
     def index
-      @volunteer_applications = current_user.volunteer_applications
-                                            .includes(:volunteer_event)
+      @volunteer_applications = paginate current_user.volunteer_applications
+                                                     .includes(:volunteer_event)
+                                                     .order(created_at: :desc)
     end
 
     def applied

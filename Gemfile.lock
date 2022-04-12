@@ -70,6 +70,7 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
+    api-pagination (5.0.0)
     ast (2.4.2)
     aws-eventstream (1.2.0)
     aws-partitions (1.574.0)
@@ -139,6 +140,18 @@ GEM
       activesupport (>= 5.0.0)
     jmespath (1.6.1)
     jwt (2.3.0)
+    kaminari (1.2.2)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.2)
+      kaminari-activerecord (= 1.2.2)
+      kaminari-core (= 1.2.2)
+    kaminari-actionview (1.2.2)
+      actionview
+      kaminari-core (= 1.2.2)
+    kaminari-activerecord (1.2.2)
+      activerecord
+      kaminari-core (= 1.2.2)
+    kaminari-core (1.2.2)
     loofah (2.13.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -286,6 +299,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_record_doctor
+  api-pagination (~> 5.0)
   aws-sdk-s3 (~> 1.0)
   bootsnap
   bullet
@@ -297,6 +311,7 @@ DEPENDENCIES
   faker (~> 2.20)
   geocoder (~> 1.7)
   jbuilder (~> 2.11)
+  kaminari (~> 1.2)
   multi_json (~> 1.15)
   oj (~> 3.13)
   omniauth (~> 2.0)

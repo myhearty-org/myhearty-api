@@ -5,8 +5,9 @@ module Users
     before_action :authenticate_user!
 
     def index
-      @charitable_aid_applications = current_user.charitable_aid_applications
-                                                 .includes(:charitable_aid)
+      @charitable_aid_applications = paginate current_user.charitable_aid_applications
+                                                          .includes(:charitable_aid)
+                                                          .order(created_at: :desc)
     end
 
     def applied
