@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 class FundraisingCampaign < ApplicationRecord
+  include ActiveModel::Validations
   include ImageUploader::Attachment(:image)
   include Charitable
+  include Publishable
   include RandomId
 
   random_id prefix: :frcp
@@ -35,6 +37,10 @@ class FundraisingCampaign < ApplicationRecord
                                     after: :start_datetime, after_message: "must be after start datetime"
   validates :published, inclusion: { in: [true, false] }
   validates :published, exclusion: { in: [nil] }
+  validates_presence_of :target_amount, :location, :about_campaign, :start_datetime, :end_datetime, if: :published?
+  validates_with UnallowedParamsValidator, unallowed_params: %i[name target_amount start_datetime end_datetime published],
+                                           error_code: :not_allowed_to_update_after_published,
+                                           if: :already_published?
 
   private
 

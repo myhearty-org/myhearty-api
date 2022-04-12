@@ -11,8 +11,6 @@ module FundraisingCampaigns
     def call
       return error(http_status: :not_found) unless organization_member?
 
-      params.extract!(*unallowed_params_for_published) if fundraising_campaign.published?
-
       if fundraising_campaign.update(params)
         success
       else
@@ -26,16 +24,6 @@ module FundraisingCampaigns
 
     def organization_member?
       fundraising_campaign.organization == member.organization
-    end
-
-    def unallowed_params_for_published
-      %i[
-        name
-        target_amount
-        start_datetime
-        end_datetime
-        published
-      ]
     end
   end
 end
