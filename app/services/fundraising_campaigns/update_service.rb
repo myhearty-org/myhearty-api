@@ -11,7 +11,7 @@ module FundraisingCampaigns
     def call
       return error(http_status: :not_found) unless organization_member?
 
-      @params = params.except(*unallowed_params_for_published) if fundraising_campaign.published?
+      params.extract!(*unallowed_params_for_published) if fundraising_campaign.published?
 
       if fundraising_campaign.update(params)
         success
