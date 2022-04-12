@@ -33,21 +33,24 @@ module Api
       end
 
       def fundraising_campaigns
-        @fundraising_campaigns = current_member.organization
-                                               .fundraising_campaigns
-                                               .includes(:charity_causes)
+        @fundraising_campaigns = paginate current_member.organization
+                                                        .fundraising_campaigns
+                                                        .includes(:charity_causes)
+                                                        .order(created_at: :desc)
       end
 
       def volunteer_events
-        @volunteer_events = current_member.organization
-                                          .volunteer_events
-                                          .includes(:charity_causes)
+        @volunteer_events = paginate current_member.organization
+                                                   .volunteer_events
+                                                   .includes(:charity_causes)
+                                                   .order(created_at: :desc)
       end
 
       def charitable_aids
-        @charitable_aids = current_member.organization
-                                         .charitable_aids
-                                         .includes(:charity_causes)
+        @charitable_aids = paginate current_member.organization
+                                                  .charitable_aids
+                                                  .includes(:charity_causes)
+                                                  .order(created_at: :desc)
       end
 
       private

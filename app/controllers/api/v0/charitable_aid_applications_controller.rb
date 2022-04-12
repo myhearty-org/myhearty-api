@@ -11,8 +11,9 @@ module Api
 
         return head :not_found unless @charitable_aid
 
-        @charitable_aid_applications = @charitable_aid.charitable_aid_applications
-                                                      .includes(:receiver)
+        @charitable_aid_applications = paginate @charitable_aid.charitable_aid_applications
+                                                               .includes(:receiver)
+                                                               .order(created_at: :desc)
       end
 
       def show
