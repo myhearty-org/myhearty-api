@@ -5,9 +5,10 @@ module Users
     before_action :authenticate_user!
 
     def index
-      @donations = current_user.donations
-                               .with_payment
-                               .includes(:fundraising_campaign)
+      @donations = paginate current_user.donations
+                                        .with_payment
+                                        .includes(:fundraising_campaign)
+                                        .order(created_at: :desc)
     end
 
     def donate
