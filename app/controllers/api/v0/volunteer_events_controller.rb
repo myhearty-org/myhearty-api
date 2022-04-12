@@ -7,11 +7,13 @@ module Api
 
       def index
         if params.key?(:organization_id)
-          @volunteer_events = VolunteerEvent.where(organization_id: params[:organization_id])
-                                            .includes([:charity_causes, :organization])
+          @volunteer_events = paginate VolunteerEvent.where(organization_id: params[:organization_id])
+                                                     .includes([:charity_causes, :organization])
+                                                     .order(created_at: :desc)
         else
-          @volunteer_events = VolunteerEvent.all
-                                            .includes([:charity_causes, :organization])
+          @volunteer_events = paginate VolunteerEvent.all
+                                                     .includes([:charity_causes, :organization])
+                                                     .order(created_at: :desc)
         end
       end
 

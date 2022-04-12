@@ -7,8 +7,9 @@ module Api
       before_action :authenticate_member!, only: %i[fundraising_campaigns volunteer_events charitable_aids]
 
       def index
-        @organizations = Organization.all
-                                     .includes(:charity_causes)
+        @organizations = paginate Organization.all
+                                              .includes(:charity_causes)
+                                              .order(created_at: :desc)
       end
 
       def show
