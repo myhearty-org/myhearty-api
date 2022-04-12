@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 class CharitableAid < ApplicationRecord
+  include ActiveModel::Validations
   include ImageUploader::Attachment(:image)
   include Charitable
+  include Publishable
+  include Deadlinable
 
   geocoded_by :location
 
@@ -28,6 +31,12 @@ class CharitableAid < ApplicationRecord
                                             if: :application_deadline_changed?
   validates :published, inclusion: { in: [true, false] }
   validates :published, exclusion: { in: [nil] }
+  validates_with UnallowedParamsValidator, unallowed_params: %i[published],
+                                           error_code: :not_allowed_to_update_after_published,
+                                           if: :already_published?
+  validates_with UnallowedParamsValidator, unallowed_params: %i[openings location application_deadline],
+                                           error_code: :not_allowed_to_update_after_application_deadline,
+                                           if: -> { already_published? && deadline_exceeded(:application_deadline) }
 
   def receiver_count_less_than_openings
     return true if receiver_count.nil? || openings.nil?
