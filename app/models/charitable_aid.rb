@@ -31,6 +31,7 @@ class CharitableAid < ApplicationRecord
                                             if: :application_deadline_changed?
   validates :published, inclusion: { in: [true, false] }
   validates :published, exclusion: { in: [nil] }
+  validates_presence_of :openings, :location, :about_aid, :application_deadline, if: :published?
   validates_with UnallowedParamsValidator, unallowed_params: %i[published],
                                            error_code: :not_allowed_to_update_after_published,
                                            if: :already_published?
