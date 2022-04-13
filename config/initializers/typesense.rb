@@ -11,7 +11,7 @@ require "logger"
       protocol: "http"
     }
   ],
-  api_key: "xyz",
+  api_key: ENV["TYPESENSE_API_KEY"],
   num_retries: 10,
   healthcheck_interval_seconds: 1,
   retry_interval_seconds: 0.01,
