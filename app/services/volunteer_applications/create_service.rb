@@ -8,6 +8,8 @@ module VolunteerApplications
     end
 
     def call
+      return error_not_published unless volunteer_event.published?
+
       @volunteer_application = find_volunteer_application
 
       return error_already_exists unless volunteer_application.new_record?
@@ -38,6 +40,13 @@ module VolunteerApplications
 
     def volunteer_count_exceeded?
       volunteer_event.volunteer_count >= volunteer_event.openings
+    end
+
+    def error_not_published
+      error(
+        json: { message: "Not published" },
+        http_status: :unprocessable_entity
+      )
     end
 
     def error_already_exists

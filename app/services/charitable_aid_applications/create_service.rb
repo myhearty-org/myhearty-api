@@ -8,6 +8,8 @@ module CharitableAidApplications
     end
 
     def call
+      return error_not_published unless charitable_aid.published?
+
       @charitable_aid_application = find_charitable_aid_application
 
       return error_already_exists unless charitable_aid_application.new_record?
@@ -38,6 +40,13 @@ module CharitableAidApplications
 
     def receiver_count_exceeded?
       charitable_aid.receiver_count >= charitable_aid.openings
+    end
+
+    def error_not_published
+      error(
+        json: { message: "Not published" },
+        http_status: :unprocessable_entity
+      )
     end
 
     def error_already_exists
