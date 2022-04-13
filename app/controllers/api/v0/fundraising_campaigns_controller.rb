@@ -64,7 +64,6 @@ module Api
         %i[
           name
           target_amount
-          location
           about_campaign
           image
           youtube_url
