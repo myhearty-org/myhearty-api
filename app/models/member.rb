@@ -13,5 +13,7 @@ class Member < ApplicationRecord
 
   validates :organization, presence: true, if: :organization_id_changed?
 
+  delegate :charity?, to: :organization
+
   scope :admin, -> { where(admin: true) }
 end
