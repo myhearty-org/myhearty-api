@@ -41,6 +41,10 @@ class ApplicationController < ActionController::API
     return error_not_admin unless current_member&.admin? || (authenticate_member! && current_member.admin?)
   end
 
+  def authenticate_charity_member!
+    return error_not_charity_member unless current_member&.charity? || (authenticate_member! && current_member.charity?)
+  end
+
   def respond_404(exception)
     render json: {
       message: exception.message
@@ -65,6 +69,13 @@ class ApplicationController < ActionController::API
     render json: {
       message: "User doesn't have admin rights",
       code: "not_an_admin"
+    }, status: :forbidden
+  end
+
+  def error_not_charity_member
+    render json: {
+      message: "Organization doesn't have charity rights to manage fundraising campaigns",
+      code: "not_a_charity_member"
     }, status: :forbidden
   end
 
