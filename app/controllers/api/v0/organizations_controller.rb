@@ -4,7 +4,8 @@ module Api
   module V0
     class OrganizationsController < ApiController
       before_action :authenticate_organization_admin!, only: %i[update]
-      before_action :authenticate_member!, only: %i[fundraising_campaigns volunteer_events charitable_aids]
+      before_action :authenticate_member!, only: %i[volunteer_events charitable_aids]
+      before_action :authenticate_charity_member!, only: %i[fundraising_campaigns]
 
       def index
         @organizations = paginate Organization.all
