@@ -8,12 +8,9 @@ class FundraisingCampaign < ApplicationRecord
   include RandomId
 
   random_id prefix: :frcp
-  geocoded_by :location
 
   before_create :create_stripe_product, if: :published?
   before_update :create_stripe_product, if: -> { published_changed? && published? }
-
-  after_validation :geocode, if: -> { location.present? && location_changed? }
 
   belongs_to :organization
 
@@ -29,7 +26,6 @@ class FundraisingCampaign < ApplicationRecord
   validates :target_amount, allow_nil: true, numericality: { only_integer: true, greater_than: 0 }
   validates :total_raised_amount, allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :donor_count, allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :location, allow_blank: true, length: { maximum: 255 }
   validates :youtube_url, allow_blank: true, url: true
   validates_datetime :start_datetime, allow_nil: true, ignore_usec: true,
                                       on_or_after: :time_current, on_or_after_message: "must be after current datetime"
@@ -37,7 +33,7 @@ class FundraisingCampaign < ApplicationRecord
                                     after: :start_datetime, after_message: "must be after start datetime"
   validates :published, inclusion: { in: [true, false] }
   validates :published, exclusion: { in: [nil] }
-  validates_presence_of :target_amount, :location, :about_campaign, :start_datetime, :end_datetime, if: :published?
+  validates_presence_of :target_amount, :about_campaign, :start_datetime, :end_datetime, if: :published?
   validates_with UnallowedParamsValidator, unallowed_params: %i[name target_amount start_datetime end_datetime published],
                                            error_code: :not_allowed_to_update_after_published,
                                            if: :already_published?
