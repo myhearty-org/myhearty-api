@@ -8,7 +8,6 @@ json.array!(@donations) do |donation|
       :target_amount,
       :total_raised_amount,
       :donor_count,
-      :location,
       :image_url,
       :start_datetime,
       :end_datetime,

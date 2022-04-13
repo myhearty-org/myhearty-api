@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_10_182814) do
+ActiveRecord::Schema.define(version: 2022_04_13_205007) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,7 +85,6 @@ ActiveRecord::Schema.define(version: 2022_04_10_182814) do
     t.integer "target_amount"
     t.integer "total_raised_amount", default: 0, null: false
     t.integer "donor_count", default: 0, null: false
-    t.text "location"
     t.text "about_campaign"
     t.string "youtube_url"
     t.datetime "start_datetime", precision: 0
@@ -96,10 +95,7 @@ ActiveRecord::Schema.define(version: 2022_04_10_182814) do
     t.bigint "organization_id", null: false
     t.string "fundraising_campaign_id", null: false
     t.text "image_data"
-    t.decimal "latitude", precision: 13, scale: 9
-    t.decimal "longitude", precision: 13, scale: 9
     t.index ["fundraising_campaign_id"], name: "index_fundraising_campaigns_on_fundraising_campaign_id", unique: true
-    t.index ["latitude", "longitude"], name: "index_fundraising_campaigns_on_latitude_and_longitude"
     t.index ["name"], name: "index_fundraising_campaigns_on_name"
     t.index ["organization_id"], name: "index_fundraising_campaigns_on_organization_id"
   end
