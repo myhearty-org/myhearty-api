@@ -38,7 +38,7 @@ class ApplicationController < ActionController::API
   end
 
   def authenticate_organization_admin!
-    return head :unauthorized unless authenticate_member! && current_member.admin?
+    return error_not_admin unless current_member&.admin? || (authenticate_member! && current_member.admin?)
   end
 
   def respond_404(exception)
@@ -59,6 +59,13 @@ class ApplicationController < ActionController::API
       message: "Missing Parameter(s)",
       error: exception.message
     }, status: :unprocessable_entity
+  end
+
+  def error_not_admin
+    render json: {
+      message: "User doesn't have admin rights",
+      code: "not_an_admin"
+    }, status: :forbidden
   end
 
   def error_parsing_json
