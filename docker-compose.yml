@@ -74,6 +74,7 @@ services:
     environment:
       TYPESENSE_DATA_DIR: /data
       TYPESENSE_API_KEY: ${TYPESENSE_API_KEY}
+      TYPESENSE_ENABLE_CORS: "true"
     ports:
       - "8108:8108"
     volumes:
