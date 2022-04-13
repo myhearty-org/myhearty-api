@@ -3,8 +3,8 @@
 module Api
   module V0
     class DonationsController < ApiController
-      before_action :authenticate_user_or_member!, only: %i[show]
-      before_action :authenticate_member!, only: %i[index]
+      before_action :authenticate_user_or_charity_member!, only: %i[show]
+      before_action :authenticate_charity_member!, only: %i[index]
 
       def index
         @fundraising_campaign = FundraisingCampaign.find_by(id: params[:fundraising_campaign_id], organization: current_member.organization)

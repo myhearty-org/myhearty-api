@@ -3,7 +3,7 @@
 module Api
   module V0
     class FundraisingCampaignsController < ApiController
-      before_action :authenticate_member!, only: %i[create update destroy]
+      before_action :authenticate_charity_member!, only: %i[create update destroy]
 
       def index
         if params.key?(:organization_id)

@@ -2,6 +2,7 @@
 
 class OrganizationsController < ApplicationController
   skip_forgery_protection only: %i[create stripe_onboard_refresh]
+  before_action :authenticate_charity_member!, only: %i[stripe_onboard]
   before_action :authenticate_organization_admin!, only: %i[stripe_onboard]
 
   def create
@@ -65,6 +66,7 @@ class OrganizationsController < ApplicationController
       image
       about_us
       programmes_summary
+      charity
     ]
   end
 

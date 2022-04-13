@@ -37,9 +37,22 @@ class ApplicationController < ActionController::API
     cookies["X-CSRF-Token"] = form_authenticity_token
   end
 
+  # rubocop:disable Lint/SafeNavigationConsistency
+
   def authenticate_organization_admin!
-    return head :unauthorized unless authenticate_member! && current_member.admin?
+    return error_not_admin unless current_member&.admin? || (authenticate_member! && current_member.admin?)
   end
+
+  def authenticate_charity_member!
+    return error_not_charity_member unless current_member&.charity? || (authenticate_member! && current_member.charity?)
+  end
+
+  def authenticate_user_or_charity_member!
+    authenticate_user_or_member!
+    return error_not_charity_member if current_member && !current_member.charity?
+  end
+
+  # rubocop:enable Lint/SafeNavigationConsistency
 
   def respond_404(exception)
     render json: {
@@ -59,6 +72,20 @@ class ApplicationController < ActionController::API
       message: "Missing Parameter(s)",
       error: exception.message
     }, status: :unprocessable_entity
+  end
+
+  def error_not_admin
+    render json: {
+      message: "User doesn't have admin rights",
+      code: "not_an_admin"
+    }, status: :forbidden
+  end
+
+  def error_not_charity_member
+    render json: {
+      message: "Organization doesn't have charity rights to manage fundraising campaigns",
+      code: "not_a_charity_member"
+    }, status: :forbidden
   end
 
   def error_parsing_json
