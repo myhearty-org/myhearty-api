@@ -8,13 +8,19 @@ class OrganizationsController < ApplicationController
   def create
     organization_params, admin_params = create_organization_params
 
-    result = Organizations::CreateService.call(organization_params)
-    @organization = result.record
+    result = nil
 
-    return render_error(result.json, result.http_status) unless result.success?
+    Organization.transaction do
+      result = Organizations::CreateService.call(organization_params)
+      @organization = result.record
 
-    result = Members::CreateService.call(@organization, admin_params, admin: true)
-    @organization_admin = result.record
+      return render_error(result.json, result.http_status) unless result.success?
+
+      result = Members::CreateService.call(@organization, admin_params, admin: true)
+      @organization_admin = result.record
+
+      raise ActiveRecord::Rollback unless result.success?
+    end
 
     return render_error(result.json, result.http_status) unless result.success?
 
