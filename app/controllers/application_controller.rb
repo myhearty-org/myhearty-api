@@ -45,6 +45,11 @@ class ApplicationController < ActionController::API
     return error_not_charity_member unless current_member&.charity? || (authenticate_member! && current_member.charity?)
   end
 
+  def authenticate_user_or_charity_member!
+    authenticate_user_or_member!
+    return error_not_charity_member if current_member && !current_member.charity?
+  end
+
   def respond_404(exception)
     render json: {
       message: exception.message
