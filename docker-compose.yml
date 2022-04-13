@@ -14,6 +14,7 @@ services:
       MYHEARTY_DB_USER: ${POSTGRES_USER}
       MYHEARTY_DB_PASSWORD: ${POSTGRES_PASSWORD}
       MYHEARTY_DB_HOST: ${POSTGRES_HOST}
+      TYPESENSE_API_KEY: ${TYPESENSE_API_KEY}
     ports:
       - "3000:3000"
       # Ports required for RubyMine debugging
@@ -73,6 +74,7 @@ services:
     environment:
       TYPESENSE_DATA_DIR: /data
       TYPESENSE_API_KEY: ${TYPESENSE_API_KEY}
+      TYPESENSE_ENABLE_CORS: "true"
     ports:
       - "8108:8108"
     volumes:
