@@ -37,6 +37,8 @@ class ApplicationController < ActionController::API
     cookies["X-CSRF-Token"] = form_authenticity_token
   end
 
+  # rubocop:disable Lint/SafeNavigationConsistency
+
   def authenticate_organization_admin!
     return error_not_admin unless current_member&.admin? || (authenticate_member! && current_member.admin?)
   end
@@ -49,6 +51,8 @@ class ApplicationController < ActionController::API
     authenticate_user_or_member!
     return error_not_charity_member if current_member && !current_member.charity?
   end
+
+  # rubocop:enable Lint/SafeNavigationConsistency
 
   def respond_404(exception)
     render json: {
