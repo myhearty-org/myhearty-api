@@ -128,6 +128,8 @@ GEM
       ruby2_keywords (>= 0.0.4)
     faraday-net_http (2.0.1)
     ffi (1.15.5)
+    friendly_id (5.4.2)
+      activerecord (>= 4.0.0)
     geocoder (1.7.5)
     globalid (1.0.0)
       activesupport (>= 5.0)
@@ -317,6 +319,7 @@ DEPENDENCIES
   debug
   devise (~> 4.8.1)
   faker (~> 2.20)
+  friendly_id (~> 5.0)
   geocoder (~> 1.7)
   jbuilder (~> 2.11)
   kaminari (~> 1.2)
