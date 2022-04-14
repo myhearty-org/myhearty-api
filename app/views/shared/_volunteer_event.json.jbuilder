@@ -6,7 +6,7 @@ json.extract! volunteer_event,
   :volunteer_count,
   :location,
   :about_event
-json.categories volunteer_event.charity_causes.map(&:display_name)
+json.categories volunteer_event.charity_causes_names
 json.extract! volunteer_event,
   :image_url,
   :youtube_url,

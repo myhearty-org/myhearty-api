@@ -6,7 +6,7 @@ json.extract! charitable_aid,
   :receiver_count,
   :location,
   :about_aid
-json.categories charitable_aid.charity_causes.map(&:display_name)
+json.categories charitable_aid.charity_causes_names
 json.extract! charitable_aid,
   :image_url,
   :youtube_url,
