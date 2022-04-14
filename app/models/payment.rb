@@ -17,12 +17,10 @@ class Payment < ApplicationRecord
   scope :failed, -> { where(status: "failed") }
 
   counter_culture :fundraising_campaign,
-                  column_name: ->(payment) { payment.first_successful_payment_from_donor? },
+                  column_name: ->(payment) { payment.first_successful_payment_from_donor? ? :donor_count : nil },
                   touch: true
 
   def first_successful_payment_from_donor?
-    if status == "succeeded" && Payment.where(user: user, fundraising_campaign: fundraising_campaign, status: "succeeded").limit(2).length == 1
-      :donor_count
-    end
+    status == "succeeded" && Payment.where(user: user, fundraising_campaign: fundraising_campaign, status: "succeeded").limit(2).length == 1
   end
 end
