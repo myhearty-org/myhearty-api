@@ -37,4 +37,15 @@ class VolunteerApplication < ApplicationRecord
                   column_name: ->(application) { application.confirmed? ? :volunteer_count : nil },
                   column_names: { confirmed => :volunteer_count },
                   touch: true
+  after_update :index_volunteer_count, if: :saved_change_to_status?
+
+  private
+
+  def index_volunteer_count
+    reload_volunteer_event
+
+    TypesenseClient.collections["volunteer_events"]
+                   .documents[volunteer_event.id]
+                   .update({ volunteer_count: volunteer_event.volunteer_count })
+  end
 end
