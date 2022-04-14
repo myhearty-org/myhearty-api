@@ -11,7 +11,7 @@ json.extract! organization,
   :avatar_url,
   :video_url,
   :image_url
-json.categories organization.charity_causes.map(&:display_name)
+json.categories organization.charity_causes_names
 json.extract! organization,
   :about_us,
   :programmes_summary,

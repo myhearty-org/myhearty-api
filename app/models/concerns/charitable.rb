@@ -12,6 +12,10 @@ module Charitable
     has_many :charity_causes, through: :charitables_charity_causes
   end
 
+  def charity_causes_names
+    charity_causes.map(&:display_name)
+  end
+
   def insert_charity_causes
     return unless categories
 
