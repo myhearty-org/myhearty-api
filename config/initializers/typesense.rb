@@ -3,7 +3,7 @@
 require "typesense"
 require "logger"
 
-@typesense = Typesense::Client.new(
+TypesenseClient = Typesense::Client.new(
   nodes: [
     {
       host: "typesense",
@@ -16,6 +16,6 @@ require "logger"
   healthcheck_interval_seconds: 1,
   retry_interval_seconds: 0.01,
   connection_timeout_seconds: 10,
-  logger: Logger.new($stdout),
+  logger: Logger.new(STDOUT),
   log_level: Logger::INFO
 )
