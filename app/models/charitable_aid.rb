@@ -10,6 +10,7 @@ class CharitableAid < ApplicationRecord
   geocoded_by :location
 
   after_validation :geocode, if: -> { location.present? && location_changed? }
+  after_save :index_document, if: :published?
 
   belongs_to :organization
 
@@ -39,9 +40,28 @@ class CharitableAid < ApplicationRecord
                                            error_code: :not_allowed_to_update_after_application_deadline,
                                            if: -> { already_published? && deadline_exceeded(:application_deadline) }
 
+  private
+
   def receiver_count_less_than_openings
     return true if receiver_count.nil? || openings.nil?
 
     errors.add(:receiver_count, "must be less than total openings") if receiver_count > openings
+  end
+
+  def index_document
+    document = {
+      id: id.to_s,
+      name: name,
+      categories: charity_causes_names,
+      openings: openings,
+      receiver_count: receiver_count,
+      organization: organization.name,
+      application_deadline: application_deadline.to_i,
+      location: [latitude.to_f, longitude.to_f],
+      url: url,
+      image_url: image_url
+    }
+
+    TypesenseClient.collections["charitable_aids"].documents.upsert(document)
   end
 end

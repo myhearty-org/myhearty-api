@@ -11,11 +11,12 @@ class FundraisingCampaign < ApplicationRecord
 
   before_create :create_stripe_product, if: :published?
   before_update :create_stripe_product, if: -> { published_changed? && published? }
+  after_save :index_document, if: :published?
 
   belongs_to :organization
 
   has_many :donations
-  has_many :donors, through: :donations
+  has_many :donors, -> { distinct }, through: :donations
   has_many :payments
 
   attribute :published, :boolean, default: false
@@ -48,5 +49,22 @@ class FundraisingCampaign < ApplicationRecord
   rescue Stripe::StripeError
     errors.add(:fundraising_campaign_id, :failed_to_create_stripe_product)
     throw(:abort)
+  end
+
+  def index_document
+    document = {
+      id: id.to_s,
+      name: name,
+      categories: charity_causes_names,
+      target_amount: target_amount / 100.0,
+      total_raised_amount: total_raised_amount / 100.0,
+      donor_count: donor_count,
+      organization: organization.name,
+      about_campaign: about_campaign.truncate(120, separator: " "),
+      url: url,
+      image_url: image_url
+    }
+
+    TypesenseClient.collections["fundraising_campaigns"].documents.upsert(document)
   end
 end
