@@ -8,6 +8,7 @@ class Organization < ApplicationRecord
   geocoded_by :location
 
   after_validation :geocode, if: -> { location.present? && location_changed? }
+  after_save :index_document
 
   has_many :members, dependent: :delete_all
   has_many :fundraising_campaigns, dependent: :delete_all
@@ -33,5 +34,22 @@ class Organization < ApplicationRecord
 
   def admins
     members.admin
+  end
+
+  private
+
+  def index_document
+    document = {
+      id: id.to_s,
+      name: name,
+      categories: charity_causes_names,
+      about_us: about_us.truncate(120, separator: " "),
+      location: [latitude.to_f, longitude.to_f],
+      charity: charity,
+      url: url,
+      image_url: image_url
+    }
+
+    TypesenseClient.collections["organizations"].documents.upsert(document)
   end
 end

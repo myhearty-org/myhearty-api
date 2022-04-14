@@ -28,4 +28,15 @@ class CharitableAidApplication < ApplicationRecord
                   column_name: ->(application) { application.approved? ? :receiver_count : nil },
                   column_names: { approved => :receiver_count },
                   touch: true
+  after_update :index_receiver_count, if: :saved_change_to_status?
+
+  private
+
+  def index_receiver_count
+    reload_charitable_aid
+
+    TypesenseClient.collections["charitable_aids"]
+                   .documents[charitable_aid.id]
+                   .update({ receiver_count: charitable_aid.receiver_count })
+  end
 end

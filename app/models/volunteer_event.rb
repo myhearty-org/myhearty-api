@@ -10,6 +10,7 @@ class VolunteerEvent < ApplicationRecord
   geocoded_by :location
 
   after_validation :geocode, if: -> { location.present? && location_changed? }
+  after_save :index_document, if: :published?
 
   belongs_to :organization
 
@@ -45,9 +46,29 @@ class VolunteerEvent < ApplicationRecord
                                            error_code: :not_allowed_to_update_after_application_deadline,
                                            if: -> { already_published? && deadline_exceeded(:application_deadline) }
 
+  private
+
   def volunteer_count_less_than_openings
     return true if volunteer_count.nil? || openings.nil?
 
     errors.add(:volunteer_count, "must be less than total openings") if volunteer_count > openings
+  end
+
+  def index_document
+    document = {
+      id: id.to_s,
+      name: name,
+      categories: charity_causes_names,
+      openings: openings,
+      volunteer_count: volunteer_count,
+      organization: organization.name,
+      start_datetime: start_datetime.to_i,
+      end_datetime: end_datetime.to_i,
+      location: [latitude.to_f, longitude.to_f],
+      url: url,
+      image_url: image_url
+    }
+
+    TypesenseClient.collections["volunteer_events"].documents.upsert(document)
   end
 end

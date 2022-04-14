@@ -17,12 +17,21 @@ class Payment < ApplicationRecord
   scope :failed, -> { where(status: "failed") }
 
   counter_culture :fundraising_campaign,
-                  column_name: ->(payment) { payment.first_successful_payment_from_donor? },
+                  column_name: ->(payment) { payment.first_successful_payment_from_donor? ? :donor_count : nil },
                   touch: true
+  after_update :index_donor_count, if: :first_successful_payment_from_donor?
 
   def first_successful_payment_from_donor?
-    if status == "succeeded" && Payment.where(user: user, fundraising_campaign: fundraising_campaign, status: "succeeded").limit(2).length == 1
-      :donor_count
-    end
+    status == "succeeded" && Payment.where(user: user, fundraising_campaign: fundraising_campaign, status: "succeeded").limit(2).length == 1
+  end
+
+  private
+
+  def index_donor_count
+    reload_fundraising_campaign
+
+    TypesenseClient.collections["fundraising_campaigns"]
+                   .documents[fundraising_campaign.id]
+                   .update({ donor_count: fundraising_campaign.donor_count })
   end
 end
