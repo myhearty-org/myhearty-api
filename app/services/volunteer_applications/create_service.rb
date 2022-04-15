@@ -10,11 +10,11 @@ module VolunteerApplications
     def call
       return error_not_published unless volunteer_event.published?
 
+      return error_application_closed if application_closed?
+
       @volunteer_application = find_volunteer_application
 
       return error_already_exists unless volunteer_application.new_record?
-
-      return error_application_closed if application_closed?
 
       volunteer_application.save
       success(record: volunteer_application)
@@ -49,15 +49,15 @@ module VolunteerApplications
       )
     end
 
-    def error_already_exists
-      error(http_status: :not_modified)
-    end
-
     def error_application_closed
       error(
         json: { message: "Application closed" },
         http_status: :unprocessable_entity
       )
+    end
+
+    def error_already_exists
+      error(http_status: :not_modified)
     end
   end
 end

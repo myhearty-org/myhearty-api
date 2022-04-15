@@ -10,11 +10,11 @@ module CharitableAidApplications
     def call
       return error_not_published unless charitable_aid.published?
 
+      return error_application_closed if application_closed?
+
       @charitable_aid_application = find_charitable_aid_application
 
       return error_already_exists unless charitable_aid_application.new_record?
-
-      return error_application_closed if application_closed?
 
       charitable_aid_application.save
       success(record: charitable_aid_application)
@@ -49,15 +49,15 @@ module CharitableAidApplications
       )
     end
 
-    def error_already_exists
-      error(http_status: :not_modified)
-    end
-
     def error_application_closed
       error(
         json: { message: "Application closed" },
         http_status: :unprocessable_entity
       )
+    end
+
+    def error_already_exists
+      error(http_status: :not_modified)
     end
   end
 end
