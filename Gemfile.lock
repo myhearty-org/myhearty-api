@@ -339,7 +339,7 @@ DEPENDENCIES
   puma (~> 5.0)
   rack-cors (~> 1.1)
   rails (~> 7.0.1)
-  redis (~> 4.0)
+  redis (~> 4.6)
   responders (~> 3.0)
   rubocop
   ruby-debug-ide
