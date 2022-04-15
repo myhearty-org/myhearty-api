@@ -68,7 +68,7 @@ class FundraisingCampaign < ApplicationRecord
       donor_count: donor_count,
       organization: organization.name,
       about_campaign: about_campaign.truncate(120, separator: " "),
-      url: url,
+      page_url: page_url,
       image_url: image_url
     }
 
