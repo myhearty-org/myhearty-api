@@ -23,15 +23,7 @@ module VolunteerApplications
     attr_reader :volunteer, :volunteer_event, :volunteer_application
 
     def processing_application?
-      application_processed? || deadline_exceeded?
-    end
-
-    def application_processed?
-      !volunteer_application.pending?
-    end
-
-    def deadline_exceeded?
-      Time.current > volunteer_event.application_deadline
+      volunteer_application.application_processed? || volunteer_event.deadline_exceeded?
     end
 
     def error_application_processed

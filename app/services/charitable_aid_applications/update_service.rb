@@ -29,11 +29,7 @@ module CharitableAidApplications
     end
 
     def enough_receivers?
-      params[:status] == "approved" && receiver_count_exceeded?
-    end
-
-    def receiver_count_exceeded?
-      charitable_aid.receiver_count >= charitable_aid.openings
+      params[:status] == "approved" && charitable_aid.receiver_count_exceeded?
     end
 
     def charitable_aid

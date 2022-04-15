@@ -29,11 +29,7 @@ module VolunteerApplications
     end
 
     def enough_volunteers?
-      params[:status] == "confirmed" && volunteer_count_exceeded?
-    end
-
-    def volunteer_count_exceeded?
-      volunteer_event.volunteer_count >= volunteer_event.openings
+      params[:status] == "confirmed" && volunteer_event.volunteer_count_exceeded?
     end
 
     def volunteer_event

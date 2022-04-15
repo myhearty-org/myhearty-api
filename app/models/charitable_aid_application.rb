@@ -26,6 +26,10 @@ class CharitableAidApplication < ApplicationRecord
                   touch: true
   after_update :index_receiver_count, if: :saved_change_to_status?
 
+  def application_processed?
+    !pending?
+  end
+
   private
 
   def set_status_updated_at
