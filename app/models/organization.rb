@@ -4,7 +4,10 @@ class Organization < ApplicationRecord
   include ImageUploader::Attachment(:avatar)
   include ImageUploader::Attachment(:image)
   include Charitable
+  include FriendlyId
+  include UrlHelper
 
+  friendly_id :name, use: :slugged
   geocoded_by :location
 
   after_validation :geocode, if: -> { location.present? && location_changed? }
@@ -18,6 +21,7 @@ class Organization < ApplicationRecord
   attribute :charity, :boolean, default: false
 
   validates :name, presence: true, length: { maximum: 63 }
+  validates :slug, presence: true
   validates :location, presence: true, length: { maximum: 255 }
   validates :email, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 63 }, if: :email_changed?
   validates :contact_no, presence: true, length: { maximum: 20 }

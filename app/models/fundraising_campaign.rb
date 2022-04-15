@@ -5,8 +5,11 @@ class FundraisingCampaign < ApplicationRecord
   include ImageUploader::Attachment(:image)
   include Charitable
   include Publishable
+  include FriendlyId
+  include UrlHelper
   include RandomId
 
+  friendly_id :slug_candidates, use: :slugged
   random_id prefix: :frcp
 
   before_create :create_stripe_product, if: :published?
@@ -23,7 +26,7 @@ class FundraisingCampaign < ApplicationRecord
 
   validates :organization, presence: true, if: :organization_id_changed?
   validates :name, presence: true, length: { maximum: 255 }
-  validates :url, allow_blank: true, url: true
+  validates :slug, presence: true
   validates :target_amount, allow_nil: true, numericality: { only_integer: true, greater_than: 0 }
   validates :total_raised_amount, allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :donor_count, allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
@@ -40,6 +43,10 @@ class FundraisingCampaign < ApplicationRecord
                                            if: :already_published?
 
   private
+
+  def slug_candidates
+    [:name, [:name, :organization_id]]
+  end
 
   def create_stripe_product
     Stripe::Product.create({

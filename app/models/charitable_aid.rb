@@ -6,7 +6,10 @@ class CharitableAid < ApplicationRecord
   include Charitable
   include Publishable
   include Deadlinable
+  include FriendlyId
+  include UrlHelper
 
+  friendly_id :slug_candidates, use: :slugged
   geocoded_by :location
 
   after_validation :geocode, if: -> { location.present? && location_changed? }
@@ -21,7 +24,7 @@ class CharitableAid < ApplicationRecord
 
   validates :organization, presence: true, if: :organization_id_changed?
   validates :name, presence: true, length: { maximum: 255 }
-  validates :url, allow_blank: true, url: true
+  validates :slug, presence: true
   validates :openings, allow_nil: true, numericality: { only_integer: true, greater_than: 0 }
   validates :receiver_count, allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validate :receiver_count_less_than_openings
@@ -41,6 +44,10 @@ class CharitableAid < ApplicationRecord
                                            if: -> { already_published? && deadline_exceeded(:application_deadline) }
 
   private
+
+  def slug_candidates
+    [:name, [:name, :organization_id]]
+  end
 
   def receiver_count_less_than_openings
     return true if receiver_count.nil? || openings.nil?
