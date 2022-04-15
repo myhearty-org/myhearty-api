@@ -42,6 +42,10 @@ class FundraisingCampaign < ApplicationRecord
                                            error_code: :not_allowed_to_update_after_published,
                                            if: :already_published?
 
+  def target_amount_reached?
+    total_raised_amount >= target_amount
+  end
+
   private
 
   def slug_candidates
