@@ -42,6 +42,14 @@ class FundraisingCampaign < ApplicationRecord
                                            error_code: :not_allowed_to_update_after_published,
                                            if: :already_published?
 
+  def ended?
+    end_datetime_exceeded? || target_amount_reached?
+  end
+
+  def end_datetime_exceeded?
+    Time.current > end_datetime
+  end
+
   def target_amount_reached?
     total_raised_amount >= target_amount
   end

@@ -11,7 +11,7 @@ module Donations
     def call
       return error_not_published unless fundraising_campaign.published?
 
-      return error_target_amount_reached if fundraising_campaign.target_amount_reached?
+      return error_campaign_ended if fundraising_campaign.ended?
 
       donation = Donation.new(donor: donor, fundraising_campaign: fundraising_campaign, amount: amount)
 
@@ -33,9 +33,9 @@ module Donations
       )
     end
 
-    def error_target_amount_reached
+    def error_campaign_ended
       error(
-        json: { message: "Target amount reached" },
+        json: { message: "Campaign ended" },
         http_status: :unprocessable_entity
       )
     end
