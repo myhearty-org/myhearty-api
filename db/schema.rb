@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_15_084158) do
+ActiveRecord::Schema.define(version: 2022_04_15_084820) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,7 +30,6 @@ ActiveRecord::Schema.define(version: 2022_04_15_084158) do
 
   create_table "charitable_aids", force: :cascade do |t|
     t.string "name", limit: 255, null: false
-    t.string "url"
     t.integer "openings"
     t.integer "receiver_count", default: 0, null: false
     t.text "location"
@@ -83,7 +82,6 @@ ActiveRecord::Schema.define(version: 2022_04_15_084158) do
 
   create_table "fundraising_campaigns", force: :cascade do |t|
     t.string "name", limit: 255, null: false
-    t.string "url"
     t.integer "target_amount"
     t.integer "total_raised_amount", default: 0, null: false
     t.integer "donor_count", default: 0, null: false
@@ -245,7 +243,6 @@ ActiveRecord::Schema.define(version: 2022_04_15_084158) do
 
   create_table "volunteer_events", force: :cascade do |t|
     t.string "name", limit: 255, null: false
-    t.string "url"
     t.integer "openings"
     t.integer "volunteer_count", default: 0, null: false
     t.text "location"
