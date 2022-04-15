@@ -57,6 +57,8 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "api_production"
 
+  config.action_controller.default_url_options = { :host => "myhearty.my" }
+
   config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.perform_caching = false

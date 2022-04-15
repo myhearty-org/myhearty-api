@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_13_205007) do
+ActiveRecord::Schema.define(version: 2022_04_15_084820) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,7 +30,6 @@ ActiveRecord::Schema.define(version: 2022_04_13_205007) do
 
   create_table "charitable_aids", force: :cascade do |t|
     t.string "name", limit: 255, null: false
-    t.string "url"
     t.integer "openings"
     t.integer "receiver_count", default: 0, null: false
     t.text "location"
@@ -44,9 +43,11 @@ ActiveRecord::Schema.define(version: 2022_04_13_205007) do
     t.text "image_data"
     t.decimal "latitude", precision: 13, scale: 9
     t.decimal "longitude", precision: 13, scale: 9
+    t.string "slug"
     t.index ["latitude", "longitude"], name: "index_charitable_aids_on_latitude_and_longitude"
     t.index ["name"], name: "index_charitable_aids_on_name"
     t.index ["organization_id"], name: "index_charitable_aids_on_organization_id"
+    t.index ["slug"], name: "index_charitable_aids_on_slug", unique: true
   end
 
   create_table "charitables_charity_causes", id: false, force: :cascade do |t|
@@ -81,7 +82,6 @@ ActiveRecord::Schema.define(version: 2022_04_13_205007) do
 
   create_table "fundraising_campaigns", force: :cascade do |t|
     t.string "name", limit: 255, null: false
-    t.string "url"
     t.integer "target_amount"
     t.integer "total_raised_amount", default: 0, null: false
     t.integer "donor_count", default: 0, null: false
@@ -95,9 +95,11 @@ ActiveRecord::Schema.define(version: 2022_04_13_205007) do
     t.bigint "organization_id", null: false
     t.string "fundraising_campaign_id", null: false
     t.text "image_data"
+    t.string "slug"
     t.index ["fundraising_campaign_id"], name: "index_fundraising_campaigns_on_fundraising_campaign_id", unique: true
     t.index ["name"], name: "index_fundraising_campaigns_on_name"
     t.index ["organization_id"], name: "index_fundraising_campaigns_on_organization_id"
+    t.index ["slug"], name: "index_fundraising_campaigns_on_slug", unique: true
   end
 
   create_table "identities", force: :cascade do |t|
@@ -161,9 +163,11 @@ ActiveRecord::Schema.define(version: 2022_04_13_205007) do
     t.text "image_data"
     t.decimal "latitude", precision: 13, scale: 9
     t.decimal "longitude", precision: 13, scale: 9
+    t.string "slug"
     t.index ["email"], name: "index_organizations_on_email", unique: true
     t.index ["latitude", "longitude"], name: "index_organizations_on_latitude_and_longitude"
     t.index ["name"], name: "index_organizations_on_name"
+    t.index ["slug"], name: "index_organizations_on_slug", unique: true
     t.index ["website_url"], name: "index_organizations_on_website_url", unique: true
   end
 
@@ -239,7 +243,6 @@ ActiveRecord::Schema.define(version: 2022_04_13_205007) do
 
   create_table "volunteer_events", force: :cascade do |t|
     t.string "name", limit: 255, null: false
-    t.string "url"
     t.integer "openings"
     t.integer "volunteer_count", default: 0, null: false
     t.text "location"
@@ -255,9 +258,11 @@ ActiveRecord::Schema.define(version: 2022_04_13_205007) do
     t.text "image_data"
     t.decimal "latitude", precision: 13, scale: 9
     t.decimal "longitude", precision: 13, scale: 9
+    t.string "slug"
     t.index ["latitude", "longitude"], name: "index_volunteer_events_on_latitude_and_longitude"
     t.index ["name"], name: "index_volunteer_events_on_name"
     t.index ["organization_id"], name: "index_volunteer_events_on_organization_id"
+    t.index ["slug"], name: "index_volunteer_events_on_slug", unique: true
   end
 
   add_foreign_key "charitable_aid_applications", "charitable_aids"

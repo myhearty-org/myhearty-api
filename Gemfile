@@ -45,6 +45,9 @@ gem "aws-sdk-s3", "~> 1.0"
 # Geocoding
 gem "geocoder", "~> 1.7"
 
+# Slugging and permalinks
+gem "friendly_id", "~> 5.0"
+
 # Validations
 gem "public_suffix", "~> 4.0"
 gem "validates_timeliness", "~> 6.0.0.alpha1"
