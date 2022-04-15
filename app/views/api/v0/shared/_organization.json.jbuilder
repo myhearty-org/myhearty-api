@@ -1,6 +1,7 @@
 json.extract! organization,
   :id,
   :name,
+  :page_url,
   :location,
   :email,
   :contact_no,

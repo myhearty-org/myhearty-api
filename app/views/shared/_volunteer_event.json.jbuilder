@@ -1,13 +1,12 @@
 json.extract! volunteer_event,
   :id,
   :name,
-  :url,
+  :page_url,
   :openings,
   :volunteer_count,
   :location,
-  :about_event
-json.categories volunteer_event.charity_causes_names
-json.extract! volunteer_event,
+  :about_event,
+  :charity_causes_names,
   :image_url,
   :youtube_url,
   :start_datetime,
