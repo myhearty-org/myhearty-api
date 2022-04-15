@@ -4,7 +4,7 @@ json.array!(@donations) do |donation|
     json.extract! donation.fundraising_campaign,
       :id,
       :name,
-      :url,
+      :page_url,
       :target_amount,
       :total_raised_amount,
       :donor_count,

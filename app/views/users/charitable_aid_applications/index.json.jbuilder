@@ -4,7 +4,7 @@ json.array!(@charitable_aid_applications) do |charitable_aid_application|
     json.extract! charitable_aid_application.charitable_aid,
       :id,
       :name,
-      :url,
+      :page_url,
       :openings,
       :receiver_count,
       :location,

@@ -3,7 +3,7 @@ json.charitable_aid do
   json.extract! @charitable_aid,
     :id,
     :name,
-    :url,
+    :page_url,
     :openings,
     :receiver_count,
     :location,

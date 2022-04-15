@@ -50,7 +50,7 @@ class Organization < ApplicationRecord
       about_us: about_us.truncate(120, separator: " "),
       location: [latitude.to_f, longitude.to_f],
       charity: charity,
-      url: url,
+      page_url: page_url,
       image_url: image_url
     }
 

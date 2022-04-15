@@ -65,7 +65,7 @@ class CharitableAid < ApplicationRecord
       organization: organization.name,
       application_deadline: application_deadline.to_i,
       location: [latitude.to_f, longitude.to_f],
-      url: url,
+      page_url: page_url,
       image_url: image_url
     }
 

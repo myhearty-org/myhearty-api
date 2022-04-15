@@ -11,7 +11,7 @@ module UrlHelper
     end
   end
 
-  def url
+  def page_url
     url_for(self)
   end
 end

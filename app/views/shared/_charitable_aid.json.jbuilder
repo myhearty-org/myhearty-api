@@ -1,13 +1,12 @@
 json.extract! charitable_aid,
   :id,
   :name,
-  :url,
+  :page_url,
   :openings,
   :receiver_count,
   :location,
-  :about_aid
-json.categories charitable_aid.charity_causes_names
-json.extract! charitable_aid,
+  :about_aid,
+  :charity_causes_names,
   :image_url,
   :youtube_url,
   :application_deadline,

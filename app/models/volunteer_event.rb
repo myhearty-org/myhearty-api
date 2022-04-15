@@ -72,7 +72,7 @@ class VolunteerEvent < ApplicationRecord
       start_datetime: start_datetime.to_i,
       end_datetime: end_datetime.to_i,
       location: [latitude.to_f, longitude.to_f],
-      url: url,
+      page_url: page_url,
       image_url: image_url
     }
 
