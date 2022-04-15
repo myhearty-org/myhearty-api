@@ -11,8 +11,9 @@ json.extract! organization,
   :person_in_charge_name,
   :avatar_url,
   :video_url,
-  :image_url,
-  :charity_causes_names,
+  :image_url
+json.categories organization.charity_causes_names
+json.extract! organization,
   :about_us,
   :programmes_summary,
   :charity,

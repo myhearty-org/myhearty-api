@@ -5,8 +5,9 @@ json.extract! volunteer_event,
   :openings,
   :volunteer_count,
   :location,
-  :about_event,
-  :charity_causes_names,
+  :about_event
+json.categories volunteer_event.charity_causes_names
+json.extract! volunteer_event,
   :image_url,
   :youtube_url,
   :start_datetime,
