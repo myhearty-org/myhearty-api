@@ -3,7 +3,7 @@ json.volunteer_event do
   json.extract! @volunteer_event,
     :id,
     :name,
-    :url,
+    :page_url,
     :openings,
     :volunteer_count,
     :location,

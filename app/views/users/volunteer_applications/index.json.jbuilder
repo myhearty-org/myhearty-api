@@ -4,7 +4,7 @@ json.array!(@volunteer_applications) do |volunteer_application|
     json.extract! volunteer_application.volunteer_event,
       :id,
       :name,
-      :url,
+      :page_url,
       :openings,
       :volunteer_count,
       :location,
