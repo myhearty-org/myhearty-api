@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class CharitableAidApplication < ApplicationRecord
+  before_save :set_status_updated_at
+
   belongs_to :charitable_aid
   belongs_to :receiver, class_name: "User"
 
@@ -11,12 +13,6 @@ class CharitableAidApplication < ApplicationRecord
   validates :charitable_aid_id, uniqueness: { scope: :receiver_id },
                                 if: -> { receiver_id_changed? || charitable_aid_id_changed? }
   validates :status, allow_nil: true, inclusion: { in: statuses.keys }
-
-  before_save :set_status_updated_at
-
-  def set_status_updated_at
-    self.status_updated_at = Time.current if status_changed? || status_updated_at.nil?
-  end
 
   delegate :organization, to: :charitable_aid
 
@@ -31,6 +27,10 @@ class CharitableAidApplication < ApplicationRecord
   after_update :index_receiver_count, if: :saved_change_to_status?
 
   private
+
+  def set_status_updated_at
+    self.status_updated_at = Time.current if status_changed? || status_updated_at.nil?
+  end
 
   def index_receiver_count
     reload_charitable_aid

@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class VolunteerApplication < ApplicationRecord
+  before_save :set_status_updated_at
+  before_save :set_attendance_updated_at
+
   belongs_to :volunteer_event
   belongs_to :volunteer, class_name: "User"
 
@@ -13,17 +16,6 @@ class VolunteerApplication < ApplicationRecord
                                  if: -> { volunteer_id_changed? || volunteer_event_id_changed? }
   validates :status, allow_nil: true, inclusion: { in: statuses.keys }
   validates :attendance, allow_nil: true, inclusion: { in: attendances.keys }
-
-  before_save :set_status_updated_at
-  before_save :set_attendance_updated_at
-
-  def set_status_updated_at
-    self.status_updated_at = Time.current if status_changed? || status_updated_at.nil?
-  end
-
-  def set_attendance_updated_at
-    self.attendance_updated_at = Time.current if attendance_changed? || attendance_updated_at.nil?
-  end
 
   delegate :organization, to: :volunteer_event
 
@@ -40,6 +32,14 @@ class VolunteerApplication < ApplicationRecord
   after_update :index_volunteer_count, if: :saved_change_to_status?
 
   private
+
+  def set_status_updated_at
+    self.status_updated_at = Time.current if status_changed? || status_updated_at.nil?
+  end
+
+  def set_attendance_updated_at
+    self.attendance_updated_at = Time.current if attendance_changed? || attendance_updated_at.nil?
+  end
 
   def index_volunteer_count
     reload_volunteer_event
