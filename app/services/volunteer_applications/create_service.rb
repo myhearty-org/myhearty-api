@@ -10,7 +10,7 @@ module VolunteerApplications
     def call
       return error_not_published unless volunteer_event.published?
 
-      return error_application_closed if application_closed?
+      return error_application_closed if volunteer_event.application_closed?
 
       @volunteer_application = find_volunteer_application
 
@@ -28,18 +28,6 @@ module VolunteerApplications
       volunteer.volunteer_applications
                .where(volunteer_event: volunteer_event)
                .first_or_initialize
-    end
-
-    def application_closed?
-      deadline_exceeded? || volunteer_count_exceeded?
-    end
-
-    def deadline_exceeded?
-      Time.current > volunteer_event.application_deadline
-    end
-
-    def volunteer_count_exceeded?
-      volunteer_event.volunteer_count >= volunteer_event.openings
     end
 
     def error_not_published

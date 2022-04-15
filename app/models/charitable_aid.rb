@@ -43,6 +43,18 @@ class CharitableAid < ApplicationRecord
                                            error_code: :not_allowed_to_update_after_application_deadline,
                                            if: -> { already_published? && deadline_exceeded(:application_deadline) }
 
+  def application_closed?
+    deadline_exceeded? || receiver_count_exceeded?
+  end
+
+  def deadline_exceeded?
+    Time.current > application_deadline
+  end
+
+  def receiver_count_exceeded?
+    receiver_count >= openings
+  end
+
   private
 
   def slug_candidates

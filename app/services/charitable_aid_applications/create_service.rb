@@ -10,7 +10,7 @@ module CharitableAidApplications
     def call
       return error_not_published unless charitable_aid.published?
 
-      return error_application_closed if application_closed?
+      return error_application_closed if charitable_aid.application_closed?
 
       @charitable_aid_application = find_charitable_aid_application
 
@@ -28,18 +28,6 @@ module CharitableAidApplications
       receiver.charitable_aid_applications
               .where(charitable_aid: charitable_aid)
               .first_or_initialize
-    end
-
-    def application_closed?
-      deadline_exceeded? || receiver_count_exceeded?
-    end
-
-    def deadline_exceeded?
-      Time.current > charitable_aid.application_deadline
-    end
-
-    def receiver_count_exceeded?
-      charitable_aid.receiver_count >= charitable_aid.openings
     end
 
     def error_not_published

@@ -49,6 +49,18 @@ class VolunteerEvent < ApplicationRecord
                                            error_code: :not_allowed_to_update_after_application_deadline,
                                            if: -> { already_published? && deadline_exceeded(:application_deadline) }
 
+  def application_closed?
+    deadline_exceeded? || volunteer_count_exceeded?
+  end
+
+  def deadline_exceeded?
+    Time.current > application_deadline
+  end
+
+  def volunteer_count_exceeded?
+    volunteer_count >= openings
+  end
+
   private
 
   def slug_candidates
