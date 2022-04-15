@@ -29,6 +29,9 @@ gem "responders", "~> 3.0"
 # Payments
 gem "stripe", "~> 5.0"
 
+# Background jobs
+gem "sidekiq", "~> 6.4"
+
 # Search engine
 gem "typesense", "~> 0.13"
 
