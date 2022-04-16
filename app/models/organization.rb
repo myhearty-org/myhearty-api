@@ -10,7 +10,6 @@ class Organization < ApplicationRecord
   friendly_id :name, use: :slugged
   geocoded_by :location
 
-  after_validation :geocode, if: -> { location.present? && location_changed? }
   after_commit :index_document, on: [:create, :update]
 
   has_many :members, dependent: :delete_all
@@ -43,6 +42,8 @@ class Organization < ApplicationRecord
   private
 
   def index_document
-    Typesense::IndexOrganizationJob.perform_async(id)
+    should_be_geocoded = location.present? && saved_change_to_location?
+
+    Typesense::IndexOrganizationJob.perform_async(id, should_be_geocoded)
   end
 end

@@ -12,7 +12,6 @@ class CharitableAid < ApplicationRecord
   friendly_id :slug_candidates, use: :slugged
   geocoded_by :location
 
-  after_validation :geocode, if: -> { location.present? && location_changed? }
   after_commit :index_document, on: [:create, :update], if: :published?
 
   belongs_to :organization
@@ -68,6 +67,8 @@ class CharitableAid < ApplicationRecord
   end
 
   def index_document
-    Typesense::IndexCharitableAidJob.perform_async(id)
+    should_be_geocoded = location.present? && saved_change_to_location?
+
+    Typesense::IndexCharitableAidJob.perform_async(id, should_be_geocoded)
   end
 end
