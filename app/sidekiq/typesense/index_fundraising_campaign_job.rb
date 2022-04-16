@@ -17,6 +17,8 @@ module Typesense
         total_raised_amount: fundraising_campaign.total_raised_amount / 100.0,
         donor_count: fundraising_campaign.donor_count,
         organization: fundraising_campaign.organization.name,
+        start_datetime: fundraising_campaign.start_datetime.to_i,
+        end_datetime: fundraising_campaign.end_datetime.to_i,
         about_campaign: fundraising_campaign.about_campaign.truncate(120, separator: " "),
         page_url: fundraising_campaign.page_url,
         image_url: fundraising_campaign.image_url

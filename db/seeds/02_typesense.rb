@@ -38,6 +38,8 @@ fundraising_campaigns_schema = {
     { name: "total_raised_amount", type: "float" },
     { name: "donor_count", type: "int32" },
     { name: "organization", type: "string" },
+    { name: "start_datetime", type: "int64" },
+    { name: "end_datetime", type: "int64" },
     { name: "about_campaign", type: "string", index: false, optional: true },
     { name: "page_url", type: "string", index: false, optional: true },
     { name: "image_url", type: "string", index: false, optional: true }
