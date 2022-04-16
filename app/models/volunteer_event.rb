@@ -12,8 +12,7 @@ class VolunteerEvent < ApplicationRecord
   friendly_id :slug_candidates, use: :slugged
   geocoded_by :location
 
-  after_validation :geocode, if: -> { location.present? && location_changed? }
-  after_save :index_document, if: :published?
+  after_commit :index_document, on: [:create, :update], if: :published?
 
   belongs_to :organization
 
@@ -74,6 +73,10 @@ class VolunteerEvent < ApplicationRecord
   end
 
   def index_document
-    Typesense::IndexVolunteerEventJob.perform_async(id)
+    Typesense::IndexVolunteerEventJob.perform_async(id, should_be_geocoded?)
+  end
+
+  def should_be_geocoded?
+    (location.present? && saved_change_to_location?) || (location.present? && (latitude.blank? || longitude.blank?))
   end
 end

@@ -1,7 +1,7 @@
 Geocoder.configure(
   lookup: :geoapify,
   api_key: Rails.application.credentials.geoapify.api_key,
-  timeout: 3,
+  timeout: 15,
   limit: 1,
   type: "amenity",
   filter: "countrycode:my",

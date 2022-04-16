@@ -4,8 +4,13 @@ module Typesense
   class IndexVolunteerEventJob
     include Sidekiq::Job
 
-    def perform(id)
+    def perform(id, should_be_geocoded)
       volunteer_event = VolunteerEvent.find(id)
+
+      if should_be_geocoded
+        latitude, longitude = volunteer_event.geocode
+        volunteer_event.update_columns(latitude: latitude, longitude: longitude)
+      end
 
       document = {
         id: volunteer_event.id.to_s,
