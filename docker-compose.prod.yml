@@ -8,6 +8,7 @@ services:
       context: .
       dockerfile: ./docker/rails/Dockerfile
     restart: always
+    command: [ "rails", "s", "-b", "0.0.0.0", "-p", "3000", "-e", "production" ]
     environment:
       TZ: "Asia/Kuala_Lumpur"
       MYHEARTY_DB_USER: ${POSTGRES_USER}
