@@ -67,8 +67,10 @@ class CharitableAid < ApplicationRecord
   end
 
   def index_document
-    should_be_geocoded = location.present? && saved_change_to_location?
+    Typesense::IndexCharitableAidJob.perform_async(id, should_be_geocoded?)
+  end
 
-    Typesense::IndexCharitableAidJob.perform_async(id, should_be_geocoded)
+  def should_be_geocoded?
+    location.present? && saved_change_to_location?
   end
 end
