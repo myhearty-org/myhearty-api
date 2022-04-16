@@ -54,6 +54,7 @@ gem "friendly_id", "~> 5.0"
 # Validations
 gem "public_suffix", "~> 4.0"
 gem "validates_timeliness", "~> 6.0.0.alpha1"
+gem "phonelib", "~> 0.6"
 
 # Counter cache
 gem "counter_culture", "~> 3.2"
