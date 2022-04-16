@@ -46,10 +46,6 @@ class VolunteerApplication < ApplicationRecord
   end
 
   def index_volunteer_count
-    reload_volunteer_event
-
-    TypesenseClient.collections["volunteer_events"]
-                   .documents[volunteer_event.id]
-                   .update({ volunteer_count: volunteer_event.volunteer_count })
+    Typesense::UpdateVolunteerCountJob.perform_async(id)
   end
 end

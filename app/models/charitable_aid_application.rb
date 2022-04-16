@@ -37,10 +37,6 @@ class CharitableAidApplication < ApplicationRecord
   end
 
   def index_receiver_count
-    reload_charitable_aid
-
-    TypesenseClient.collections["charitable_aids"]
-                   .documents[charitable_aid.id]
-                   .update({ receiver_count: charitable_aid.receiver_count })
+    Typesense::UpdateReceiverCountJob.perform_async(id)
   end
 end
