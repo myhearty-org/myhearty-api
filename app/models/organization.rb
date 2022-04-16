@@ -39,8 +39,6 @@ class Organization < ApplicationRecord
     members.admin
   end
 
-  private
-
   def index_document
     Typesense::IndexOrganizationJob.perform_async(id, should_be_geocoded?)
   end

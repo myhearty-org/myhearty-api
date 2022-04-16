@@ -42,6 +42,14 @@ class CharitableAid < ApplicationRecord
                                            error_code: :not_allowed_to_update_after_application_deadline,
                                            if: -> { already_published? && deadline_exceeded(:application_deadline) }
 
+  def index_document
+    Typesense::IndexCharitableAidJob.perform_async(id, should_be_geocoded?)
+  end
+
+  def should_be_geocoded?
+    (location.present? && saved_change_to_location?) || (location.present? && (latitude.blank? || longitude.blank?))
+  end
+
   def application_closed?
     deadline_exceeded? || receiver_count_exceeded?
   end
@@ -64,13 +72,5 @@ class CharitableAid < ApplicationRecord
     return true if receiver_count.nil? || openings.nil?
 
     errors.add(:receiver_count, "must be less than total openings") if receiver_count > openings
-  end
-
-  def index_document
-    Typesense::IndexCharitableAidJob.perform_async(id, should_be_geocoded?)
-  end
-
-  def should_be_geocoded?
-    (location.present? && saved_change_to_location?) || (location.present? && (latitude.blank? || longitude.blank?))
   end
 end

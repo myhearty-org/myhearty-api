@@ -40,6 +40,21 @@ class FundraisingCampaign < ApplicationRecord
                                            error_code: :not_allowed_to_update_after_published,
                                            if: :already_published?
 
+  def index_document
+    Typesense::IndexFundraisingCampaignJob.perform_async(id, first_time_published?)
+  end
+
+  def first_time_published?
+    saved_change_to_published? && published?
+  end
+
+  def create_stripe_product
+    Stripe::Product.create({
+      id: fundraising_campaign_id,
+      name: name
+    }, { stripe_account: organization.stripe_account_id })
+  end
+
   def ended?
     end_datetime_exceeded? || target_amount_reached?
   end
@@ -52,24 +67,9 @@ class FundraisingCampaign < ApplicationRecord
     total_raised_amount >= target_amount
   end
 
-  def create_stripe_product
-    Stripe::Product.create({
-      id: fundraising_campaign_id,
-      name: name
-    }, { stripe_account: organization.stripe_account_id })
-  end
-
   private
 
   def slug_candidates
     [:name, [:name, :organization_id]]
-  end
-
-  def index_document
-    Typesense::IndexFundraisingCampaignJob.perform_async(id, first_time_published?)
-  end
-
-  def first_time_published?
-    saved_change_to_published? && published?
   end
 end

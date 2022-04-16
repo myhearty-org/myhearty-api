@@ -48,6 +48,14 @@ class VolunteerEvent < ApplicationRecord
                                            error_code: :not_allowed_to_update_after_application_deadline,
                                            if: -> { already_published? && deadline_exceeded(:application_deadline) }
 
+  def index_document
+    Typesense::IndexVolunteerEventJob.perform_async(id, should_be_geocoded?)
+  end
+
+  def should_be_geocoded?
+    (location.present? && saved_change_to_location?) || (location.present? && (latitude.blank? || longitude.blank?))
+  end
+
   def application_closed?
     deadline_exceeded? || volunteer_count_exceeded?
   end
@@ -70,13 +78,5 @@ class VolunteerEvent < ApplicationRecord
     return true if volunteer_count.nil? || openings.nil?
 
     errors.add(:volunteer_count, "must be less than total openings") if volunteer_count > openings
-  end
-
-  def index_document
-    Typesense::IndexVolunteerEventJob.perform_async(id, should_be_geocoded?)
-  end
-
-  def should_be_geocoded?
-    (location.present? && saved_change_to_location?) || (location.present? && (latitude.blank? || longitude.blank?))
   end
 end
