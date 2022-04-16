@@ -71,19 +71,6 @@ class FundraisingCampaign < ApplicationRecord
   end
 
   def index_document
-    document = {
-      id: id.to_s,
-      name: name,
-      categories: charity_causes_names,
-      target_amount: target_amount / 100.0,
-      total_raised_amount: total_raised_amount / 100.0,
-      donor_count: donor_count,
-      organization: organization.name,
-      about_campaign: about_campaign.truncate(120, separator: " "),
-      page_url: page_url,
-      image_url: image_url
-    }
-
-    TypesenseClient.collections["fundraising_campaigns"].documents.upsert(document)
+    Typesense::IndexFundraisingCampaignJob.perform_async(id)
   end
 end

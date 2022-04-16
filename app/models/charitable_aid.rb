@@ -68,19 +68,6 @@ class CharitableAid < ApplicationRecord
   end
 
   def index_document
-    document = {
-      id: id.to_s,
-      name: name,
-      categories: charity_causes_names,
-      openings: openings,
-      receiver_count: receiver_count,
-      organization: organization.name,
-      application_deadline: application_deadline.to_i,
-      location: [latitude.to_f, longitude.to_f],
-      page_url: page_url,
-      image_url: image_url
-    }
-
-    TypesenseClient.collections["charitable_aids"].documents.upsert(document)
+    Typesense::IndexCharitableAidJob.perform_async(id)
   end
 end
