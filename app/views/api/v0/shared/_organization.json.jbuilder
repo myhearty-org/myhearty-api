@@ -3,8 +3,9 @@ json.extract! organization,
   :name,
   :page_url,
   :location,
-  :email,
-  :contact_no,
+  :email
+json.contact_no Phonelib.parse(organization.contact_no).national
+json.extract! organization,
   :website_url,
   :facebook_url,
   :youtube_url,
