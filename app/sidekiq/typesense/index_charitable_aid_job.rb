@@ -4,8 +4,13 @@ module Typesense
   class IndexCharitableAidJob
     include Sidekiq::Job
 
-    def perform(id)
+    def perform(id, should_be_geocoded)
       charitable_aid = CharitableAid.find(id)
+
+      if should_be_geocoded
+        latitude, longitude = charitable_aid.geocode
+        charitable_aid.update_columns(latitude: latitude, longitude: longitude)
+      end
 
       document = {
         id: charitable_aid.id.to_s,

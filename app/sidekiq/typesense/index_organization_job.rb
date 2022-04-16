@@ -4,8 +4,13 @@ module Typesense
   class IndexOrganizationJob
     include Sidekiq::Job
 
-    def perform(id)
+    def perform(id, should_be_geocoded)
       organization = Organization.find(id)
+
+      if should_be_geocoded
+        latitude, longitude = organization.geocode
+        organization.update_columns(latitude: latitude, longitude: longitude)
+      end
 
       document = {
         id: organization.id.to_s,
