@@ -1,9 +1,10 @@
 json.extract! fundraising_campaign,
   :id,
   :name,
-  :page_url,
-  :target_amount,
-  :total_raised_amount,
+  :page_url
+json.target_amount number_with_precision(fundraising_campaign.target_amount.to_f / 100, precision: 2)
+json.total_raised_amount number_with_precision(fundraising_campaign.total_raised_amount.to_f / 100, precision: 2)
+json.extract! fundraising_campaign,
   :donor_count,
   :about_campaign
 json.categories fundraising_campaign.charity_causes_names
