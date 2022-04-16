@@ -13,7 +13,7 @@ class VolunteerEvent < ApplicationRecord
   geocoded_by :location
 
   after_validation :geocode, if: -> { location.present? && location_changed? }
-  after_save :index_document, if: :published?
+  after_commit :index_document, on: [:create, :update], if: :published?
 
   belongs_to :organization
 

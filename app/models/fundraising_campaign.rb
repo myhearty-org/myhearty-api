@@ -14,7 +14,7 @@ class FundraisingCampaign < ApplicationRecord
 
   before_create :create_stripe_product, if: :published?
   before_update :create_stripe_product, if: -> { published_changed? && published? }
-  after_save :index_document, if: :published?
+  after_commit :index_document, on: [:create, :update], if: :published?
 
   belongs_to :organization
 

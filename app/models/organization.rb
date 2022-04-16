@@ -11,7 +11,7 @@ class Organization < ApplicationRecord
   geocoded_by :location
 
   after_validation :geocode, if: -> { location.present? && location_changed? }
-  after_save :index_document
+  after_commit :index_document, on: [:create, :update]
 
   has_many :members, dependent: :delete_all
   has_many :fundraising_campaigns, dependent: :delete_all
