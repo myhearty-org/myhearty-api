@@ -10,7 +10,7 @@ gem "pg", "~> 1.1"
 
 gem "puma", "~> 5.0"
 
-gem "redis", "~> 4.0"
+gem "redis", "~> 4.6"
 
 gem "bootsnap", require: false
 
@@ -28,6 +28,9 @@ gem "responders", "~> 3.0"
 
 # Payments
 gem "stripe", "~> 5.0"
+
+# Background jobs
+gem "sidekiq", "~> 6.4"
 
 # Search engine
 gem "typesense", "~> 0.13"

@@ -28,10 +28,6 @@ class Payment < ApplicationRecord
   private
 
   def index_donor_count
-    reload_fundraising_campaign
-
-    TypesenseClient.collections["fundraising_campaigns"]
-                   .documents[fundraising_campaign.id]
-                   .update({ donor_count: fundraising_campaign.donor_count })
+    Typesense::UpdateDonorCountJob.perform_async(id)
   end
 end

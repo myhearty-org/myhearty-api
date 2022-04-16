@@ -74,20 +74,6 @@ class VolunteerEvent < ApplicationRecord
   end
 
   def index_document
-    document = {
-      id: id.to_s,
-      name: name,
-      categories: charity_causes_names,
-      openings: openings,
-      volunteer_count: volunteer_count,
-      organization: organization.name,
-      start_datetime: start_datetime.to_i,
-      end_datetime: end_datetime.to_i,
-      location: [latitude.to_f, longitude.to_f],
-      page_url: page_url,
-      image_url: image_url
-    }
-
-    TypesenseClient.collections["volunteer_events"].documents.upsert(document)
+    Typesense::IndexVolunteerEventJob.perform_async(id)
   end
 end

@@ -43,17 +43,6 @@ class Organization < ApplicationRecord
   private
 
   def index_document
-    document = {
-      id: id.to_s,
-      name: name,
-      categories: charity_causes_names,
-      about_us: about_us.truncate(120, separator: " "),
-      location: [latitude.to_f, longitude.to_f],
-      charity: charity,
-      page_url: page_url,
-      image_url: image_url
-    }
-
-    TypesenseClient.collections["organizations"].documents.upsert(document)
+    Typesense::IndexOrganizationJob.perform_async(id)
   end
 end
