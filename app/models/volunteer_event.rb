@@ -77,6 +77,6 @@ class VolunteerEvent < ApplicationRecord
   end
 
   def should_be_geocoded?
-    location.present? && saved_change_to_location?
+    (location.present? && saved_change_to_location?) || (location.present? && (latitude.blank? || longitude.blank?))
   end
 end
