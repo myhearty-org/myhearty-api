@@ -23,7 +23,7 @@ class Organization < ApplicationRecord
   validates :slug, presence: true
   validates :location, presence: true, length: { maximum: 255 }
   validates :email, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 63 }, if: :email_changed?
-  validates :contact_no, presence: true, length: { maximum: 20 }
+  validates :contact_no, phone: true, presence: true, length: { maximum: 20 }
   validates :website_url, allow_blank: true, url: true, uniqueness: { case_sensitive: false }, if: :website_url_changed?
   validates :facebook_url, allow_blank: true, url: true
   validates :youtube_url, allow_blank: true, url: true
