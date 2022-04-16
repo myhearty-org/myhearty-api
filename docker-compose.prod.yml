@@ -44,13 +44,16 @@ services:
 
   redis:
     image: redis:${REDIS_VERSION}
+    sysctls:
+      net.core.somaxconn: 1024
     restart: always
+    command: [ "redis-server" ]
     environment:
       TZ: "Asia/Kuala_Lumpur"
     ports:
       - "6379:6379"
     volumes:
-      - redis:/var/lib/redis/data
+      - redis:/data
 
   sidekiq:
     build:
@@ -59,9 +62,13 @@ services:
       context: .
       dockerfile: ./docker/rails/Dockerfile
     restart: always
-    command: [ "bundle", "exec", "sidekiq", "-c", "2" ]
+    command: [ "bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml", "-e", "production" ]
     environment:
       TZ: "Asia/Kuala_Lumpur"
+      MYHEARTY_DB_USER: ${POSTGRES_USER}
+      MYHEARTY_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      MYHEARTY_DB_HOST: ${POSTGRES_HOST}
+      TYPESENSE_API_KEY: ${TYPESENSE_API_KEY}
     volumes:
       - .:/api
     depends_on:
