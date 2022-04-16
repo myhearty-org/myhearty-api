@@ -4,8 +4,10 @@ module Typesense
   class IndexFundraisingCampaignJob
     include Sidekiq::Job
 
-    def perform(id)
+    def perform(id, first_time_published)
       fundraising_campaign = FundraisingCampaign.find(id)
+
+      fundraising_campaign.create_stripe_product if first_time_published
 
       document = {
         id: fundraising_campaign.id.to_s,

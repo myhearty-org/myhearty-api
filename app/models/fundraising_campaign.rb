@@ -12,8 +12,6 @@ class FundraisingCampaign < ApplicationRecord
   friendly_id :slug_candidates, use: :slugged
   random_id prefix: :frcp
 
-  before_create :create_stripe_product, if: :published?
-  before_update :create_stripe_product, if: -> { published_changed? && published? }
   after_commit :index_document, on: [:create, :update], if: :published?
 
   belongs_to :organization
@@ -54,23 +52,24 @@ class FundraisingCampaign < ApplicationRecord
     total_raised_amount >= target_amount
   end
 
+  def create_stripe_product
+    Stripe::Product.create({
+      id: fundraising_campaign_id,
+      name: name
+    }, { stripe_account: organization.stripe_account_id })
+  end
+
   private
 
   def slug_candidates
     [:name, [:name, :organization_id]]
   end
 
-  def create_stripe_product
-    Stripe::Product.create({
-      id: fundraising_campaign_id,
-      name: name
-    }, { stripe_account: organization.stripe_account_id })
-  rescue Stripe::StripeError
-    errors.add(:fundraising_campaign_id, :failed_to_create_stripe_product)
-    throw(:abort)
+  def index_document
+    Typesense::IndexFundraisingCampaignJob.perform_async(id, first_time_published?)
   end
 
-  def index_document
-    Typesense::IndexFundraisingCampaignJob.perform_async(id)
+  def first_time_published?
+    saved_change_to_published? && published?
   end
 end
