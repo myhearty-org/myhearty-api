@@ -51,7 +51,9 @@ class FundraisingCampaign < ApplicationRecord
   def create_stripe_product
     Stripe::Product.create({
       id: fundraising_campaign_id,
-      name: name
+      name: name,
+      images: [image_url],
+      url: page_url
     }, { stripe_account: organization.stripe_account_id })
   end
 
