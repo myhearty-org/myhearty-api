@@ -75,6 +75,7 @@ Rails.application.routes.draw do
 
         resources :fundraising_campaigns, path: :campaigns, only: %i[index show create update destroy] do
           post "/donate", to: "/users/donations#donate", on: :member
+          get "metrics", on: :member
 
           resources :donations, shallow: true, only: %i[index show]
         end
