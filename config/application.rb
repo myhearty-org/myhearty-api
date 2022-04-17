@@ -34,6 +34,8 @@ module Api
                           httponly: true,
                           expire_after: 2.days
 
+    config.active_job.queue_adapter = :sidekiq
+
     config.i18n.enforce_available_locales = false
 
     config.time_zone = "Kuala Lumpur"
