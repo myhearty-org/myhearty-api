@@ -3,7 +3,7 @@
 module Api
   module V0
     class FundraisingCampaignsController < ApiController
-      before_action :authenticate_charity_member!, only: %i[create update destroy]
+      before_action :authenticate_charity_member!, only: %i[create update destroy metrics]
 
       def index
         if params.key?(:organization_id)
@@ -51,6 +51,16 @@ module Api
         else
           render_error(result.json, result.http_status)
         end
+      end
+
+      def metrics
+        fundraising_campaign = FundraisingCampaign.find(params[:id])
+        metrics = FundraisingCampaigns::MetricsService.call(fundraising_campaign, params[:interval_start], params[:interval_end])
+
+        render json: {
+          id: fundraising_campaign.id,
+          data: metrics
+        }, status: :ok
       end
 
       private

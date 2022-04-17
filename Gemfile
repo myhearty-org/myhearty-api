@@ -51,6 +51,9 @@ gem "geocoder", "~> 1.7"
 # Slugging and permalinks
 gem "friendly_id", "~> 5.0"
 
+# Group temporal data
+gem "groupdate", "~> 6.1"
+
 # Validations
 gem "public_suffix", "~> 4.0"
 gem "validates_timeliness", "~> 6.0.0.alpha1"

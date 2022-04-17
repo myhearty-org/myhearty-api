@@ -39,7 +39,5 @@ module Api
     config.i18n.enforce_available_locales = false
 
     config.time_zone = "Kuala Lumpur"
-
-    config.active_record.default_timezone = :local
   end
 end
