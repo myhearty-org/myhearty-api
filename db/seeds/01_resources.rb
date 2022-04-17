@@ -21,7 +21,7 @@ Organization.create!(
   name: "Love Charity",
   location: "Kuala Lumpur",
   email: "hello@love_charity.com",
-  contact_no: "6031234567",
+  contact_no: "60342805673",
   website_url: "https://lovecharity.my",
   facebook_url: "https://facebook.com/love_charity",
   youtube_url: "https://youtube.com/love_charity",
