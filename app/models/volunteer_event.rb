@@ -29,15 +29,10 @@ class VolunteerEvent < ApplicationRecord
   validate :volunteer_count_less_than_openings
   validates :location, allow_blank: true, length: { maximum: 255 }
   validates :youtube_url, allow_blank: true, url: true
-  validates_datetime :start_datetime, allow_nil: true, ignore_usec: true,
-                                      after: :time_current, after_message: "must be after current datetime",
-                                      if: :start_datetime_changed?
-  validates_datetime :end_datetime, allow_nil: true, ignore_usec: true,
-                                    after: :start_datetime, after_message: "must be after start datetime"
-  validates_datetime :application_deadline, allow_nil: true, ignore_usec: true,
-                                            after: :time_current, after_message: "must be after current datetime",
-                                            before: :start_datetime, before_message: "must be before start datetime",
-                                            if: -> { application_deadline_changed? || start_datetime_changed? }
+  validate :start_datetime_must_be_after_current_datetime, if: :start_datetime_changed?
+  validate :end_datetime_must_be_after_start_datetime
+  validate :application_deadline_must_be_after_current_datetime, if: :application_deadline_changed?
+  validate :application_deadline_must_be_before_start_datetime
   validates :published, inclusion: { in: [true, false] }
   validates :published, exclusion: { in: [nil] }
   validates_presence_of :openings, :location, :about_event, :start_datetime, :end_datetime, :application_deadline, if: :published?
@@ -78,5 +73,29 @@ class VolunteerEvent < ApplicationRecord
     return true if volunteer_count.nil? || openings.nil?
 
     errors.add(:volunteer_count, "must be less than total openings") if volunteer_count > openings
+  end
+
+  def start_datetime_must_be_after_current_datetime
+    return if start_datetime.blank?
+
+    errors.add(:start_datetime, :must_be_after_current_datetime) if start_datetime.to_i < Time.current.to_i
+  end
+
+  def end_datetime_must_be_after_start_datetime
+    return if start_datetime.blank? || end_datetime.blank?
+
+    errors.add(:end_datetime, :must_be_after_start_datetime) if end_datetime.to_i <= start_datetime.to_i
+  end
+
+  def application_deadline_must_be_after_current_datetime
+    return if application_deadline.blank?
+
+    errors.add(:application_deadline, :must_be_after_current_datetime) if application_deadline.to_i < Time.current.to_i
+  end
+
+  def application_deadline_must_be_before_start_datetime
+    return if application_deadline.blank? || start_datetime.blank?
+
+    errors.add(:application_deadline, :must_be_before_start_datetime) if application_deadline.to_i >= start_datetime.to_i
   end
 end

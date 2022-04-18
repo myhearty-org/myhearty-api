@@ -29,10 +29,8 @@ class FundraisingCampaign < ApplicationRecord
   validates :total_raised_amount, allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :donor_count, allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :youtube_url, allow_blank: true, url: true
-  validates_datetime :start_datetime, allow_nil: true, ignore_usec: true,
-                                      on_or_after: :time_current, on_or_after_message: "must be after current datetime"
-  validates_datetime :end_datetime, allow_nil: true, ignore_usec: true,
-                                    after: :start_datetime, after_message: "must be after start datetime"
+  validate :start_datetime_must_be_after_current_datetime, if: :start_datetime_changed?
+  validate :end_datetime_must_be_after_start_datetime
   validates :published, inclusion: { in: [true, false] }
   validates :published, exclusion: { in: [nil] }
   validates_presence_of :target_amount, :about_campaign, :start_datetime, :end_datetime, if: :published?
@@ -73,5 +71,17 @@ class FundraisingCampaign < ApplicationRecord
 
   def slug_candidates
     [:name, [:name, :organization_id]]
+  end
+
+  def start_datetime_must_be_after_current_datetime
+    return if start_datetime.blank?
+
+    errors.add(:start_datetime, :must_be_after_current_datetime) if start_datetime.to_i < Time.current.to_i
+  end
+
+  def end_datetime_must_be_after_start_datetime
+    return if start_datetime.blank? || end_datetime.blank?
+
+    errors.add(:end_datetime, :must_be_after_start_datetime) if end_datetime.to_i <= start_datetime.to_i
   end
 end
