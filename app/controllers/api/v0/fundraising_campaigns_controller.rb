@@ -54,7 +54,10 @@ module Api
       end
 
       def metrics
-        fundraising_campaign = FundraisingCampaign.find(params[:id])
+        fundraising_campaign = FundraisingCampaign.find_by(id: params[:id], organization: current_member.organization)
+
+        return head :not_found unless fundraising_campaign
+
         metrics = FundraisingCampaigns::MetricsService.call(fundraising_campaign, params[:interval_start], params[:interval_end])
 
         render json: {
