@@ -4,25 +4,58 @@ module FundraisingCampaigns
   class MetricsService < BaseService
     def initialize(fundraising_campaign, interval_start, interval_end)
       @fundraising_campaign = fundraising_campaign
-      @interval_start = Time.at(interval_start.to_i).to_datetime if interval_start.present?
-      @interval_end = Time.at(interval_end.to_i).to_datetime if interval_end.present?
+      @interval_start = interval_start.to_i if interval_start.present?
+      @interval_end = interval_end.to_i if interval_end.present?
     end
 
     def call
-      metrics
+      if interval_start.nil? || interval_end.nil?
+        set_interval
+      elsif maximum_interval_exceeded?
+        return error_maximum_interval
+      end
+
+      success(record: metrics)
     end
 
     private
 
     attr_reader :fundraising_campaign, :interval_start, :interval_end
 
+    def set_interval
+      if interval_start.nil? && interval_end.nil?
+        @interval_start = fundraising_campaign.start_datetime.to_i
+        @interval_end = [interval_start + 1.year.to_i, fundraising_campaign.end_datetime.to_i].min
+      elsif interval_start.nil?
+        @interval_end = [interval_end, fundraising_campaign.end_datetime.to_i].min
+        @interval_start = [interval_end - 1.year.to_i, fundraising_campaign.start_datetime.to_i].max
+      elsif interval_end.nil?
+        @interval_start = [interval_start, fundraising_campaign.start_datetime.to_i].max
+        @interval_end = [interval_start + 1.year.to_i, fundraising_campaign.end_datetime.to_i].min
+      end
+    end
+
+    def maximum_interval_exceeded?
+      interval_end - interval_start > 1.year.to_i
+    end
+
+    def error_maximum_interval
+      error(
+        json: { message: "Maximum of 1 year interval allowed" },
+        http_status: :unprocessable_entity
+      )
+    end
+
     def metrics
-      [to_data_array(day_grouped_data)]
+      to_data_array(day_grouped_data)
     end
 
     def day_grouped_data
       fundraising_campaign.donations.with_payment
-                          .group_by_day(:completed_at, range: interval_start..interval_end, expand_range: true, format: "%s") # %s indicates Unix timestamp
+                          .group_by_day(:completed_at,
+                                        range: Time.at(interval_start).to_datetime..Time.at(interval_end).to_datetime,
+                                        expand_range: true,
+                                        format: "%s") # %s indicates Unix timestamp
                           .sum(:net_amount)
     end
 

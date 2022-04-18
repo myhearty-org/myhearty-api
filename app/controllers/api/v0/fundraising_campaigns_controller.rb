@@ -58,12 +58,17 @@ module Api
 
         return head :not_found unless fundraising_campaign
 
-        metrics = FundraisingCampaigns::MetricsService.call(fundraising_campaign, params[:interval_start], params[:interval_end])
+        result = FundraisingCampaigns::MetricsService.call(fundraising_campaign, params[:interval_start], params[:interval_end])
+        metrics = result.record
 
-        render json: {
-          id: fundraising_campaign.id,
-          data: metrics
-        }, status: :ok
+        if result.success?
+          render json: {
+            id: fundraising_campaign.id,
+            data: metrics
+          }, status: :ok
+        else
+          render_error(result.json, result.http_status)
+        end
       end
 
       private
