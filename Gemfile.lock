@@ -292,7 +292,6 @@ GEM
     stripe (5.46.0)
     strscan (3.0.1)
     thor (1.2.1)
-    timeliness (0.4.4)
     timeout (0.2.0)
     typesense (0.13.0)
       oj (~> 3.11)
@@ -303,8 +302,6 @@ GEM
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.1.0)
     uniform_notifier (1.16.0)
-    validates_timeliness (6.0.0.alpha1)
-      timeliness (>= 0.3.10, < 1)
     warden (1.2.9)
       rack (>= 2.0.9)
     websocket-driver (0.7.5)
@@ -352,7 +349,6 @@ DEPENDENCIES
   sidekiq (~> 6.4)
   stripe (~> 5.0)
   typesense (~> 0.13)
-  validates_timeliness (~> 6.0.0.alpha1)
 
 RUBY VERSION
    ruby 3.0.3p157
