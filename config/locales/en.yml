@@ -1,6 +1,12 @@
 en:
   hello: "Hello world"
+  resources:
+  fields:
   errors:
+    codes:
+      blank: missing_field
+      inclusion: invalid
+      taken: already_exists
     messages:
       invalid_date: "is not a valid date"
       invalid_time: "is not a valid time"
