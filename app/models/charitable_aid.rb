@@ -69,7 +69,7 @@ class CharitableAid < ApplicationRecord
   def receiver_count_less_than_openings
     return true if receiver_count.nil? || openings.nil?
 
-    errors.add(:receiver_count, "must be less than total openings") if receiver_count > openings
+    errors.add(:receiver_count, :must_be_less_than_openings) if receiver_count > openings
   end
 
   def application_deadline_must_be_after_current_datetime

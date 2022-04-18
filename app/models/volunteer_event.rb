@@ -72,7 +72,7 @@ class VolunteerEvent < ApplicationRecord
   def volunteer_count_less_than_openings
     return true if volunteer_count.nil? || openings.nil?
 
-    errors.add(:volunteer_count, "must be less than total openings") if volunteer_count > openings
+    errors.add(:volunteer_count, :must_be_less_than_openings) if volunteer_count > openings
   end
 
   def start_datetime_must_be_after_current_datetime
