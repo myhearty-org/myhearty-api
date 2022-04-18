@@ -22,7 +22,7 @@ module Validation
       I18n.t(
         underscored_resource_name,
         scope: [:resources],
-        locale: :api,
+        locale: :en,
         default: @record.class.to_s
       )
     end
@@ -31,7 +31,7 @@ module Validation
       I18n.t(
         @field,
         scope: [:fields, underscored_resource_name],
-        locale: :api,
+        locale: :en,
         default: @field.to_s
       )
     end
@@ -40,7 +40,7 @@ module Validation
       I18n.t(
         @details[:error],
         scope: [:errors, :codes],
-        locale: :api,
+        locale: :en,
         default: @details[:error].to_s
       )
     end

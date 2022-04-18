@@ -1,8 +1,0 @@
-api:
-  resources:
-  fields:
-  errors:
-    codes:
-      blank: missing_field
-      inclusion: invalid
-      taken: already_exists
