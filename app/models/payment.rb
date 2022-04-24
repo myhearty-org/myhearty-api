@@ -10,7 +10,6 @@ class Payment < ApplicationRecord
   validates :fee, allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :net_amount, allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :status, presence: true
-  validates_datetime :completed_at, allow_nil: true, after: :created_at, after_message: "must be after created at"
 
   scope :pending, -> { where(status: "pending") }
   scope :succeeded, -> { where(status: "succeeded") }
