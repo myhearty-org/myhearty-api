@@ -16,10 +16,10 @@ Rails.application.routes.draw do
 
     devise_scope :user do
       scope :users, as: :user do
-        post "/sign_in", to: "users/sessions#create"
-        post "/sign_out", to: "users/sessions#destroy"
+        post "/login", to: "users/sessions#create"
+        post "/logout", to: "users/sessions#destroy"
 
-        post "/sign_up", to: "users/registrations#create"
+        post "/signup", to: "users/registrations#create"
 
         post "/password", to: "users/passwords#create"
         patch "/password", to: "users/passwords#update"
@@ -35,8 +35,8 @@ Rails.application.routes.draw do
 
     devise_scope :member do
       scope :members, as: :member do
-        post "/sign_in", to: "members/sessions#create"
-        post "/sign_out", to: "members/sessions#destroy"
+        post "/login", to: "members/sessions#create"
+        post "/logout", to: "members/sessions#destroy"
 
         post "/password", to: "members/passwords#create"
         patch "/password", to: "members/passwords#update"
