@@ -17,7 +17,7 @@ module Users
     end
 
     def after_confirmation_path_for(_resource_name, _resource)
-      "https://myhearty.my"
+      "https://myhearty.my/login"
     end
   end
 end
