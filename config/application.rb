@@ -30,6 +30,8 @@ module Api
 
     config.middleware.use ActionDispatch::Session::CookieStore,
                           key: "_myhearty_session",
+                          domain: :all,
+                          tld_length: 2,
                           secure: true,
                           httponly: true,
                           expire_after: 2.days
