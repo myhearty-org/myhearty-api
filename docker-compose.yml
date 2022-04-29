@@ -82,10 +82,13 @@ services:
       TYPESENSE_DATA_DIR: /data
       TYPESENSE_API_KEY: ${TYPESENSE_API_KEY}
       TYPESENSE_ENABLE_CORS: "true"
+      TYPESENSE_SSL_CERTIFICATE: /etc/typesense/certs/live/api.myhearty.my/fullchain.pem
+      TYPESENSE_SSL_CERTIFICATE_KEY: /etc/typesense/certs/live/api.myhearty.my/privkey.pem
     ports:
       - "8108:8108"
     volumes:
       - typesense:/data
+      - /etc/letsencrypt:/etc/typesense/certs:ro
 
   nginx:
     build:
