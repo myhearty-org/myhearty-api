@@ -6,9 +6,9 @@ require "logger"
 TypesenseClient = Typesense::Client.new(
   nodes: [
     {
-      host: "typesense",
+      host: "api.myhearty.my",
       port: 8108,
-      protocol: "http"
+      protocol: "https"
     }
   ],
   api_key: ENV["TYPESENSE_API_KEY"],
