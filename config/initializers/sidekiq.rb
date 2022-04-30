@@ -1,6 +1,7 @@
 sidekiq_config = {
   url: "redis://redis:6379/0",
-  id: "Sidekiq-server-PID-#{::Process.pid}"
+  id: "Sidekiq-server-PID-#{::Process.pid}",
+  password: ENV["REDIS_PASSWORD"]
 }
 
 Sidekiq.configure_server do |config|
