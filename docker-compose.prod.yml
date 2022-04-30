@@ -14,6 +14,7 @@ services:
       MYHEARTY_DB_USER: ${POSTGRES_USER}
       MYHEARTY_DB_PASSWORD: ${POSTGRES_PASSWORD}
       MYHEARTY_DB_HOST: ${POSTGRES_HOST}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
       TYPESENSE_API_KEY: ${TYPESENSE_API_KEY}
     ports:
       - "3000:3000"
@@ -44,17 +45,18 @@ services:
           - ${POSTGRES_HOST}
 
   redis:
-    image: redis:${REDIS_VERSION}
+    image: bitnami/redis:${REDIS_VERSION}
     sysctls:
       net.core.somaxconn: 1024
     restart: always
-    command: [ "redis-server" ]
     environment:
       TZ: "Asia/Kuala_Lumpur"
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_DISABLE_COMMANDS: "FLUSHDB,FLUSHALL,CONFIG"
     ports:
       - "6379:6379"
     volumes:
-      - redis:/data
+      - redis:/bitnami/redis/data
 
   sidekiq:
     build:
@@ -69,6 +71,7 @@ services:
       MYHEARTY_DB_USER: ${POSTGRES_USER}
       MYHEARTY_DB_PASSWORD: ${POSTGRES_PASSWORD}
       MYHEARTY_DB_HOST: ${POSTGRES_HOST}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
       TYPESENSE_API_KEY: ${TYPESENSE_API_KEY}
     volumes:
       - .:/api
