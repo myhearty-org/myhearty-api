@@ -109,7 +109,6 @@ services:
       - api
 
 volumes:
-  api:
   postgres:
   redis:
   typesense:
