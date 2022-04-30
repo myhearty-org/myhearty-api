@@ -53,6 +53,7 @@ class FundraisingCampaign < ApplicationRecord
       images: [image_url],
       url: page_url
     }, { stripe_account: organization.stripe_account_id })
+  rescue Stripe::InvalidRequestError
   end
 
   def ended?
