@@ -29,12 +29,11 @@ class FundraisingCampaign < ApplicationRecord
   validates :total_raised_amount, allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :donor_count, allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :youtube_url, allow_blank: true, url: true
-  validate :start_datetime_must_be_after_current_datetime, if: :start_datetime_changed?
-  validate :end_datetime_must_be_after_start_datetime
+  validate :end_datetime_must_be_after_current_datetime, if: -> { end_datetime_changed? || (published_changed? && published?) }
   validates :published, inclusion: { in: [true, false] }
   validates :published, exclusion: { in: [nil] }
-  validates_presence_of :target_amount, :about_campaign, :start_datetime, :end_datetime, if: :published?
-  validates_with UnallowedParamsValidator, unallowed_params: %i[name target_amount start_datetime end_datetime published],
+  validates_presence_of :target_amount, :about_campaign, :end_datetime, if: :published?
+  validates_with UnallowedParamsValidator, unallowed_params: %i[name target_amount end_datetime published],
                                            error_code: :not_allowed_to_update_after_published,
                                            if: :already_published?
 
@@ -74,15 +73,9 @@ class FundraisingCampaign < ApplicationRecord
     [:name, [:name, :organization_id]]
   end
 
-  def start_datetime_must_be_after_current_datetime
-    return if start_datetime.blank?
+  def end_datetime_must_be_after_current_datetime
+    return if end_datetime.blank?
 
-    errors.add(:start_datetime, :must_be_after_current_datetime) if start_datetime.to_i < Time.current.to_i
-  end
-
-  def end_datetime_must_be_after_start_datetime
-    return if start_datetime.blank? || end_datetime.blank?
-
-    errors.add(:end_datetime, :must_be_after_start_datetime) if end_datetime.to_i <= start_datetime.to_i
+    errors.add(:end_datetime, :must_be_after_current_datetime) if end_datetime.to_i <= Time.current.to_i
   end
 end
