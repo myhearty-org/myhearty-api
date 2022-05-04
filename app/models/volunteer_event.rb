@@ -29,9 +29,9 @@ class VolunteerEvent < ApplicationRecord
   validate :volunteer_count_less_than_openings
   validates :location, allow_blank: true, length: { maximum: 255 }
   validates :youtube_url, allow_blank: true, url: true
-  validate :start_datetime_must_be_after_current_datetime, if: :start_datetime_changed?
+  validate :start_datetime_must_be_after_current_datetime, if: -> { start_datetime_changed? || (published_changed? && published?) }
   validate :end_datetime_must_be_after_start_datetime
-  validate :application_deadline_must_be_after_current_datetime, if: :application_deadline_changed?
+  validate :application_deadline_must_be_after_current_datetime, if: -> { application_deadline_changed? || (published_changed? && published?) }
   validate :application_deadline_must_be_before_start_datetime
   validates :published, inclusion: { in: [true, false] }
   validates :published, exclusion: { in: [nil] }

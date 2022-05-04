@@ -29,7 +29,7 @@ class CharitableAid < ApplicationRecord
   validate :receiver_count_less_than_openings
   validates :location, allow_blank: true, length: { maximum: 255 }
   validates :youtube_url, allow_blank: true, url: true
-  validate :application_deadline_must_be_after_current_datetime, if: :application_deadline_changed?
+  validate :application_deadline_must_be_after_current_datetime, if: -> { application_deadline_changed? || (published_changed? && published?) }
   validates :published, inclusion: { in: [true, false] }
   validates :published, exclusion: { in: [nil] }
   validates_presence_of :openings, :location, :about_aid, :application_deadline, if: :published?
