@@ -12,6 +12,7 @@ class FundraisingCampaign < ApplicationRecord
   friendly_id :slug_candidates, use: :slugged
   random_id prefix: :frcp
 
+  before_validation :set_start_datetime, if: -> { published_changed? && published? }
   after_commit :index_document, on: [:create, :update], if: :published?
 
   belongs_to :organization
@@ -71,6 +72,10 @@ class FundraisingCampaign < ApplicationRecord
 
   def slug_candidates
     [:name, [:name, :organization_id]]
+  end
+
+  def set_start_datetime
+    self.start_datetime = Time.current
   end
 
   def end_datetime_must_be_after_current_datetime
