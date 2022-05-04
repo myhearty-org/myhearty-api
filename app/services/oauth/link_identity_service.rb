@@ -22,7 +22,7 @@ module Oauth
       if identity.save
         { status: :identity_linked }
       else
-        { status: :identity_failure, errors: identity.errors.full_messaages.to_sentence }
+        { status: :identity_failure, errors: identity.errors.full_messages.to_sentence }
       end
     end
 
