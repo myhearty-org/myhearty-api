@@ -85,7 +85,6 @@ module Api
           about_campaign
           image
           youtube_url
-          start_datetime
           end_datetime
           published
         ]
