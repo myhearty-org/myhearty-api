@@ -20,7 +20,8 @@ module Typesense
         receiver_count: charitable_aid.receiver_count,
         organization: charitable_aid.organization.name,
         application_deadline: charitable_aid.application_deadline.to_i,
-        location: [charitable_aid.latitude.to_f, charitable_aid.longitude.to_f],
+        location: charitable_aid.location,
+        coordinates: [charitable_aid.latitude.to_f, charitable_aid.longitude.to_f],
         page_url: charitable_aid.page_url,
         image_url: charitable_aid.image_url
       }

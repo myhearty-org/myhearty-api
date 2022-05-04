@@ -12,7 +12,8 @@ organizations_schema = {
     { name: "name", type: "string" },
     { name: "categories", type: "string[]", facet: true },
     { name: "about_us", type: "string", index: false, optional: true },
-    { name: "location", type: "geopoint" },
+    { name: "location", type: "string" },
+    { name: "coordinates", type: "geopoint" },
     { name: "charity", type: "bool", facet: true },
     { name: "page_url", type: "string", index: false, optional: true },
     { name: "image_url", type: "string", index: false, optional: true }
@@ -66,7 +67,8 @@ volunteer_events_schema = {
     { name: "organization", type: "string" },
     { name: "start_datetime", type: "int64" },
     { name: "end_datetime", type: "int64" },
-    { name: "location", type: "geopoint" },
+    { name: "location", type: "string" },
+    { name: "coordinates", type: "geopoint" },
     { name: "page_url", type: "string", index: false, optional: true },
     { name: "image_url", type: "string", index: false, optional: true }
   ]
@@ -91,7 +93,8 @@ charitable_aids_schema = {
     { name: "receiver_count", type: "int32" },
     { name: "organization", type: "string" },
     { name: "application_deadline", type: "int64" },
-    { name: "location", type: "geopoint" },
+    { name: "location", type: "string" },
+    { name: "coordinates", type: "geopoint" },
     { name: "page_url", type: "string", index: false, optional: true },
     { name: "image_url", type: "string", index: false, optional: true }
   ]

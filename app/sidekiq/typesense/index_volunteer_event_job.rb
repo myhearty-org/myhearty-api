@@ -21,7 +21,8 @@ module Typesense
         organization: volunteer_event.organization.name,
         start_datetime: volunteer_event.start_datetime.to_i,
         end_datetime: volunteer_event.end_datetime.to_i,
-        location: [volunteer_event.latitude.to_f, volunteer_event.longitude.to_f],
+        location: volunteer_event.location,
+        coordinates: [volunteer_event.latitude.to_f, volunteer_event.longitude.to_f],
         page_url: volunteer_event.page_url,
         image_url: volunteer_event.image_url
       }
