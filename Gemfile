@@ -41,6 +41,7 @@ gem "api-pagination", "~> 5.0"
 
 # Files attachments
 gem "shrine", "~> 3.0"
+gem "shrine-url", "~> 2.4" # provides a fake storage to create a Shrine attachment defined by a custom URL.
 
 # Storage
 gem "aws-sdk-s3", "~> 1.0"
