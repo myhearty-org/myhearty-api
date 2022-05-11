@@ -4,6 +4,6 @@ namespace :db do
     conn = ActiveRecord::Base.connection
     tables = conn.tables
     tables.delete "schema_migrations"
-    tables.each { |t| conn.execute("TRUNCATE #{t} CASCADE") }
+    tables.each { |t| conn.execute("TRUNCATE #{t} RESTART IDENTITY CASCADE") }
   end
 end
