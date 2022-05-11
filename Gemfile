@@ -66,6 +66,9 @@ gem "counter_culture", "~> 3.2"
 gem "oj", "~> 3.13"
 gem "multi_json", "~> 1.15"
 
+# HTTP Requests
+gem "httparty", "~> 0.20"
+
 group :development, :test do
   gem "debug", platforms: %i[mri mingw x64_mingw]
   gem "debase"
