@@ -1,3 +1,5 @@
+puts "Creating Typesense schema\n"
+
 begin
   if TypesenseClient.collections["organizations"].retrieve
     TypesenseClient.collections["organizations"].delete
@@ -101,3 +103,5 @@ charitable_aids_schema = {
 }
 
 TypesenseClient.collections.create(charitable_aids_schema)
+
+puts "Finished creating Typesense schema\n"
