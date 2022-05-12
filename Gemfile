@@ -41,6 +41,7 @@ gem "api-pagination", "~> 5.0"
 
 # Files attachments
 gem "shrine", "~> 3.0"
+gem "shrine-url", "~> 2.4" # provides a fake storage to create a Shrine attachment defined by a custom URL.
 
 # Storage
 gem "aws-sdk-s3", "~> 1.0"
@@ -64,6 +65,9 @@ gem "counter_culture", "~> 3.2"
 # JSON
 gem "oj", "~> 3.13"
 gem "multi_json", "~> 1.15"
+
+# HTTP Requests
+gem "httparty", "~> 0.20"
 
 group :development, :test do
   gem "debug", platforms: %i[mri mingw x64_mingw]

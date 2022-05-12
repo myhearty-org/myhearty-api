@@ -18,7 +18,7 @@ class Payment < ApplicationRecord
   counter_culture :fundraising_campaign,
                   column_name: ->(payment) { payment.first_successful_payment_from_donor? ? :donor_count : nil },
                   touch: true
-  after_update :index_donor_count, if: :first_successful_payment_from_donor?
+  after_commit :index_donor_count, on: [:update], if: :first_successful_payment_from_donor?
 
   def first_successful_payment_from_donor?
     status == "succeeded" && Payment.where(user: user, fundraising_campaign: fundraising_campaign, status: "succeeded").limit(2).length == 1

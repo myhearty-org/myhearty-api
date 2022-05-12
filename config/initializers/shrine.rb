@@ -2,10 +2,12 @@
 
 require "shrine"
 require "shrine/storage/s3"
+require "shrine/storage/url"
 
 s3_options = Rails.application.credentials.s3
 
 Shrine.storages = {
+  url: Shrine::Storage::Url.new,
   cache: Shrine::Storage::S3.new(prefix: "cache", upload_options: { acl: "public-read" }, **s3_options),
   store: Shrine::Storage::S3.new(prefix: "store", upload_options: { acl: "public-read" }, **s3_options)
 }

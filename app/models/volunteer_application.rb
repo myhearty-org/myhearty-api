@@ -27,9 +27,9 @@ class VolunteerApplication < ApplicationRecord
 
   counter_culture :volunteer_event,
                   column_name: ->(application) { application.confirmed? ? :volunteer_count : nil },
-                  column_names: { confirmed => :volunteer_count },
+                  column_names: -> { { confirmed => :volunteer_count } },
                   touch: true
-  after_update :index_volunteer_count, if: :saved_change_to_status?
+  after_commit :index_volunteer_count, on: [:update], if: :saved_change_to_status?
 
   def application_processed?
     !pending?

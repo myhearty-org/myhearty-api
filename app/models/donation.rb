@@ -10,7 +10,7 @@ class Donation < ApplicationRecord
 
   validates :fundraising_campaign, presence: true, if: :fundraising_campaign_id_changed?
   validates :donor, presence: true, if: :donor_id_changed?
-  validates :amount, presence: true, numericality: { only_integer: true, greater_than: 200 }
+  validates :amount, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 200, less_than_or_equal_to: 1_000_000 }
 
   delegate :organization, to: :fundraising_campaign
 

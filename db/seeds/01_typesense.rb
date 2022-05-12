@@ -1,3 +1,5 @@
+puts "Creating Typesense schema\n"
+
 begin
   if TypesenseClient.collections["organizations"].retrieve
     TypesenseClient.collections["organizations"].delete
@@ -11,7 +13,7 @@ organizations_schema = {
     { name: "id", type: "string" },
     { name: "name", type: "string" },
     { name: "categories", type: "string[]", facet: true },
-    { name: "about_us", type: "string", index: false, optional: true },
+    { name: "about_us", type: "string" },
     { name: "location", type: "string" },
     { name: "coordinates", type: "geopoint" },
     { name: "charity", type: "bool", facet: true },
@@ -41,7 +43,7 @@ fundraising_campaigns_schema = {
     { name: "organization", type: "string" },
     { name: "start_datetime", type: "int64" },
     { name: "end_datetime", type: "int64" },
-    { name: "about_campaign", type: "string", index: false, optional: true },
+    { name: "about_campaign", type: "string" },
     { name: "page_url", type: "string", index: false, optional: true },
     { name: "image_url", type: "string", index: false, optional: true }
   ]
@@ -101,3 +103,5 @@ charitable_aids_schema = {
 }
 
 TypesenseClient.collections.create(charitable_aids_schema)
+
+puts "Finished creating Typesense schema\n"

@@ -22,9 +22,9 @@ class CharitableAidApplication < ApplicationRecord
 
   counter_culture :charitable_aid,
                   column_name: ->(application) { application.approved? ? :receiver_count : nil },
-                  column_names: { approved => :receiver_count },
+                  column_names: -> { { approved => :receiver_count } },
                   touch: true
-  after_update :index_receiver_count, if: :saved_change_to_status?
+  after_commit :index_receiver_count, on: [:update], if: :saved_change_to_status?
 
   def application_processed?
     !pending?
