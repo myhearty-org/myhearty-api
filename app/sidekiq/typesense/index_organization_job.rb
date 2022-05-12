@@ -16,7 +16,7 @@ module Typesense
         id: organization.id.to_s,
         name: organization.name,
         categories: organization.charity_causes_names,
-        about_us: organization.about_us.truncate(120, separator: " "),
+        about_us: Rails::Html::FullSanitizer.new.sanitize(organization.about_us).truncate(120, separator: " "),
         location: organization.location,
         coordinates: [organization.latitude.to_f, organization.longitude.to_f],
         charity: organization.charity,
