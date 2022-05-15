@@ -21,7 +21,7 @@ module Users
       stripe_checkout_session = create_stripe_checkout_session(current_user, fundraising_campaign, donation)
       Payments::CreateService.call(current_user, fundraising_campaign, donation, stripe_checkout_session)
 
-      redirect_to stripe_checkout_session.url, allow_other_host: true
+      render json: { stripe_checkout_url: stripe_checkout_session.url }, status: :created
     end
 
     private
