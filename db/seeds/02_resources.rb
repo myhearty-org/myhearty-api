@@ -118,7 +118,8 @@ seeder.create_if_none(Organization, organization_count) do
       video_url: "https://youtube.com/#{name.parameterize}",
       about_us: Faker::Lorem.paragraphs(number: 12).map { |paragraph| "<p>#{paragraph}</p>" }.join,
       programmes_summary: Faker::Lorem.paragraphs(number: 4).map { |paragraph| "<p>#{paragraph}</p>" }.join,
-      charity: Faker::Boolean.boolean(true_ratio: 0.5)
+      charity: Faker::Boolean.boolean(true_ratio: 0.5),
+      stripe_account_id: 'acct_1Kzip92RhSrnYdpM'
     )
 
     avatar_url = "https://www.gravatar.com/avatar/?d=identicon"
