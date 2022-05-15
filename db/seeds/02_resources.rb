@@ -62,10 +62,8 @@ addresses = [
   "Jalan Utara, 90000 Sandakan, Sabah"
 ].freeze
 
-def build_lorem_flickr_image_url(size:, search_terms:)
-  image_source_url = Faker::LoremFlickr.image(size: size, search_terms: search_terms)
-  response = HTTParty.get(image_source_url, follow_redirects: false)
-  image_url = "https://loremflickr.com#{response.headers["location"]}"
+def build_lorem_flickr_image_url(width:, height:, search_terms:)
+  image_source_url = "https://loremflickr.com/#{width}/#{height}/#{search_terms}?lock=#{rand(1..100000)}"
 end
 
 def build_image_data(image_url)
@@ -126,7 +124,7 @@ seeder.create_if_none(Organization, organization_count) do
     avatar_url = "https://www.gravatar.com/avatar/?d=identicon"
     organization.avatar_attacher.set(build_image_data(avatar_url))
 
-    image_url = build_lorem_flickr_image_url(size: "382x320", search_terms: ["charity", "help"])
+    image_url = build_lorem_flickr_image_url(width: "382", height: "320", search_terms: "charity,help")
     organization.image_attacher.set(build_image_data(image_url))
 
     redo unless organization.save
@@ -213,7 +211,7 @@ seeder.create_if_none(FundraisingCampaign, fundraising_campaign_count) do
       published: true
     )
 
-    image_url = build_lorem_flickr_image_url(size: "382x320", search_terms: ["charity", "giving"])
+    image_url = build_lorem_flickr_image_url(width: "382", height: "320", search_terms: "charity,giving")
     fundraising_campaign.image_attacher.set(build_image_data(image_url))
 
     fundraising_campaign.save
@@ -314,7 +312,7 @@ seeder.create_if_none(VolunteerEvent, volunteer_event_count) do
       published: true
     )
 
-    image_url = build_lorem_flickr_image_url(size: "382x320", search_terms: ["volunteer", "community"])
+    image_url = build_lorem_flickr_image_url(width: "382", height: "320", search_terms: "volunteer,community")
     volunteer_event.image_attacher.set(build_image_data(image_url))
 
     volunteer_event.save
@@ -381,7 +379,7 @@ seeder.create_if_none(CharitableAid, charitable_aid_count) do
       published: true
     )
 
-    image_url = build_lorem_flickr_image_url(size: "382x320", search_terms: ["gift", "give"])
+    image_url = build_lorem_flickr_image_url(width: "382", height: "320", search_terms: "gift,give")
     charitable_aid.image_attacher.set(build_image_data(image_url))
 
     charitable_aid.save
