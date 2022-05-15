@@ -34,7 +34,7 @@ class OrganizationsController < ApplicationController
     stripe_account_link = create_stripe_account_link(stripe_account.id)
 
     session[:stripe_account_id] = stripe_account.id
-    redirect_to stripe_account_link.url, allow_other_host: true
+    render json: { stripe_account_link_url: stripe_account_link.url }, status: :created
   end
 
   def stripe_onboard_refresh
