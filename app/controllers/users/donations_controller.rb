@@ -41,8 +41,8 @@ module Users
         submit_type: "donate",
         customer_email: donor.email,
         client_reference_id: fundraising_campaign.fundraising_campaign_id,
-        success_url: "https://myhearty.my/campaigns/#{fundraising_campaign.id}?session_id={CHECKOUT_SESSION_ID}",
-        cancel_url: "https://myhearty.my/campaigns/#{fundraising_campaign.id}?cancel=true"
+        success_url: "#{fundraising_campaign.page_url}?session_id={CHECKOUT_SESSION_ID}",
+        cancel_url: "#{fundraising_campaign.page_url}?cancel=true"
       }, { stripe_account: fundraising_campaign.organization.stripe_account_id })
     end
   end
