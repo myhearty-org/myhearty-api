@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_15_184418) do
+ActiveRecord::Schema.define(version: 2022_05_17_195028) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -213,10 +213,14 @@ ActiveRecord::Schema.define(version: 2022_04_15_184418) do
     t.integer "failed_attempts", default: 0, null: false
     t.string "unlock_token"
     t.datetime "locked_at", precision: 6
-    t.string "name"
+    t.string "name", limit: 63
     t.string "facebook_username"
     t.string "google_oauth2_username"
     t.text "avatar_data"
+    t.string "contact_no", limit: 20
+    t.text "address"
+    t.datetime "birth_date", precision: 0
+    t.integer "gender"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["facebook_username"], name: "index_users_on_facebook_username"
