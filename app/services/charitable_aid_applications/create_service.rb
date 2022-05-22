@@ -12,6 +12,8 @@ module CharitableAidApplications
 
       return error_application_closed if charitable_aid.application_closed?
 
+      return error_personal_info_missing if receiver.personal_info_missing?
+
       @charitable_aid_application = find_charitable_aid_application
 
       return error_already_exists unless charitable_aid_application.new_record?
@@ -40,6 +42,13 @@ module CharitableAidApplications
     def error_application_closed
       error(
         json: { message: "Application closed" },
+        http_status: :unprocessable_entity
+      )
+    end
+
+    def error_personal_info_missing
+      error(
+        json: { message: "Missing user's personal info" },
         http_status: :unprocessable_entity
       )
     end
