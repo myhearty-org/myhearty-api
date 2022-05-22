@@ -12,6 +12,8 @@ module VolunteerApplications
 
       return error_application_closed if volunteer_event.application_closed?
 
+      return error_personal_info_missing if volunteer.personal_info_missing?
+
       @volunteer_application = find_volunteer_application
 
       return error_already_exists unless volunteer_application.new_record?
@@ -40,6 +42,13 @@ module VolunteerApplications
     def error_application_closed
       error(
         json: { message: "Application closed" },
+        http_status: :unprocessable_entity
+      )
+    end
+
+    def error_personal_info_missing
+      error(
+        json: { message: "Missing user's personal info" },
         http_status: :unprocessable_entity
       )
     end
