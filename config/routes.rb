@@ -87,7 +87,7 @@ Rails.application.routes.draw do
     end
 
     namespace :users, path: :user, as: :user do
-      resource :profile, only: %i[update]
+      resource :profile, only: %i[show update]
 
       resources :donations, only: %i[index]
 
