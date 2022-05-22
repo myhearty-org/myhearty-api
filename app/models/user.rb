@@ -16,11 +16,15 @@ class User < ApplicationRecord
          :timeoutable, :trackable, :omniauthable,
          omniauth_providers: Identity::PROVIDERS
 
-  validates :name, allow_nil: true, length: { maximum: 63 }
-  validates :contact_no, phone: true, allow_nil: true, length: { maximum: 20 }
-  validates :address, allow_nil: true, length: { maximum: 255 }
+  validates :name, allow_blank: true, length: { maximum: 63 }
+  validates :contact_no, phone: true, allow_blank: true, length: { maximum: 20 }
+  validates :address, allow_blank: true, length: { maximum: 255 }
   validate :birth_date_must_be_before_current_date
-  validates :gender, allow_nil: true, inclusion: { in: genders.keys }
+  validates :gender, allow_blank: true, inclusion: { in: genders.keys }
+
+  def personal_info_missing?
+    name.blank? || contact_no.blank? || address.blank? || birth_date.blank? || gender.blank?
+  end
 
   protected
 
