@@ -22,6 +22,10 @@ class User < ApplicationRecord
   validate :birth_date_must_be_before_current_date
   validates :gender, allow_blank: true, inclusion: { in: genders.keys }
 
+  def personal_info_missing?
+    name.blank? || contact_no.blank? || address.blank? || birth_date.blank? || gender.blank?
+  end
+
   protected
 
   def send_devise_notification(notification, *args)
