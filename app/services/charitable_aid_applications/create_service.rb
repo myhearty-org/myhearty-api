@@ -2,9 +2,10 @@
 
 module CharitableAidApplications
   class CreateService < BaseService
-    def initialize(receiver, charitable_aid)
+    def initialize(receiver, charitable_aid, params)
       @receiver = receiver
       @charitable_aid = charitable_aid
+      @params = params
     end
 
     def call
@@ -18,18 +19,21 @@ module CharitableAidApplications
 
       return error_already_exists unless charitable_aid_application.new_record?
 
-      charitable_aid_application.save
-      success(record: charitable_aid_application)
+      if charitable_aid_application.save
+        success(record: charitable_aid_application)
+      else
+        error_invalid_params(charitable_aid_application)
+      end
     end
 
     private
 
-    attr_reader :receiver, :charitable_aid, :charitable_aid_application
+    attr_reader :receiver, :charitable_aid, :charitable_aid_application, :params
 
     def find_charitable_aid_application
       receiver.charitable_aid_applications
               .where(charitable_aid: charitable_aid)
-              .first_or_initialize
+              .first_or_initialize(params)
     end
 
     def error_not_published
