@@ -13,6 +13,7 @@ class CharitableAidApplication < ApplicationRecord
   validates :charitable_aid_id, uniqueness: { scope: :receiver_id },
                                 if: -> { receiver_id_changed? || charitable_aid_id_changed? }
   validates :status, allow_nil: true, inclusion: { in: statuses.keys }
+  validates :reason, presence: true, length: { maximum: 2500 }
 
   delegate :organization, to: :charitable_aid
 
