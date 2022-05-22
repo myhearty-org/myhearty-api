@@ -23,7 +23,7 @@ module Users
 
     def apply
       @charitable_aid = CharitableAid.find(params[:charitable_aid_id])
-      result = CharitableAidApplications::CreateService.call(current_user, @charitable_aid)
+      result = CharitableAidApplications::CreateService.call(current_user, @charitable_aid, charitable_aid_application_params)
       @charitable_aid_application = result.record
 
       if result.success?
@@ -42,6 +42,16 @@ module Users
       else
         render_error(result.json, result.http_status)
       end
+    end
+
+    def charitable_aid_application_params
+      params.require(:charitable_aid_application).permit(charitable_aid_application_params_attributes)
+    end
+
+    def charitable_aid_application_params_attributes
+      %i[
+        reason
+      ]
     end
   end
 end
