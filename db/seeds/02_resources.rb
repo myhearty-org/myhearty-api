@@ -8,6 +8,22 @@ puts "Seeding with multiplication factor: #{SEEDS_MULTIPLIER}\n\n"
 
 Faker::Config.locale = "en-MS"
 
+# Use a prebuilt list of valid addresses instead of getting random addresses from Faker::Address,
+# which are mostly invalid. Valid addresses are required for the geocoding process to be performed accurately.
+addresses = [
+  "Jalan Bukit Bintang, Bukit Bintang, Kuala Lumpur",
+  "Jalan Hijau 2/6, Bandar Tasik Puteri, Rawang, Selangor",
+  "Queensbay Mall, Persiaran Bayan Indah, Bayan Lepas, Penang",
+  "2, Jalan Permas 11, Bandar Baru Permas Jaya, 81750 Johor Bahru, Johor",
+  "Kampung Gunung Sali, 05150 Alor Setar, Kedah",
+  "Bandar Kota Bharu, Kota Bharu, Kelantan",
+  "Genting Sempah, 28750 Bentong, Pahang",
+  "Jalan Hang Jebat, 75200 Melaka",
+  "Seremban, Negeri Sembilan",
+  "Kuching, Sarawak",
+  "Jalan Utara, 90000 Sandakan, Sabah"
+].freeze
+
 user_count = 10 * SEEDS_MULTIPLIER
 
 seeder.create_if_none(User, user_count) do
@@ -15,6 +31,10 @@ seeder.create_if_none(User, user_count) do
     user = User.new(
       name: Faker::Name.name,
       email: "user#{i + 1}@example.com",
+      contact_no: "0177280300",
+      address: addresses.sample,
+      birth_date: Faker::Date.between(from: "1990-01-01", to: "2000-12-31"),
+      gender: ["male", "female"].sample,
       password: "password",
       password_confirmation: "password",
       remember_created_at: Time.current
@@ -45,22 +65,6 @@ categories = charity_causes.map { |charity_cause| charity_cause[:name] }
 seeder.create_if_none(CharityCause) do
   charity_causes.each { |charity_cause| CharityCause.create(charity_cause) }
 end
-
-# Use a prebuilt list of valid addresses instead of getting random addresses from Faker::Address,
-# which are mostly invalid. Valid addresses are required for the geocoding process to be performed accurately.
-addresses = [
-  "Jalan Bukit Bintang, Bukit Bintang, Kuala Lumpur",
-  "Jalan Hijau 2/6, Bandar Tasik Puteri, Rawang, Selangor",
-  "Queensbay Mall, Persiaran Bayan Indah, Bayan Lepas, Penang",
-  "2, Jalan Permas 11, Bandar Baru Permas Jaya, 81750 Johor Bahru, Johor",
-  "Kampung Gunung Sali, 05150 Alor Setar, Kedah",
-  "Bandar Kota Bharu, Kota Bharu, Kelantan",
-  "Genting Sempah, 28750 Bentong, Pahang",
-  "Jalan Hang Jebat, 75200 Melaka",
-  "Seremban, Negeri Sembilan",
-  "Kuching, Sarawak",
-  "Jalan Utara, 90000 Sandakan, Sabah"
-].freeze
 
 def build_lorem_flickr_image_url(width:, height:, search_terms:)
   image_source_url = "https://loremflickr.com/#{width}/#{height}/#{search_terms}?lock=#{rand(1..100000)}"
@@ -119,7 +123,7 @@ seeder.create_if_none(Organization, organization_count) do
       about_us: Faker::Lorem.paragraphs(number: 12).map { |paragraph| "<p>#{paragraph}</p>" }.join,
       programmes_summary: Faker::Lorem.paragraphs(number: 4).map { |paragraph| "<p>#{paragraph}</p>" }.join,
       charity: Faker::Boolean.boolean(true_ratio: 0.5),
-      stripe_account_id: 'acct_1Kzip92RhSrnYdpM'
+      stripe_account_id: "acct_1Kzip92RhSrnYdpM"
     )
 
     avatar_url = "https://www.gravatar.com/avatar/?d=identicon"
