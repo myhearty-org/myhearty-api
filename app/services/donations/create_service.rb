@@ -28,14 +28,14 @@ module Donations
 
     def error_not_published
       error(
-        json: { message: "Not published" },
+        json: { code: "fundraising_campaign_not_published" },
         http_status: :unprocessable_entity
       )
     end
 
     def error_campaign_ended
       error(
-        json: { message: "Campaign ended" },
+        json: { code: "fundraising_campaign_ended" },
         http_status: :unprocessable_entity
       )
     end

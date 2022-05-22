@@ -11,7 +11,7 @@ module VolunteerApplications
     def call
       return error(http_status: :not_found) unless organization_member?
 
-      return error_enough_volunteers if enough_volunteers?
+      return error_volunteer_count_exceeded if volunteer_count_exceeded?
 
       if volunteer_application.update(params)
         success
@@ -28,7 +28,7 @@ module VolunteerApplications
       volunteer_application.organization == member.organization
     end
 
-    def enough_volunteers?
+    def volunteer_count_exceeded?
       params[:status] == "confirmed" && volunteer_event.volunteer_count_exceeded?
     end
 
@@ -36,9 +36,9 @@ module VolunteerApplications
       @volunteer_event ||= volunteer_application.volunteer_event
     end
 
-    def error_enough_volunteers
+    def error_volunteer_count_exceeded
       error(
-        json: { message: "Enough volunteers" },
+        json: { code: "volunteer_count_exceeded" },
         http_status: :unprocessable_entity
       )
     end

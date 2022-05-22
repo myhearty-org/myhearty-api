@@ -28,7 +28,7 @@ module VolunteerApplications
 
     def error_application_processed
       error(
-        json: { message: "Application processed" },
+        json: { code: "volunteer_application_processed" },
         http_status: :unprocessable_entity
       )
     end

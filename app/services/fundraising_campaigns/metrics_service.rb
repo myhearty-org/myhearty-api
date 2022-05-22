@@ -41,7 +41,7 @@ module FundraisingCampaigns
 
     def error_maximum_interval
       error(
-        json: { message: "Maximum of 1 year interval allowed" },
+        json: { code: "donation_metrics_max_interval" },
         http_status: :unprocessable_entity
       )
     end

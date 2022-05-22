@@ -24,7 +24,7 @@ module CharitableAids
 
     def error_unallowed_delete
       error(
-        json: { message: "Not allowed to delete published charitable aid" },
+        json: { code: "published_charitable_aid_not_deletable" },
         http_status: :forbidden
       )
     end

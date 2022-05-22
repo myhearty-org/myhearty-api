@@ -11,7 +11,7 @@ module CharitableAidApplications
     def call
       return error(http_status: :not_found) unless organization_member?
 
-      return error_enough_receivers if enough_receivers?
+      return error_receiver_count_exceeded if receiver_count_exceeded?
 
       if charitable_aid_application.update(params)
         success
@@ -36,9 +36,9 @@ module CharitableAidApplications
       @charitable_aid ||= charitable_aid_application.charitable_aid
     end
 
-    def error_enough_receivers
+    def error_receiver_count_exceeded
       error(
-        json: { message: "Enough receivers" },
+        json: { code: "receiver_count_exceeded" },
         http_status: :unprocessable_entity
       )
     end

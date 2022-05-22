@@ -24,7 +24,7 @@ module VolunteerEvents
 
     def error_unallowed_delete
       error(
-        json: { message: "Not allowed to delete published volunteer event" },
+        json: { code: "published_volunteer_event_not_deletable" },
         http_status: :forbidden
       )
     end

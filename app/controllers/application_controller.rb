@@ -77,14 +77,14 @@ class ApplicationController < ActionController::API
   def error_not_admin
     render json: {
       message: "User doesn't have admin rights",
-      code: "not_an_admin"
+      code: "not_admin"
     }, status: :forbidden
   end
 
   def error_not_charity_member
     render json: {
       message: "Organization doesn't have charity rights to manage fundraising campaigns",
-      code: "not_a_charity_member"
+      code: "not_charity_member"
     }, status: :forbidden
   end
 

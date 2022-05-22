@@ -13,7 +13,7 @@ module CharitableAidApplications
 
       return error_application_closed if charitable_aid.application_closed?
 
-      return error_personal_info_missing if receiver.personal_info_missing?
+      return error_user_personal_info_missing if receiver.personal_info_missing?
 
       @charitable_aid_application = find_charitable_aid_application
 
@@ -38,21 +38,21 @@ module CharitableAidApplications
 
     def error_not_published
       error(
-        json: { message: "Not published" },
+        json: { code: "charitable_aid_not_published" },
         http_status: :unprocessable_entity
       )
     end
 
     def error_application_closed
       error(
-        json: { message: "Application closed" },
+        json: { code: "charitable_aid_application_closed" },
         http_status: :unprocessable_entity
       )
     end
 
-    def error_personal_info_missing
+    def error_user_personal_info_missing
       error(
-        json: { message: "Missing user's personal info" },
+        json: { code: "user_personal_info_missing" },
         http_status: :unprocessable_entity
       )
     end

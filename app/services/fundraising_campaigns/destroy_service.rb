@@ -24,7 +24,7 @@ module FundraisingCampaigns
 
     def error_unallowed_delete
       error(
-        json: { message: "Not allowed to delete published fundraising campaign" },
+        json: { code: "published_fundraising_campaign_not_deletable" },
         http_status: :forbidden
       )
     end
