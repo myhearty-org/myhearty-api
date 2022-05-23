@@ -14,6 +14,7 @@ json.extract! volunteer_event,
   :end_datetime,
   :application_deadline,
   :published,
+  :application_closed,
   :organization_id,
   :created_at,
   :updated_at

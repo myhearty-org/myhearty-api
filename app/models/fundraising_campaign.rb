@@ -60,6 +60,8 @@ class FundraisingCampaign < ApplicationRecord
     end_datetime_exceeded? || target_amount_reached?
   end
 
+  alias_method :ended, :ended?
+
   def end_datetime_exceeded?
     Time.current > end_datetime
   end

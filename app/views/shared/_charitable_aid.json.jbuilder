@@ -12,6 +12,7 @@ json.extract! charitable_aid,
   :youtube_url,
   :application_deadline,
   :published,
+  :application_closed,
   :organization_id,
   :created_at,
   :updated_at

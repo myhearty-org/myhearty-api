@@ -14,6 +14,7 @@ json.extract! fundraising_campaign,
   :start_datetime,
   :end_datetime,
   :published,
+  :ended,
   :organization_id,
   :created_at,
   :updated_at

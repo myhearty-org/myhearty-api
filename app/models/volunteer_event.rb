@@ -55,6 +55,8 @@ class VolunteerEvent < ApplicationRecord
     deadline_exceeded? || volunteer_count_exceeded?
   end
 
+  alias_method :application_closed, :application_closed?
+
   def deadline_exceeded?
     Time.current > application_deadline
   end
