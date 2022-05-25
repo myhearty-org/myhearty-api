@@ -43,7 +43,7 @@ Style/Alias:
   EnforcedStyle: prefer_alias_method
 
 Style/ConditionalAssignment:
-  EnforcedStyle: assign_inside_condition
+  Enabled: false
 
 Style/Documentation:
   Enabled: false
