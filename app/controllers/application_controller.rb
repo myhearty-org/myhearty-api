@@ -34,7 +34,7 @@ class ApplicationController < ActionController::API
   def set_csrf_cookie
     return cookies.delete("X-CSRF-Token", domain: %w[myhearty.my localhost], tld_length: 2) unless current_user_or_member
 
-    cookies["X-CSRF-Token"] = { value: form_authenticity_token, domain: %w[myhearty.my localhost], tld_length: 2 }
+    cookies["X-CSRF-Token"] = { value: form_authenticity_token, domain: %w[myhearty.my localhost], tld_length: 2, expires: 30.days }
   end
 
   # rubocop:disable Lint/SafeNavigationConsistency
