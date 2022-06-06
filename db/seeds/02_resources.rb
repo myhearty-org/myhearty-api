@@ -401,7 +401,7 @@ seeder.create_if_none(CharitableAidApplication, charitable_aid_application_count
     receiver = User.find(rand(1..user_count))
 
     charitable_aid_application = CharitableAidApplication.where(charitable_aid: charitable_aid, receiver: receiver)
-                                                         .first_or_initialize
+                                                         .first_or_initialize(reason: "I would like to apply for this charitable aid.")
     charitable_aid_application.save
     charitable_aid_application.update(status: "approved") # to trigger after_commit on update callback
   end
