@@ -14,7 +14,7 @@ class Donation < ApplicationRecord
 
   delegate :organization, to: :fundraising_campaign
 
-  scope :with_payment, -> { joins(:payment).select(DONATION_FIELDS) }
+  scope :with_payment, -> { joins(:payment).merge(Payment.not_pending).select(DONATION_FIELDS) }
 
   DONATION_FIELDS = %w[
     donations.id

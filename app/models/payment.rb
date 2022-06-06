@@ -12,6 +12,7 @@ class Payment < ApplicationRecord
   validates :status, presence: true
 
   scope :pending, -> { where(status: "pending") }
+  scope :not_pending, -> { where.not(status: "pending") }
   scope :succeeded, -> { where(status: "succeeded") }
   scope :failed, -> { where(status: "failed") }
 
