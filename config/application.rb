@@ -33,7 +33,7 @@ module Api
                           domain: %w[myhearty.my localhost],
                           tld_length: 2,
                           httponly: true,
-                          expire_after: 2.days
+                          expire_after: 30.days
 
     config.active_job.queue_adapter = :sidekiq
 
