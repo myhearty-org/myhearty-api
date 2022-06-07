@@ -7,6 +7,7 @@ SEEDS_MULTIPLIER = [1, ENV.fetch("SEEDS_MULTIPLIER", 1).to_i].max
 puts "Seeding with multiplication factor: #{SEEDS_MULTIPLIER}\n\n"
 
 Faker::Config.locale = "en-MS"
+stripe_account_id = "acct_1Kzip92RhSrnYdpM"
 
 # Use a prebuilt list of valid addresses instead of getting random addresses from Faker::Address,
 # which are mostly invalid. Valid addresses are required for the geocoding process to be performed accurately.
@@ -123,7 +124,7 @@ seeder.create_if_none(Organization, organization_count) do
       about_us: Faker::Lorem.paragraphs(number: 12).map { |paragraph| "<p>#{paragraph}</p>" }.join,
       programmes_summary: Faker::Lorem.paragraphs(number: 4).map { |paragraph| "<p>#{paragraph}</p>" }.join,
       charity: Faker::Boolean.boolean(true_ratio: 0.5),
-      stripe_account_id: "acct_1Kzip92RhSrnYdpM"
+      stripe_account_id: stripe_account_id
     )
 
     avatar_url = "https://www.gravatar.com/avatar/?d=identicon"
@@ -149,6 +150,16 @@ end
 fundraising_campaign_count = 10 * SEEDS_MULTIPLIER
 
 seeder.create_if_none(FundraisingCampaign, fundraising_campaign_count) do
+  # A fundraising campaign is associated with a Stripe Product.
+  # Delete all products associated with existing fundraising campaigns before creating new ones.
+  products = Stripe::Product.list({ limit: 100 }, {
+    stripe_account: stripe_account_id
+  })
+
+  products.auto_paging_each do |product|
+    Stripe::Product.delete(product.id, {}, { stripe_account: stripe_account_id })
+  end
+
   random_fundraising_campaign_names = [
     "Crowdfunding The Future",
     "The Ripple Effect",
