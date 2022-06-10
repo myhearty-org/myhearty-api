@@ -39,6 +39,10 @@ class Organization < ApplicationRecord
     members.admin
   end
 
+  def stripe_onboarded?
+    stripe_account_id.present?
+  end
+
   def index_document
     Typesense::IndexOrganizationJob.perform_async(id, should_be_geocoded?)
   end

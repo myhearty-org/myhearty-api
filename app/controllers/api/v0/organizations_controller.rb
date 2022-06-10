@@ -18,6 +18,8 @@ module Api
           @organization = Organization.find(params[:id])
         else
           authenticate_member!
+
+          @authenticated_organization = true
           @organization = current_member.organization
         end
       end
