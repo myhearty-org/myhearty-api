@@ -30,6 +30,8 @@ class OrganizationsController < ApplicationController
   def stripe_onboard
     organization = current_organization_admin.organization
 
+    return error_organization_already_stripe_onboarded if organization.stripe_onboarded?
+
     stripe_account = create_stripe_account(organization)
     stripe_account_link = create_stripe_account_link(stripe_account.id)
 
@@ -41,7 +43,7 @@ class OrganizationsController < ApplicationController
     stripe_account_id = session[:stripe_account_id]
 
     if stripe_account_id.nil?
-      redirect_to "https://dashboard.myhearty.my/stipe-onboard/failed", allow_other_host: true and return
+      redirect_to "https://dashboard.myhearty.my/stripe-onboard?failed", allow_other_host: true and return
     end
 
     stripe_account_link = create_stripe_account_link(stripe_account_id)
@@ -87,6 +89,13 @@ class OrganizationsController < ApplicationController
     params.slice(:categories).permit(categories: [])
   end
 
+  def error_organization_already_stripe_onboarded
+    render json: {
+      code: "organization_already_stripe_onboarded",
+      message: "Organization has already been linked to a Stripe account"
+    }, status: :unprocessable_entity
+  end
+
   def create_stripe_account(organization)
     Stripe::Account.create({
       type: "standard",
@@ -100,8 +109,8 @@ class OrganizationsController < ApplicationController
     Stripe::AccountLink.create({
       account: stripe_account_id,
       type: "account_onboarding",
-      refresh_url: "https://api.myhearty.my/orgs/stripe-onboard/refresh",
-      return_url: "https://dashboard.myhearty.my/stipe-onboard/success"
+      refresh_url: "https://api.myhearty.my/org/stripe-onboard/refresh",
+      return_url: "https://dashboard.myhearty.my/stripe-onboard?success"
     })
   end
 end

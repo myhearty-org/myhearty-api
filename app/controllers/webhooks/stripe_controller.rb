@@ -33,10 +33,13 @@ module Webhooks
 
     def account_updated(event)
       stripe_account = event.data.object
-      stripe_account_id = event.account
 
-      organization = Organization.find_by(email: stripe_account.email)
-      organization&.update(stripe_account_id: stripe_account_id)
+      if stripe_account.details_submitted
+        stripe_account_id = event.account
+
+        organization = Organization.find_by(email: stripe_account.email)
+        organization&.update(stripe_account_id: stripe_account_id)
+      end
 
       head :ok
     end
