@@ -109,7 +109,7 @@ class OrganizationsController < ApplicationController
     Stripe::AccountLink.create({
       account: stripe_account_id,
       type: "account_onboarding",
-      refresh_url: "https://api.myhearty.my/orgs/stripe-onboard/refresh",
+      refresh_url: "https://api.myhearty.my/org/stripe-onboard/refresh",
       return_url: "https://dashboard.myhearty.my/stripe-onboard?success"
     })
   end

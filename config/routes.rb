@@ -50,7 +50,7 @@ Rails.application.routes.draw do
 
     resource :organization, path: :org, as: :organization_create, only: %i[create] do
       post "stripe-onboard"
-      get "stripe-onboard-refresh"
+      get "stripe-onboard/refresh", action: "stripe-onboard-refresh"
     end
 
     resources :members, only: %i[index show create destroy]
