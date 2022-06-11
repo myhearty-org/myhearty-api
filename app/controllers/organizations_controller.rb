@@ -41,7 +41,7 @@ class OrganizationsController < ApplicationController
     stripe_account_id = session[:stripe_account_id]
 
     if stripe_account_id.nil?
-      redirect_to "https://dashboard.myhearty.my/stipe-onboard/failed", allow_other_host: true and return
+      redirect_to "https://dashboard.myhearty.my/stripe-onboard?failed", allow_other_host: true and return
     end
 
     stripe_account_link = create_stripe_account_link(stripe_account_id)
@@ -101,7 +101,7 @@ class OrganizationsController < ApplicationController
       account: stripe_account_id,
       type: "account_onboarding",
       refresh_url: "https://api.myhearty.my/orgs/stripe-onboard/refresh",
-      return_url: "https://dashboard.myhearty.my/stipe-onboard/success"
+      return_url: "https://dashboard.myhearty.my/stripe-onboard?success"
     })
   end
 end
