@@ -30,6 +30,8 @@ class OrganizationsController < ApplicationController
   def stripe_onboard
     organization = current_organization_admin.organization
 
+    return error_organization_already_stripe_onboarded if organization.stripe_onboarded?
+
     stripe_account = create_stripe_account(organization)
     stripe_account_link = create_stripe_account_link(stripe_account.id)
 
@@ -85,6 +87,13 @@ class OrganizationsController < ApplicationController
 
   def categories_params
     params.slice(:categories).permit(categories: [])
+  end
+
+  def error_organization_already_stripe_onboarded
+    render json: {
+      code: "organization_already_stripe_onboarded",
+      message: "Organization has already been linked to a Stripe account"
+    }, status: :unprocessable_entity
   end
 
   def create_stripe_account(organization)
