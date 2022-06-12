@@ -5,7 +5,9 @@ class MembersController < ApplicationController
   before_action :authenticate_organization_admin!, only: %i[create destroy]
 
   def index
-    @members = current_member.organization.members
+    @members = paginate current_member.organization
+                                      .members
+                                      .order(created_at: :desc)
   end
 
   def show
