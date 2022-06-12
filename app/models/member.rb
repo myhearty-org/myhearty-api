@@ -16,6 +16,7 @@ class Member < ApplicationRecord
   delegate :charity?, to: :organization
 
   scope :admin, -> { where(admin: true) }
+  scope :not_admin, -> { where(admin: false) }
 
   protected
 

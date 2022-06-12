@@ -7,6 +7,7 @@ class MembersController < ApplicationController
   def index
     @members = paginate current_member.organization
                                       .members
+                                      .not_admin
                                       .order(created_at: :desc)
   end
 
