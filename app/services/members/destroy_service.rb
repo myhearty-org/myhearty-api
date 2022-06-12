@@ -12,6 +12,8 @@ module Members
 
       return error(http_status: :not_found) unless member
 
+      return error_organization_admin_not_deletable if member.admin?
+
       member.delete
       success
     end
@@ -19,5 +21,12 @@ module Members
     private
 
     attr_reader :admin, :id
+
+    def error_organization_admin_not_deletable
+      error(
+        json: { code: "organization_admin_not_deletable" },
+        http_status: :forbidden
+      )
+    end
   end
 end
