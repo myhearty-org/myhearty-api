@@ -1,6 +1,7 @@
 json.extract! volunteer_event,
   :id,
   :name,
+  :slug,
   :page_url,
   :openings,
   :volunteer_count,

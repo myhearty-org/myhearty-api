@@ -1,6 +1,7 @@
 json.extract! fundraising_campaign,
   :id,
   :name,
+  :slug,
   :page_url
 json.target_amount fundraising_campaign.target_amount.to_f / 100
 json.total_raised_amount fundraising_campaign.total_raised_amount.to_f / 100

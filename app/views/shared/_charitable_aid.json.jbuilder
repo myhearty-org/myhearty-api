@@ -1,6 +1,7 @@
 json.extract! charitable_aid,
   :id,
   :name,
+  :slug,
   :page_url,
   :openings,
   :receiver_count,
