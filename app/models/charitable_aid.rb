@@ -55,10 +55,14 @@ class CharitableAid < ApplicationRecord
   alias_method :application_closed, :application_closed?
 
   def deadline_exceeded?
+    return false if application_deadline.nil?
+
     Time.current > application_deadline
   end
 
   def receiver_count_exceeded?
+    return false if openings.nil?
+
     receiver_count >= openings
   end
 

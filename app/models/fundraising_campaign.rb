@@ -63,10 +63,14 @@ class FundraisingCampaign < ApplicationRecord
   alias_method :ended, :ended?
 
   def end_datetime_exceeded?
+    return false if end_datetime.nil?
+
     Time.current > end_datetime
   end
 
   def target_amount_reached?
+    return false if target_amount.nil?
+
     total_raised_amount >= target_amount
   end
 
