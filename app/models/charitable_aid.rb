@@ -26,7 +26,7 @@ class CharitableAid < ApplicationRecord
   validates :slug, presence: true
   validates :openings, allow_nil: true, numericality: { only_integer: true, greater_than: 0 }
   validates :receiver_count, allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validate :receiver_count_less_than_openings
+  validate :openings_more_than_receiver_count
   validates :location, allow_blank: true, length: { maximum: 255 }
   validates :youtube_url, allow_blank: true, url: true
   validate :application_deadline_must_be_after_current_datetime, if: -> { application_deadline_changed? || (published_changed? && published?) }
@@ -72,10 +72,10 @@ class CharitableAid < ApplicationRecord
     [:name, [:name, :organization_id]]
   end
 
-  def receiver_count_less_than_openings
-    return true if receiver_count.nil? || openings.nil?
+  def openings_more_than_receiver_count
+    return true if openings.nil? || receiver_count.nil?
 
-    errors.add(:receiver_count, :must_be_less_than_openings) if receiver_count > openings
+    errors.add(:openings, :must_be_more_than_receiver_count) if openings < receiver_count
   end
 
   def application_deadline_must_be_after_current_datetime

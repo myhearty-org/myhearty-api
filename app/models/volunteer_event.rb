@@ -26,7 +26,7 @@ class VolunteerEvent < ApplicationRecord
   validates :slug, presence: true
   validates :openings, allow_nil: true, numericality: { only_integer: true, greater_than: 0 }
   validates :volunteer_count, allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validate :volunteer_count_less_than_openings
+  validate :openings_more_than_volunteer_count
   validates :location, allow_blank: true, length: { maximum: 255 }
   validates :youtube_url, allow_blank: true, url: true
   validate :start_datetime_must_be_after_current_datetime, if: -> { start_datetime_changed? || (published_changed? && published?) }
@@ -75,10 +75,10 @@ class VolunteerEvent < ApplicationRecord
     [:name, [:name, :organization_id]]
   end
 
-  def volunteer_count_less_than_openings
-    return true if volunteer_count.nil? || openings.nil?
+  def openings_more_than_volunteer_count
+    return true if openings.nil? || volunteer_count.nil?
 
-    errors.add(:volunteer_count, :must_be_less_than_openings) if volunteer_count > openings
+    errors.add(:openings, :must_be_more_than_volunteer_count) if openings < volunteer_count
   end
 
   def start_datetime_must_be_after_current_datetime
