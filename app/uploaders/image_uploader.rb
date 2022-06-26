@@ -12,16 +12,12 @@ class ImageUploader < Shrine
   }.freeze
 
   plugin :remove_attachment
-  plugin :pretty_location
+  plugin :pretty_location, class_underscore: true
   plugin :validation_helpers
-  plugin :store_dimensions, log_subscriber: nil
 
   Attacher.validate do
     validate_size 0..MAX_SIZE
-
-    if validate_mime_type ALLOWED_TYPES
-      validate_max_dimensions MAX_DIMENSIONS
-    end
+    validate_mime_type ALLOWED_TYPES
   end
 
   plugin :default_url
