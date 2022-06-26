@@ -33,6 +33,10 @@ Shrine.plugin :presign_endpoint, presign_options: -> (request) {
 # delay promoting and deleting files to a background job
 Shrine.plugin :backgrounding
 
-Shrine::Attacher.promote_block { Attachment::PromoteJob.perform_later(record, name.to_s, file_data) }
+Shrine::Attacher.promote_block do
+  Attachment::PromoteJob.perform_async(self.class.name, record.class.name, record.id, name, file_data)
+end
 
-Shrine::Attacher.destroy_block { Attachment::DestroyJob.perform_later(data) }
+Shrine::Attacher.destroy_block do
+  Attachment::DestroyJob.perform_async(self.class.name, data)
+end
