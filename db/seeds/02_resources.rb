@@ -75,7 +75,11 @@ def build_image_data(image_url)
   Shrine.uploaded_file({
     id: image_url,
     storage: "url",
-    metadata: {}
+    metadata: {
+      size: 10240,
+      filename: "seed_image.jpg",
+      mime_type: "image/jpeg"
+    }
   })
 end
 
