@@ -14,7 +14,7 @@ module CharitableAids
 
       return error_unallowed_delete if charitable_aid.published?
 
-      charitable_aid.delete
+      charitable_aid.destroy
       success
     end
 

@@ -14,7 +14,7 @@ module FundraisingCampaigns
 
       return error_unallowed_delete if fundraising_campaign.published?
 
-      fundraising_campaign.delete
+      fundraising_campaign.destroy
       success
     end
 

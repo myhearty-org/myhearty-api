@@ -14,7 +14,7 @@ module VolunteerEvents
 
       return error_unallowed_delete if volunteer_event.published?
 
-      volunteer_event.delete
+      volunteer_event.destroy
       success
     end
 
