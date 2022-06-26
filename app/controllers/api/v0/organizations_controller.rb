@@ -61,6 +61,7 @@ module Api
       def organization_params
         organization_params = params.require(:organization).permit(organization_params_attributes)
         organization_params.merge!(categories_params)
+        organization_params.merge!(image_params)
       end
 
       def organization_params_attributes
@@ -75,7 +76,6 @@ module Api
           person_in_charge_name
           avatar
           video_url
-          image
           about_us
           programmes_summary
         ]
@@ -83,6 +83,10 @@ module Api
 
       def categories_params
         params.slice(:categories).permit(categories: [])
+      end
+
+      def image_params
+        params.slice(:image).permit(:image)
       end
     end
   end

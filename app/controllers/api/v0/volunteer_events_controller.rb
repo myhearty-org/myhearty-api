@@ -58,6 +58,7 @@ module Api
       def volunteer_event_params
         volunteer_event_params = params.require(:volunteer_event).permit(volunteer_event_params_attributes)
         volunteer_event_params.merge!(categories_params)
+        volunteer_event_params.merge!(image_params)
       end
 
       def volunteer_event_params_attributes
@@ -66,7 +67,6 @@ module Api
           openings
           location
           about_event
-          image
           youtube_url
           start_datetime
           end_datetime
@@ -77,6 +77,10 @@ module Api
 
       def categories_params
         params.slice(:categories).permit(categories: [])
+      end
+
+      def image_params
+        params.slice(:image).permit(:image)
       end
     end
   end

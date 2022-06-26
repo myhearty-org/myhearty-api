@@ -76,6 +76,7 @@ module Api
       def fundraising_campaign_params
         fundraising_campaign_params = params.require(:fundraising_campaign).permit(fundraising_campaign_params_attributes)
         fundraising_campaign_params.merge!(categories_params)
+        fundraising_campaign_params.merge!(image_params)
       end
 
       def fundraising_campaign_params_attributes
@@ -83,7 +84,6 @@ module Api
           name
           target_amount
           about_campaign
-          image
           youtube_url
           end_datetime
           published
@@ -92,6 +92,10 @@ module Api
 
       def categories_params
         params.slice(:categories).permit(categories: [])
+      end
+
+      def image_params
+        params.slice(:image).permit(:image)
       end
     end
   end
