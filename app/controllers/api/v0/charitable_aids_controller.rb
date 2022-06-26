@@ -58,6 +58,7 @@ module Api
       def charitable_aid_params
         charitable_aid_params = params.require(:charitable_aid).permit(charitable_aid_params_attributes)
         charitable_aid_params.merge!(categories_params)
+        charitable_aid_params.merge!(image_params)
       end
 
       def charitable_aid_params_attributes
@@ -66,7 +67,6 @@ module Api
           openings
           location
           about_aid
-          image
           youtube_url
           application_deadline
           published
@@ -75,6 +75,10 @@ module Api
 
       def categories_params
         params.slice(:categories).permit(categories: [])
+      end
+
+      def image_params
+        params.slice(:image).permit(:image)
       end
     end
   end

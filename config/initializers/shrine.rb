@@ -8,9 +8,12 @@ s3_options = Rails.application.credentials.s3
 
 Shrine.storages = {
   url: Shrine::Storage::Url.new,
-  cache: Shrine::Storage::S3.new(prefix: "cache", upload_options: { acl: "public-read" }, **s3_options),
-  store: Shrine::Storage::S3.new(prefix: "store", upload_options: { acl: "public-read" }, **s3_options)
+  cache: Shrine::Storage::S3.new(prefix: "cache", **s3_options),
+  store: Shrine::Storage::S3.new(**s3_options)
 }
+
+Shrine.plugin :url_options, cache: { host: "https://assets.myhearty.my", public: true },
+                            store: { host: "https://assets.myhearty.my", public: true }
 
 Shrine.plugin :activerecord
 
@@ -33,6 +36,10 @@ Shrine.plugin :presign_endpoint, presign_options: -> (request) {
 # delay promoting and deleting files to a background job
 Shrine.plugin :backgrounding
 
-Shrine::Attacher.promote_block { Attachment::PromoteJob.perform_later(record, name.to_s, file_data) }
+Shrine::Attacher.promote_block do
+  Attachment::PromoteJob.perform_async(self.class.name, record.class.name, record.id, name, file_data)
+end
 
-Shrine::Attacher.destroy_block { Attachment::DestroyJob.perform_later(data) }
+Shrine::Attacher.destroy_block do
+  Attachment::DestroyJob.perform_async(self.class.name, data)
+end
