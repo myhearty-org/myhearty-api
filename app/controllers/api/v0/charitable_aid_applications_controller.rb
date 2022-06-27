@@ -7,7 +7,7 @@ module Api
       before_action :authenticate_member!, only: %i[index update]
 
       def index
-        @charitable_aid = CharitableAid.find_by(id: params[:charitable_aid_id], organization: current_member.organization)
+        @charitable_aid = CharitableAid.where(organization: current_member.organization).find(params[:charitable_aid_id])
 
         return head :not_found unless @charitable_aid
 

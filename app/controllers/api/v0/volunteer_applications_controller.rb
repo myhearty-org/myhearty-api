@@ -7,7 +7,7 @@ module Api
       before_action :authenticate_member!, only: %i[index update]
 
       def index
-        @volunteer_event = VolunteerEvent.find_by(id: params[:volunteer_event_id], organization: current_member.organization)
+        @volunteer_event = VolunteerEvent.where(organization: current_member.organization).find(params[:volunteer_event_id])
 
         return head :not_found unless @volunteer_event
 
