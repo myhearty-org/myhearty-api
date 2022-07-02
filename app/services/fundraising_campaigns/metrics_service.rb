@@ -66,7 +66,7 @@ module FundraisingCampaigns
 
       data.map do |timestamp, donation_amount|
         sum += donation_amount
-        [timestamp.to_i, sum.to_f / 100]
+        [timestamp.to_i * 1000, sum.to_f / 100] # Convert timestamp from seconds to milliseconds
       end
     end
   end
