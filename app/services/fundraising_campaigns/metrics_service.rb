@@ -24,8 +24,8 @@ module FundraisingCampaigns
 
     def set_interval
       if interval_start.nil? && interval_end.nil?
-        @interval_start = fundraising_campaign.start_datetime.to_i
-        @interval_end = [interval_start + 1.year.to_i, fundraising_campaign.end_datetime.to_i].min
+        @interval_end = [Time.current.to_i, fundraising_campaign.end_datetime.to_i].min
+        @interval_start = [interval_end - 1.year.to_i, fundraising_campaign.start_datetime.to_i].max
       elsif interval_start.nil?
         @interval_end = [interval_end, fundraising_campaign.end_datetime.to_i].min
         @interval_start = [interval_end - 1.year.to_i, fundraising_campaign.start_datetime.to_i].max
