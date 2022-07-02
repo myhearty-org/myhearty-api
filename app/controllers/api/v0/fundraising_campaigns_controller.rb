@@ -54,7 +54,7 @@ module Api
       end
 
       def metrics
-        fundraising_campaign = FundraisingCampaign.find_by(id: params[:id], organization: current_member.organization)
+        fundraising_campaign = FundraisingCampaign.where(organization: current_member.organization).find(params[:id])
 
         return head :not_found unless fundraising_campaign
 
