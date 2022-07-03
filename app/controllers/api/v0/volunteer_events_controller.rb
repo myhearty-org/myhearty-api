@@ -72,6 +72,7 @@ module Api
           end_datetime
           application_deadline
           published
+          confirmation_email_body
         ]
       end
 

@@ -70,6 +70,7 @@ module Api
           youtube_url
           application_deadline
           published
+          approval_email_body
         ]
       end
 
