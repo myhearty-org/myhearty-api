@@ -27,7 +27,7 @@ class CharitableAidApplication < ApplicationRecord
                   touch: true
   after_commit :index_receiver_count, on: [:update], if: :saved_change_to_status?
 
-  def application_processed?
+  def processed?
     !pending?
   end
 

@@ -31,7 +31,7 @@ class VolunteerApplication < ApplicationRecord
                   touch: true
   after_commit :index_volunteer_count, on: [:update], if: :saved_change_to_status?
 
-  def application_processed?
+  def processed?
     !pending?
   end
 

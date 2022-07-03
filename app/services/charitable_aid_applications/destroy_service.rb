@@ -23,7 +23,7 @@ module CharitableAidApplications
     attr_reader :receiver, :charitable_aid, :charitable_aid_application
 
     def processing_application?
-      charitable_aid_application.application_processed? || charitable_aid.deadline_exceeded?
+      charitable_aid_application.processed? || charitable_aid.deadline_exceeded?
     end
 
     def error_application_processed

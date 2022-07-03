@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_22_124645) do
+ActiveRecord::Schema.define(version: 2022_07_03_090039) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 2022_05_22_124645) do
     t.decimal "latitude", precision: 13, scale: 9
     t.decimal "longitude", precision: 13, scale: 9
     t.string "slug", null: false
+    t.text "approval_email_body", default: ""
     t.index ["latitude", "longitude"], name: "index_charitable_aids_on_latitude_and_longitude"
     t.index ["name"], name: "index_charitable_aids_on_name"
     t.index ["organization_id"], name: "index_charitable_aids_on_organization_id"
@@ -264,6 +265,7 @@ ActiveRecord::Schema.define(version: 2022_05_22_124645) do
     t.decimal "latitude", precision: 13, scale: 9
     t.decimal "longitude", precision: 13, scale: 9
     t.string "slug", null: false
+    t.text "confirmation_email_body", default: ""
     t.index ["latitude", "longitude"], name: "index_volunteer_events_on_latitude_and_longitude"
     t.index ["name"], name: "index_volunteer_events_on_name"
     t.index ["organization_id"], name: "index_volunteer_events_on_organization_id"
