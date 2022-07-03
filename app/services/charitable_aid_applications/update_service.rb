@@ -14,6 +14,8 @@ module CharitableAidApplications
       return error_receiver_count_exceeded if receiver_count_exceeded?
 
       if charitable_aid_application.update(params)
+        send_application_result_email if charitable_aid_application_processed?
+
         success
       else
         error_invalid_params(charitable_aid_application)
@@ -30,6 +32,22 @@ module CharitableAidApplications
 
     def receiver_count_exceeded?
       params[:status] == "approved" && charitable_aid.receiver_count_exceeded?
+    end
+
+    def charitable_aid_application_processed?
+      charitable_aid_application.saved_change_to_status? && charitable_aid_application.processed?
+    end
+
+    def send_application_result_email
+      if charitable_aid_application.approved?
+        CharitableAidApplicationMailer.with(charitable_aid_application: charitable_aid_application)
+                                      .approval_email
+                                      .deliver_later
+      elsif charitable_aid_application.rejected?
+        CharitableAidApplicationMailer.with(charitable_aid_application: charitable_aid_application)
+                                      .rejection_email
+                                      .deliver_later
+      end
     end
 
     def charitable_aid
