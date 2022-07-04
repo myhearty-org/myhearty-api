@@ -10,6 +10,8 @@ module Organizations
       organization = Organization.new(params)
 
       if organization.save
+        organization.api_keys.create
+
         success(record: organization)
       else
         error_invalid_params(organization)
