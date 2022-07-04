@@ -16,6 +16,7 @@ class Organization < ApplicationRecord
   has_many :fundraising_campaigns, dependent: :delete_all
   has_many :volunteer_events, dependent: :delete_all
   has_many :charitable_aids, dependent: :delete_all
+  has_many :api_keys, dependent: :delete_all
 
   attribute :charity, :boolean, default: false
 

@@ -3,6 +3,7 @@
 module Api
   module V0
     class FundraisingCampaignsController < ApiController
+      prepend_before_action :authenticate_with_api_key, only: %i[create update destroy metrics]
       before_action :authenticate_charity_member!, only: %i[create update destroy metrics]
 
       def index

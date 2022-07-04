@@ -140,6 +140,8 @@ seeder.create_if_none(Organization, organization_count) do
 
     redo unless organization.save
 
+    organization.api_keys.create
+
     member = organization.members.new(
       email: "admin#{i + 1}@example.com",
       password: "password",

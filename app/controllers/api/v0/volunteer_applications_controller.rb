@@ -3,6 +3,7 @@
 module Api
   module V0
     class VolunteerApplicationsController < ApiController
+      prepend_before_action :authenticate_with_api_key, only: %i[show index update]
       before_action :authenticate_user_or_member!, only: %i[show]
       before_action :authenticate_member!, only: %i[index update]
 

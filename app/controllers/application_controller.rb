@@ -4,14 +4,16 @@ class ApplicationController < ActionController::API
   include ActionController::MimeResponds
   include ActionController::Cookies
   include ActionController::RequestForgeryProtection
+  include AuthenticateWithApiKey
 
   devise_group :user_or_member, contains: %i[user member]
 
   alias_method :current_organization_admin, :current_member
 
-  protect_from_forgery with: :exception, prepend: true
+  protect_from_forgery with: :exception, prepend: true, unless: :api_request?
 
-  after_action :set_csrf_cookie
+  after_action :set_csrf_cookie, unless: :api_request?
+  after_action :skip_session, if: :api_request?
 
   respond_to :json
 
@@ -35,6 +37,10 @@ class ApplicationController < ActionController::API
     return cookies.delete("X-CSRF-Token", domain: %w[myhearty.my localhost], tld_length: 2) unless current_user_or_member
 
     cookies["X-CSRF-Token"] = { value: form_authenticity_token, domain: %w[myhearty.my localhost], tld_length: 2, expires: 30.days }
+  end
+
+  def skip_session
+    request.session_options[:skip] = true
   end
 
   # rubocop:disable Lint/SafeNavigationConsistency
