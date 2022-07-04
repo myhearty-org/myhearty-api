@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_03_090039) do
+ActiveRecord::Schema.define(version: 2022_07_04_084329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "api_keys", force: :cascade do |t|
+    t.string "token", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "organization_id", null: false
+    t.index ["organization_id"], name: "index_api_keys_on_organization_id"
+    t.index ["token"], name: "index_api_keys_on_token", unique: true
+  end
 
   create_table "charitable_aid_applications", force: :cascade do |t|
     t.integer "status", default: 0, null: false
@@ -272,6 +281,7 @@ ActiveRecord::Schema.define(version: 2022_07_03_090039) do
     t.index ["slug"], name: "index_volunteer_events_on_slug", unique: true
   end
 
+  add_foreign_key "api_keys", "organizations", on_delete: :cascade
   add_foreign_key "charitable_aid_applications", "charitable_aids"
   add_foreign_key "charitable_aid_applications", "users", column: "receiver_id"
   add_foreign_key "charitable_aids", "organizations", on_delete: :cascade
