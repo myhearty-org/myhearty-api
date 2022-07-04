@@ -55,7 +55,7 @@ class OrganizationsController < ApplicationController
     organization = current_organization_admin.organization
     api_key = organization.api_keys.first
 
-    render json: { api_key: api_key }, status: :ok
+    render json: api_key, status: :ok
   end
 
   private
