@@ -3,6 +3,7 @@
 module Api
   module V0
     class VolunteerEventsController < ApiController
+      prepend_before_action :authenticate_with_api_key, only: %i[create update destroy]
       before_action :authenticate_member!, only: %i[create update destroy]
 
       def index

@@ -3,6 +3,7 @@
 module Api
   module V0
     class OrganizationsController < ApiController
+      prepend_before_action :authenticate_with_api_key, only: %i[update fundraising_campaigns volunteer_events charitable_aids]
       before_action :authenticate_organization_admin!, only: %i[update]
       before_action :authenticate_member!, only: %i[volunteer_events charitable_aids]
       before_action :authenticate_charity_member!, only: %i[fundraising_campaigns]
