@@ -51,11 +51,11 @@ class OrganizationsController < ApplicationController
     redirect_to stripe_account_link.url, allow_other_host: true
   end
 
-  def api_key
+  def api_keys
     organization = current_organization_admin.organization
-    api_key = organization.api_keys.first
+    api_keys = organization.api_keys
 
-    render json: api_key, status: :ok
+    render json: api_keys, status: :ok
   end
 
   private

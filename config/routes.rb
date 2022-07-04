@@ -51,7 +51,7 @@ Rails.application.routes.draw do
     resource :organization, path: :org, as: :organization_private, only: %i[create] do
       post "stripe-onboard"
       get "stripe-onboard/refresh", action: "stripe-onboard-refresh"
-      get "api-key", action: "api_key"
+      get "api-keys", action: "api_keys"
     end
 
     resources :members, only: %i[index show create destroy]
