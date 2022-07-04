@@ -4,6 +4,7 @@ class ApplicationController < ActionController::API
   include ActionController::MimeResponds
   include ActionController::Cookies
   include ActionController::RequestForgeryProtection
+  include AuthenticateWithApiKey
 
   devise_group :user_or_member, contains: %i[user member]
 
