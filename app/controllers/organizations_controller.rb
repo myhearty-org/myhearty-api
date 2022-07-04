@@ -3,7 +3,7 @@
 class OrganizationsController < ApplicationController
   skip_forgery_protection only: %i[create stripe_onboard_refresh]
   before_action :authenticate_charity_member!, only: %i[stripe_onboard]
-  before_action :authenticate_organization_admin!, only: %i[stripe_onboard]
+  before_action :authenticate_organization_admin!, only: %i[stripe_onboard, api_key]
 
   def create
     organization_params, admin_params = create_organization_params
@@ -49,6 +49,13 @@ class OrganizationsController < ApplicationController
     stripe_account_link = create_stripe_account_link(stripe_account_id)
 
     redirect_to stripe_account_link.url, allow_other_host: true
+  end
+
+  def api_key
+    organization = current_organization_admin.organization
+    api_key = organization.api_keys.first
+
+    render json: { api_key: api_key }, status: :ok
   end
 
   private

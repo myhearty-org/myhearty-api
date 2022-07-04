@@ -48,9 +48,10 @@ Rails.application.routes.draw do
       end
     end
 
-    resource :organization, path: :org, as: :organization_create, only: %i[create] do
+    resource :organization, path: :org, as: :organization_private, only: %i[create] do
       post "stripe-onboard"
       get "stripe-onboard/refresh", action: "stripe-onboard-refresh"
+      get "api-key", action: "api_key"
     end
 
     resources :members, only: %i[index show create destroy]
