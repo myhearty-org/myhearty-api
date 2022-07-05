@@ -35,6 +35,7 @@ class Organization < ApplicationRecord
   validates :charity, exclusion: [nil]
 
   scope :charity, -> { where(charity: true) }
+  scope :stripe_onboarded, -> { where.not(stripe_account_id: nil) }
 
   def admins
     members.admin
