@@ -8,9 +8,7 @@ module Users
 
       if resource.errors.empty?
         set_flash_message!(:notice, :confirmed)
-        respond_with_navigational(resource) do
-          redirect_to after_confirmation_path_for(resource_name, resource), allow_other_host: true
-        end
+        redirect_to after_confirmation_path_for(resource_name, resource), allow_other_host: true
       else
         respond_with_navigational(resource.errors, status: :unprocessable_entity) { render :new }
       end
