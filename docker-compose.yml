@@ -18,9 +18,6 @@ services:
       TYPESENSE_API_KEY: ${TYPESENSE_API_KEY}
     ports:
       - "3000:3000"
-      # Ports required for RubyMine debugging
-      - "1234:1234"
-      - "26166:26168"
     volumes:
       - .:/api
     depends_on:
