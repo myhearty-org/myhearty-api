@@ -222,6 +222,8 @@ seeder.create_if_none(FundraisingCampaign, fundraising_campaign_count) do
 
   fundraising_campaign_count.times do
     organization = Organization.find(rand(1..organization_count))
+    redo unless organization.charity?
+
     name = "#{random_fundraising_campaign_names.sample} #{Faker::Number.number(digits: 2)}"
 
     fundraising_campaign = organization.fundraising_campaigns.new(
