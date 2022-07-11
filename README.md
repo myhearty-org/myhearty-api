@@ -26,7 +26,7 @@ If you **do not** want to use Docker Compose, you need to install the following 
 - Typesense 0.22+
 - NGINX 1.21+
 
-The rest of the documentation is only applicable to those that have installed Docker Compose.
+The rest of the documentation assumes that you have already installed Docker Compose.
 
 ### Getting Started
 
