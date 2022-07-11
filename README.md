@@ -1,6 +1,6 @@
 # MyHearty API
 
-MyHearty API powers [MyHearty website](https://www.myhearty.my) and [MyHearty dashboard](https://dashboard.myhearty.my). This repository contains the backend implementation of MyHearty API in Ruby on Rails.
+MyHearty API powers [MyHearty website](https://www.myhearty.my) and [MyHearty dashboard](https://dashboard.myhearty.my). This repository contains the backend implementation of MyHearty API in Ruby on Rails and other backend services. The Rails application is running in API mode and serves JSON resources to the frontend API clients.
 
 ## Architecture Overview
 
@@ -12,16 +12,55 @@ You can find the architecture overview in the illustration below, which will giv
 
 ## Development
 
-To get a local API server up and running, read the following subsections.
+To get the backend services up and running, read the following subsections.
 
 ### Requirements
 
-You need the following requirements to be able to run MyHearty API server locally.
+If you have [Docker](https://docs.docker.com/engine/install) and [Docker Compose](https://docs.docker.com/compose/install) installed, you can set up and run the services easily via the provided [docker-compose.yml](./docker-compose.yml) file.
+
+If you **do not** want to use Docker Compose, you need to install the following requirements to be able to run the services locally:
+
+- Ruby 3.0+
+- PostgreSQL 14.0+
+- Redis 6.0+
+- Typesense 0.22+
+- NGINX 1.21+
+
+The rest of the documentation is only applicable to those that have installed Docker Compose.
 
 > **Note** <br />
-> If you want to enable any of the available integrations, you may want to obtain additional credentials and populate environment variables for the corresponding integration. Refer to the [integrations section](#integrations) for more details.
+> If you want to enable any of the available integrations, you may want to obtain additional credentials and populate secrets for the corresponding integration. Refer to the [integrations section](#integrations) for more details.
 
 ### Getting Started
+
+1. Clone the repo.
+   ```sh
+   git clone https://github.com/myhearty-org/myhearty-api.git
+   ```
+2. To start the services using Docker Compose, you can either: 
+   - Run the required services only by specifying the services' names:
+     ```sh
+     docker-compose up -d [service1, service2, ...]
+     ```
+   - Run all services:
+     ```sh
+     docker-compose up -d
+     ```
+3. To stop the services, you can either:
+   - Stop certain services only by specifying the services' names:
+     ```sh
+     docker-compose stop [service1, service2, ...]
+     ```
+   - Stop all services:
+     ```sh
+     docker-compose stop
+     ```
+5. To remove the containers together with saved states and start everything from scratch again, run:
+   ```sh
+   docker-compose down -v
+   ```
+   > **Warning** <br />
+   > This is a destructive action that will delete all data stored in the PostgreSQL database and Typesense search engine.
 
 ## Integrations
 
@@ -53,6 +92,7 @@ Your changes will be reviewed and merged if appropriate.
 
 ## References
 
+- [Rails Guides: Using Rails for API-only Applications](https://guides.rubyonrails.org/api_app.html)
 - [Docker Docs: Quickstart: Compose and Rails](https://docs.docker.com/samples/rails)
 - [GitHub: Dockerize Rails 7 with ActionCable, Webpacker, Stimulus, Elasticsearch, Sidekiq](https://github.com/ledermann/docker-rails)
 - [Devise GitHub Wiki: API Mode Compatibility Guide](https://github.com/heartcombo/devise/wiki/API-Mode-Compatibility-Guide)
