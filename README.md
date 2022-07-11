@@ -177,6 +177,10 @@ NGINX acts as a reverse proxy server that directs the client requests to either 
 
 ## Integrations
 
+### Frontend
+
+You can find the source code, demo and documentation for the frontend in the [myhearty](https://github.com/myhearty-org/myhearty) repository.
+
 ### Storing Credentials
 
 To store your credentials for external services securely, you need to create a `credentials.yml.enc` file:
@@ -244,10 +248,6 @@ The geocoding API can be configured in [`geocoder.rb`](./config/initializers/geo
    sendgrid::
      api_key: # your SendGrid API key
    ```
-
-### Frontend
-
-You can find the source code, demo and documentation for the frontend in the [myhearty](https://github.com/myhearty-org/myhearty) repository.
 
 ## Documentation
 
