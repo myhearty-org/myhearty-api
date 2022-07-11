@@ -7,7 +7,7 @@ MyHearty API powers [MyHearty website](https://www.myhearty.my) and [MyHearty da
 You can find the architecture overview in the illustration below, which will give you a good starting point in how the backend services interact with other services.
 
 <div align="center">
-  <img src="docs/images/high-level-architecture.png" alt="MyHearty High-Level Architecture" width="65%" height="65%">
+  <img src="docs/images/high-level-architecture.png" alt="MyHearty High-Level Architecture" width="75%" height="75%">
 </div>
 
 ## Development
