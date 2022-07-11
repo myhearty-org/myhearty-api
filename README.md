@@ -68,6 +68,20 @@ The rest of the documentation is only applicable to those that have installed Do
 > **Note** <br />
 > If you want to enable any of the available integrations, you may want to obtain additional credentials and populate secrets for the corresponding integration. Refer to the [integrations section](#integrations) for more details.
 
+### Generating Credentials
+
+Some services require credentials like a password or a bootstrap API key. You can use Ruby's built-in `SecureRandom` library to generate a secure random string:
+
+1. Open a shell in the `api` container.
+    ```sh
+    docker-compose exec api sh
+    ```
+2. Generate a random string:
+    ```sh
+    rails c
+    > SecureRandom.alphanumeric(32) # your random string length
+    ```
+
 ## Services
 
 The [`docker-compose.yml`](./docker-compose.yml) file contains the following services:
@@ -82,23 +96,6 @@ The [`docker-compose.yml`](./docker-compose.yml) file contains the following ser
 | `nginx`     | Acts as a reverse proxy server that directs the client requests to either the Rails API server or Typesense based on the request URL | NO ENDPOINT             |
 
 Refer to the services' official image repositories for the configuration of environment variables in the [`docker-compose.yml`](./docker-compose.yml) file.
-
-### Generating Credentials
-
-Some services require credentials like a password or a bootstrap API key. You can use Ruby's built-in `SecureRandom` library to generate a secure random string:
-
-1. Open a shell in the `api` container.
-
-```sh
-docker-compose exec api sh
-```
-
-2. Generate a random string:
-
-```sh
-rails c
-> SecureRandom.alphanumeric(32) # your random string length
-```
 
 ### Rails API Server
 
