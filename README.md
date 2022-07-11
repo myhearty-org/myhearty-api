@@ -28,16 +28,14 @@ If you **do not** want to use Docker Compose, you need to install the following 
 
 The rest of the documentation is only applicable to those that have installed Docker Compose.
 
-> **Note** <br />
-> If you want to enable any of the available integrations, you may want to obtain additional credentials and populate secrets for the corresponding integration. Refer to the [integrations section](#integrations) for more details.
-
 ### Getting Started
 
 1. Clone the repo.
    ```sh
    git clone https://github.com/myhearty-org/myhearty-api.git
    ```
-2. To start the services using Docker Compose, you can either: 
+2. Create a `.env` file in the root directory by copying the environment variables from the [`.env.example`](./.env.example) file. You can change versions of the services there. For more information on populating environment variables, refer to the [services section](#services).
+3. To start the services using Docker Compose, you can either:
    - Run the required services only by specifying the services' names:
      ```sh
      docker-compose up -d [service1, service2, ...]
@@ -46,12 +44,12 @@ The rest of the documentation is only applicable to those that have installed Do
      ```sh
      docker-compose up -d
      ```
-3. To start an interactive shell inside any service, run:
+4. To start an interactive shell inside any service, run:
    ```sh
    docker-compose exec [service-name] sh
    ```
    This is useful when you want to interact with the service's internal states or run some console commands.
-4. To stop the services, you can either:
+5. To stop the services, you can either:
    - Stop certain services only by specifying the services' names:
      ```sh
      docker-compose stop [service1, service2, ...]
@@ -60,18 +58,62 @@ The rest of the documentation is only applicable to those that have installed Do
      ```sh
      docker-compose stop
      ```
-5. To remove the containers together with saved states and start everything from scratch again, run:
+6. To remove the containers together with saved states and start everything from scratch again, run:
    ```sh
    docker-compose down -v
    ```
    > **Warning** <br />
    > This is a destructive action that will delete all data stored in the PostgreSQL database and Typesense search engine.
 
+> **Note** <br />
+> If you want to enable any of the available integrations, you may want to obtain additional credentials and populate secrets for the corresponding integration. Refer to the [integrations section](#integrations) for more details.
+
 ## Services
 
-### Rails API Server
+The [docker-compose.yml](./docker-compose.yml) file contains the following services:
+
+| Service     | Description                                                                                                               | Endpoint                |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| `api`       | The Rails API server                                                                                                      | `http://localhost:3000` |
+| `db`        | The PostgreSQL database                                                                                                   | `http://localhost:5432` |
+| `typesense` | The Typesense search engine that powers instant search and geosearch in the frontend                                      | `http://localhost:8108` |
+| `sidekiq`   | The background job scheduler for Ruby                                                                                     | NO ENDPOINT             |
+| `redis`     | Provides data storage for Sidekiq                                                                                         | `http://localhost:6379` |
+| `nginx`     | Acts as a reverse proxy server that directs the client requests to either the Rails API server or Typesense search engine | NO ENDPOINT             |
 
 ### PostgreSQL
+
+1. You need to populate the following PostgreSQL's related environment variables before starting the database:
+   ```sh
+   POSTGRES_USER= # your DB username
+   POSTGRES_PASSWORD= # your DB password
+   POSTGRES_HOST=postgres # your DB host
+   ```
+   - If the variables are not set, the service will use the defaults provided by the PostgreSQL image.
+   - `POSTGRES_HOST` is set to `postgres` to allow other services to communicate with the database service using network alias. See [docker-compose.yml](./docker-compose.yml#L42) for more detail.
+2. To create the database, run the following commands:
+   - Open a shell in the `api` container.
+     ```sh
+     docker-compose exec api sh
+     ```
+   - Create the database and load the schema:
+     ```sh
+     rake db:create
+     rake db:schema:load
+     ```
+3. To seed data, run:
+   ```sh
+   rake db:seed SEEDS_MULTIPLIER=2
+   ```
+   - The environment variable `SEEDS_MULTIPLIER` defaults to 1 and controls the amount of data generated by the seeder.
+   - Note that, during seeding, Typesense schema will be deleted and later re-created. Certain resources from the database will be indexed into Typesense to enable instant search. See [`01_typesense.rb`](./db/seeds/01_typesense.rb) for more detail.
+   - The populated data include user credentials and fake image URLs. See [02_resources.rb](./db/seeds/02_resources.rb) to understand what types of data are being populated.
+4. To remove data, run:
+   ```sh
+   rake db:truncate
+   ```
+   - This command is useful when you want to re-seed the database.
+   - This is a custom task defined in [`db.rake`](./lib/tasks/db.rake).
 
 ### Typesense
 
@@ -82,6 +124,8 @@ The rest of the documentation is only applicable to those that have installed Do
 ### NGINX
 
 ## Integrations
+
+### Credentials
 
 ### Stripe
 
@@ -106,7 +150,7 @@ If you want to contribute, please fork the repo and create a pull request by fol
 1. Fork the repo.
 2. Create your feature branch (`git checkout -b your-feature-branch`).
 3. Commit your changes and push to the branch (`git push origin your-feature-branch`).
-5. Open a pull request.
+4. Open a pull request.
 
 Your changes will be reviewed and merged if appropriate.
 
