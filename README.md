@@ -1,5 +1,15 @@
 # MyHearty API
 
+MyHearty API powers [MyHearty website](https://www.myhearty.my) and [MyHearty dashboard](https://dashboard.myhearty.my). This repository contains the backend implementation of MyHearty API in Ruby on Rails.
+
+## Architecture Overview
+
+You can find the architecture overview in the illustration below, which will give you a good starting point in how the backend services interact with other services.
+
+<div align="center">
+  <img src="docs/images/high-level-architecture.png" alt="MyHearty High-Level Architecture" width="65%" height="65%">
+</div>
+
 ## Development
 
 To get a local API server up and running, read the following subsections.
@@ -21,6 +31,11 @@ You need the following requirements to be able to run MyHearty API server locall
 
 ### Geoapify
 
+
+### Frontend
+
+You can find the source code, demo and documentation for the frontend in the [myhearty](https://github.com/myhearty-org/myhearty) repository.
+
 ## Documentation
 
 The full documentation for the MyHearty project can be found in the [myhearty-documentation](https://github.com/myhearty-org/myhearty-documentation) repository. The documentation repository contains technical documents and architecture information related to the implementation of this project.
@@ -37,3 +52,9 @@ If you want to contribute, please fork the repo and create a pull request by fol
 Your changes will be reviewed and merged if appropriate.
 
 ## References
+
+- [Docker Docs: Quickstart: Compose and Rails](https://docs.docker.com/samples/rails)
+- [GitHub: Dockerize Rails 7 with ActionCable, Webpacker, Stimulus, Elasticsearch, Sidekiq](https://github.com/ledermann/docker-rails)
+- [Devise GitHub Wiki: API Mode Compatibility Guide](https://github.com/heartcombo/devise/wiki/API-Mode-Compatibility-Guide)
+- [GitHub: Accept payments with Stripe Checkout (Ruby Server Implementation)](https://github.com/stripe-samples/checkout-one-time-payments/tree/master/server/ruby)
+- [Shrine GitHub Wiki: Adding Direct S3 Uploads](https://github.com/shrinerb/shrine/wiki/Adding-Direct-S3-Uploads)
