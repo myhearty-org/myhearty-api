@@ -194,7 +194,31 @@ Note that you need to run these commands every time you want to edit your creden
 
 ### Stripe
 
+[Stripe](https://stripe.com) is used as the payment processor for donations made on MyHearty. There are 2 services involved: Stripe Connect and Stripe Checkout. [Stripe Connect](https://stripe.com/docs/connect) is used to onboard organizations that want to publish fundraising campaigns on MyHearty by collecting their business information, which include business name, location and bank account information. [Stripe Checkout](https://stripe.com/docs/payments/checkout) provides a hosted payment page that can be customized to securely accept online payments from donors. To enable donations feature:
+
+1. Go to [Stripe Dashboard](https://dashboard.stripe.com/register) to create a Stripe account.
+2. Refer to [Stripe Docs: API Keys](https://stripe.com/docs/keys) and [Stripe Docs: Check the webhook signatures](https://stripe.com/docs/webhooks/signatures) to obtain your API secret key and webhook endpoint secret.
+3. In the `credentials.yml.enc` file, add the following credentials:
+   ```sh
+   stripe:
+     secret_key: # your Stripe API secret key
+     webhook_signing_secret: # your webhook endpoint secret
+   ```
+
 ### S3
+
+Images can be directly uploaded from browsers to [Amazon S3](https://aws.amazon.com/s3). To enable direct S3 uploads:
+
+1. Go to [AWS Console](https://portal.aws.amazon.com/billing/signup) to create an AWS account.
+2. Refer to [Shrine GitHub Wiki: Adding Direct S3 Uploads](https://github.com/shrinerb/shrine/wiki/Adding-Direct-S3-Uploads) to learn how to add direct S3 uploads to the Rails application.
+3. In the `credentials.yml.enc` file, add the following credentials:
+   ```sh
+   s3:
+     bucket: # your S3 bucket name
+     region: # your S3 bucket region
+     access_key_id: # your access key ID
+     secret_access_key: # your secret access key
+   ```
 
 ### Geoapify
 
@@ -210,6 +234,16 @@ Note that you need to run these commands every time you want to edit your creden
 The geocoding API can be configured in [`geocoder.rb`](./config/initializers/geocoder.rb). Refer to [alexreisner/geocoder](https://github.com/alexreisner/geocoder/blob/master/README_API_GUIDE.md) if you want to use other API providers.
 
 ### Sendgrid
+
+[SendGrid](https://sendgrid.com) is used as the email delivery service for MyHearty API in production mode. To enable email delivery:
+
+1. Go to [SendGrid Signup](https://signup.sendgrid.com) to create a SendGrid account.
+2. Generate an API key with restricted access. Only enable full access for Mail Send access. Refer to [SendGrid Docs: API Keys](https://docs.sendgrid.com/ui/account-and-settings/api-keys) for more detail.
+3. In the `credentials.yml.enc` file, add the following credentials:
+   ```sh
+   sendgrid::
+     api_key: # your SendGrid API key
+   ```
 
 ### Frontend
 
