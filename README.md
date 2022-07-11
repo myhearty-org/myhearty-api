@@ -16,7 +16,7 @@ To get the backend services up and running, read the following subsections.
 
 ### Requirements
 
-If you have [Docker](https://docs.docker.com/engine/install) and [Docker Compose](https://docs.docker.com/compose/install) installed, you can set up and run the services easily via the provided [docker-compose.yml](./docker-compose.yml) file.
+If you have [Docker](https://docs.docker.com/engine/install) and [Docker Compose](https://docs.docker.com/compose/install) installed, you can set up and run the services easily via the provided [`docker-compose.yml`](./docker-compose.yml) file.
 
 If you **do not** want to use Docker Compose, you need to install the following requirements to be able to run the services locally:
 
@@ -70,27 +70,60 @@ The rest of the documentation is only applicable to those that have installed Do
 
 ## Services
 
-The [docker-compose.yml](./docker-compose.yml) file contains the following services:
+The [`docker-compose.yml`](./docker-compose.yml) file contains the following services:
 
-| Service     | Description                                                                                                               | Endpoint                |
-| ----------- | ------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
-| `api`       | The Rails API server                                                                                                      | `http://localhost:3000` |
-| `db`        | The PostgreSQL database                                                                                                   | `http://localhost:5432` |
-| `typesense` | The Typesense search engine that powers instant search and geosearch in the frontend                                      | `http://localhost:8108` |
-| `sidekiq`   | The background job scheduler for Ruby                                                                                     | NO ENDPOINT             |
-| `redis`     | Provides data storage for Sidekiq                                                                                         | `http://localhost:6379` |
-| `nginx`     | Acts as a reverse proxy server that directs the client requests to either the Rails API server or Typesense search engine | NO ENDPOINT             |
+| Service     | Description                                                                                                                          | Endpoint                |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------ | ----------------------- |
+| `api`       | The Rails API server                                                                                                                 | `http://localhost:3000` |
+| `db`        | The PostgreSQL database                                                                                                              | `http://localhost:5432` |
+| `typesense` | The Typesense search engine that powers instant search and geosearch in the frontend                                                 | `http://localhost:8108` |
+| `sidekiq`   | The background job scheduler for Ruby                                                                                                | NO ENDPOINT             |
+| `redis`     | Provides data storage for Sidekiq                                                                                                    | `http://localhost:6379` |
+| `nginx`     | Acts as a reverse proxy server that directs the client requests to either the Rails API server or Typesense based on the request URL | NO ENDPOINT             |
+
+Refer to the services' official image repositories for the configuration of environment variables in the [`docker-compose.yml`](./docker-compose.yml) file.
+
+### Generating Credentials
+
+Some services require credentials like a password or a bootstrap API key. You can use Ruby's built-in `SecureRandom` library to generate a secure random string:
+
+1. Open a shell in the `api` container.
+
+```sh
+docker-compose exec api sh
+```
+
+2. Generate a random string:
+
+```sh
+rails c
+> SecureRandom.alphanumeric(32) # your random string length
+```
+
+### Rails API Server
+
+The Rails application contains the code required to run the MyHearty API server. If you make changes to the [`Gemfile`](./Gemfile) or the [`docker-compose.yml`](./docker-compose.yml) file to try out some different configurations, you need to rebuild. If the changes involved [`Gemfile`](./Gemfile) like adding/removing gems, you need to:
+- Sync changes in the `Gemfile.lock` to the host:
+  ```sh
+  docker compose run api bundle install
+  ```
+- Rebuild the images:
+  ```sh
+  docker compose up --build
+  ```
+
+Other changes require you to run the second command only.
 
 ### PostgreSQL
 
-1. You need to populate the following PostgreSQL's related environment variables before starting the database:
+1. Populate the following PostgreSQL's related environment variables in the `.env` file before starting the database:
    ```sh
    POSTGRES_USER= # your DB username
    POSTGRES_PASSWORD= # your DB password
    POSTGRES_HOST=postgres # your DB host
    ```
    - If the variables are not set, the service will use the defaults provided by the PostgreSQL image.
-   - `POSTGRES_HOST` is set to `postgres` to allow other services to communicate with the database service using network alias. See [docker-compose.yml](./docker-compose.yml#L42) for more detail.
+   - `POSTGRES_HOST` is set to `postgres` to allow other services to communicate with the database service using network alias. See [`docker-compose.yml#L42`](./docker-compose.yml#L42) for more detail.
 2. To create the database, run the following commands:
    - Open a shell in the `api` container.
      ```sh
@@ -107,7 +140,7 @@ The [docker-compose.yml](./docker-compose.yml) file contains the following servi
    ```
    - The environment variable `SEEDS_MULTIPLIER` defaults to 1 and controls the amount of data generated by the seeder.
    - Note that, during seeding, Typesense schema will be deleted and later re-created. Certain resources from the database will be indexed into Typesense to enable instant search. See [`01_typesense.rb`](./db/seeds/01_typesense.rb) for more detail.
-   - The populated data include user credentials and fake image URLs. See [02_resources.rb](./db/seeds/02_resources.rb) to understand what types of data are being populated.
+   - The populated data include user credentials and fake image URLs. See [`02_resources.rb`](./db/seeds/02_resources.rb) to understand what types of data are being populated.
 4. To remove data, run:
    ```sh
    rake db:truncate
@@ -115,13 +148,35 @@ The [docker-compose.yml](./docker-compose.yml) file contains the following servi
    - This command is useful when you want to re-seed the database.
    - This is a custom task defined in [`db.rake`](./lib/tasks/db.rake).
 
+PostgreSQL can be further configured in [`database.yml`](./config/database.yml).
+
 ### Typesense
 
 [Typesense](https://typesense.org) is an open-source, typo-tolerant search engine that is optimized for instant search. It is an easier-to-use alternative for commercial search API like Algolia, which has high pricing, or open-source search engine like Elasticsearch, which can be complicated to tune.
 
-### Sidekiq
+1. Generate an API key before starting Typesense.
+2. Assign the API key to the `TYPESENSE_API_KEY` variable in the `.env` file.
+3. To start Typesense, run:
+   ```sh
+   docker-compose up -d typesense
+   ```
+
+### Sidekiq and Redis
+
+Sidekiq is dependent on Redis as the data storage provider. To enable background processing:
+
+1. Generate a password before starting Redis.
+2. Assign the password to the `REDIS_PASSWORD` variable in the `.env` file.
+3. To start Sidekiq, run:
+   ```sh
+   docker-compose up -d redis sidekiq
+   ```
+
+Sidekiq can be further configured in [`sidekiq.rb`](./config/initializers/sidekiq.rb) and [`sidekiq.yml`](./config/sidekiq.yml).
 
 ### NGINX
+
+NGINX acts as a reverse proxy server that directs the client requests to either the Rails API server or Typesense based on the request URL. It can be configured in [`nginx.conf`](./docker/nginx/nginx.conf).
 
 ## Integrations
 
