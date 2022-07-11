@@ -68,20 +68,6 @@ The rest of the documentation is only applicable to those that have installed Do
 > **Note** <br />
 > If you want to enable any of the available integrations, you may want to obtain additional credentials and populate secrets for the corresponding integration. Refer to the [integrations section](#integrations) for more details.
 
-### Generating Credentials
-
-Some services require credentials like a password or a bootstrap API key. You can use Ruby's built-in `SecureRandom` library to generate a secure random string:
-
-1. Open a shell in the `api` container.
-    ```sh
-    docker-compose exec api sh
-    ```
-2. Generate a random string:
-    ```sh
-    rails c
-    > SecureRandom.alphanumeric(32) # your random string length
-    ```
-
 ## Services
 
 The [`docker-compose.yml`](./docker-compose.yml) file contains the following services:
@@ -96,6 +82,20 @@ The [`docker-compose.yml`](./docker-compose.yml) file contains the following ser
 | `nginx`     | Acts as a reverse proxy server that directs the client requests to either the Rails API server or Typesense based on the request URL | NO ENDPOINT             |
 
 Refer to the services' official image repositories for the configuration of environment variables in the [`docker-compose.yml`](./docker-compose.yml) file.
+
+### Generating Credentials
+
+Some services require credentials like a password or a bootstrap API key. You can use Ruby's built-in `SecureRandom` library to generate a secure random string:
+
+1. Open a shell in the `api` container.
+    ```sh
+    docker-compose exec api sh
+    ```
+2. Generate a random string:
+    ```sh
+    rails c
+    > SecureRandom.alphanumeric(32) # your random string length
+    ```
 
 ### Rails API Server
 
@@ -177,13 +177,37 @@ NGINX acts as a reverse proxy server that directs the client requests to either 
 
 ## Integrations
 
-### Credentials
+### Storing Credentials
+
+To store your credentials for external services securely, you need to create a `credentials.yml.enc` file:
+
+1. Open a shell in the `api` container.
+   ```sh
+   docker-compose exec api sh
+   ```
+2. Create the `credentials.yml.enc` file:
+   ```sh
+   EDITOR="nano --wait" rails credentials:edit
+   ```
+
+Note that you need to run these commands every time you want to edit your credentials (for the integrations below).
 
 ### Stripe
 
 ### S3
 
 ### Geoapify
+
+[Geoapify](https://www.geoapify.com) provides the [Geocoding API](https://www.geoapify.com/geocoding-api) to convert addresses to latitude/longitude. The backend geocoding process allows the website users to search for volunteer events and aids using the geosearch feature. To enable geocoding:
+
+1. Go to [Geoapify MyProjects](https://myprojects.geoapify.com/login) to create an account and generate an API key for your project.
+2. In the `credentials.yml.enc` file, add the following credentials:
+   ```sh
+   geoapify:
+     api_key: # your Geoapify API key
+   ```
+
+The geocoding API can be configured in [`geocoder.rb`](./config/initializers/geocoder.rb). Refer to [alexreisner/geocoder](https://github.com/alexreisner/geocoder/blob/master/README_API_GUIDE.md) if you want to use other API providers.
 
 ### Sendgrid
 
