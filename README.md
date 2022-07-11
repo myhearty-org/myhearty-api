@@ -46,7 +46,12 @@ The rest of the documentation is only applicable to those that have installed Do
      ```sh
      docker-compose up -d
      ```
-3. To stop the services, you can either:
+3. To start an interactive shell inside any service, run:
+   ```sh
+   docker-compose exec [service-name] sh
+   ```
+   This is useful when you want to interact with the service's internal states or run some console commands.
+4. To stop the services, you can either:
    - Stop certain services only by specifying the services' names:
      ```sh
      docker-compose stop [service1, service2, ...]
@@ -62,14 +67,29 @@ The rest of the documentation is only applicable to those that have installed Do
    > **Warning** <br />
    > This is a destructive action that will delete all data stored in the PostgreSQL database and Typesense search engine.
 
-## Integrations
+## Services
+
+### Rails API Server
+
+### PostgreSQL
 
 ### Typesense
 
 [Typesense](https://typesense.org) is an open-source, typo-tolerant search engine that is optimized for instant search. It is an easier-to-use alternative for commercial search API like Algolia, which has high pricing, or open-source search engine like Elasticsearch, which can be complicated to tune.
 
+### Sidekiq
+
+### NGINX
+
+## Integrations
+
+### Stripe
+
+### S3
+
 ### Geoapify
 
+### Sendgrid
 
 ### Frontend
 
